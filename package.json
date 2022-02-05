@@ -13,6 +13,7 @@
     "@fortawesome/react-native-fontawesome": "^0.2.7",
     "react": "17.0.2",
     "react-native": "0.67.2",
+    "react-native-cli": "^2.0.1",
     "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {
