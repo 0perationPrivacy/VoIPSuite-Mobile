@@ -1,56 +1,43 @@
 import React from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
 } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import Login from './Screens/Login/Login';
-import Signup from './Screens/SignUp/SignUp';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import Login from './screens/Login/Login';
+import SignUp from './screens/SignUp/SignUp';
+
+import styles from './style';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const Stack = createNativeStackNavigator();
+
+  const headerOption = { headerShown: false };
+
   return (
-    <SafeAreaView >
+    <SafeAreaView style={styles.flexOne}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Login />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={Login} options={headerOption} />
+          <Stack.Screen name="Signup" component={SignUp} options={headerOption} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

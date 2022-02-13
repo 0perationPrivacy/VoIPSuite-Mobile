@@ -11,9 +11,14 @@
   },
   "dependencies": {
     "@fortawesome/react-native-fontawesome": "^0.2.7",
+    "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.5.0",
     "react": "17.0.2",
     "react-native": "0.67.2",
     "react-native-cli": "^2.0.1",
+    "react-native-elements": "^3.4.2",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.11.1",
     "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {
