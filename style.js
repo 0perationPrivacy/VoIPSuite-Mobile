@@ -7,6 +7,7 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         backgroundColor: 'white',
+        flex : 1,
     },
     flexOne: {
         flex: 1,

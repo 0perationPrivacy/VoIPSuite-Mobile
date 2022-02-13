@@ -11,11 +11,14 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { navigationRef } from './helpers/RootNavigation';
 
 import Login from './screens/Login/Login';
 import SignUp from './screens/SignUp/SignUp';
 
 import styles from './style';
+import Home from './screens/Home/home';
+import HomeHeader from './components/HomeHeader';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -30,10 +33,11 @@ const App = () => {
   return (
     <SafeAreaView style={styles.flexOne}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} options={headerOption} />
-          <Stack.Screen name="Signup" component={SignUp} options={headerOption} />
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator initialRouteName="Home">
+          {/* <Stack.Screen name="Login" component={Login} options={headerOption} />
+          <Stack.Screen name="Signup" component={SignUp} options={headerOption} /> */}
+          <Stack.Screen name="Home" component={Home} options={{ header : HomeHeader }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

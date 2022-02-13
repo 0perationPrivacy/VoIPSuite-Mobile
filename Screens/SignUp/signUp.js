@@ -2,12 +2,17 @@ import React, { useState } from 'react'
 import { View, KeyboardAvoidingView, StatusBar } from 'react-native'
 import { Button, Input, Image } from 'react-native-elements'
 import { AuthWrapper } from '../../components';
+import { navigate } from '../../helpers/RootNavigation';
 import styles from '../authCss';
 const logo = require('../../assets/logo-b.svg')
 
 const SignUp = (props) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+
+	const onPressLogin = () => {
+		navigate('Login')
+	}
 
 	return (
 		<AuthWrapper>
@@ -32,8 +37,7 @@ const SignUp = (props) => {
 			</View>
 
 			<Button containerStyle={styles.button} title="Sign Up" />
-			<Button containerStyle={styles.button} title="Login" type="outline" />
-			<View style={{ height: 100 }} />
+			<Button containerStyle={styles.button} title="Login" type="outline" onPress={onPressLogin} />
 		</AuthWrapper>
 
 	)

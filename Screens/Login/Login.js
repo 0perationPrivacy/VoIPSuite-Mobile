@@ -1,15 +1,20 @@
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react'
-import { View, KeyboardAvoidingView, StatusBar } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import { Button, Input, Image } from 'react-native-elements'
 import { AuthWrapper } from '../../components';
+import { navigate } from '../../helpers/RootNavigation';
 const logo = require('../../assets/logo-b.svg')
 import styles from '../authCss';
 
-const Login = (props) => {
+const Login = ({ navigation }) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+
+	const onPressSignUp = () => {
+		navigation.navigate('Signup');
+	}
 
 	return (
 		<AuthWrapper>
@@ -34,10 +39,8 @@ const Login = (props) => {
 			</View>
 
 			<Button containerStyle={styles.button} title="Login" />
-			<Button containerStyle={styles.button} title="Create Account" type="outline" />
-			<View style={{ height: 100 }} />
+			<Button containerStyle={styles.button} title="Create Account" type="outline" onPress={onPressSignUp} />
 		</AuthWrapper>
-
 	)
 }
 
