@@ -12,7 +12,7 @@ const StackComponent = () => {
 	const headerOption = { headerShown: false };
 
 	return (
-		<Stack.Navigator initialRouteName="Home">
+		<Stack.Navigator initialRouteName="Login">
 			<Stack.Screen name="Login" component={Login} options={headerOption} />
 			<Stack.Screen name="Signup" component={SignUp} options={headerOption} />
 			<Stack.Screen name="Home" component={Home} options={{ header: HomeHeader }} />

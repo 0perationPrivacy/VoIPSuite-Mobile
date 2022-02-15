@@ -1,5 +1,5 @@
 'use strict';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 
 module.exports = StyleSheet.create({
     ImageDimension: {
@@ -7,11 +7,11 @@ module.exports = StyleSheet.create({
         height: 100,
     },
     inputContainer: {
-        width: 300,
+        width: '100%',
         marginVertical: 15,
     },
     button: {
-        width: 200,
+        width: '100%',
         marginTop: 5,
     },
     createAccountWrap: {

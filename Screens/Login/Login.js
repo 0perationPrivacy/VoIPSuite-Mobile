@@ -1,24 +1,26 @@
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-// import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react'
-import { View, StatusBar } from 'react-native'
-import { Button, Input, Image } from 'react-native-elements'
-import { AuthWrapper } from '../../components';
+import { View } from 'react-native'
+import { Image } from 'react-native-elements'
+import { AuthWrapper, Input, Button } from '../../components';
 import { navigate } from '../../helpers/RootNavigation';
 const logo = require('../../assets/logo-b.svg')
 import styles from '../authCss';
 
-const Login = ({ navigation }) => {
+const Login = (props) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [serverUrl, setServerUrl] = useState('')
 
 	const onPressSignUp = () => {
-		navigation.navigate('Signup');
+		navigate('Signup');
+	}
+
+	const onPressSignIn = () => {
+		navigate('Home');
 	}
 
 	return (
 		<AuthWrapper>
-			<StatusBar style="light" />
 			<Image source={logo} style={styles.ImageDimension} />
 			<View style={styles.inputContainer}>
 				<Input
@@ -27,6 +29,8 @@ const Login = ({ navigation }) => {
 					type="text"
 					value={username}
 					onChangeText={(text) => setUsername(text)}
+					style={styles.inputWrap}
+					underlineColorAndroid={'transparent'}
 				/>
 				<Input
 					placeholder="Enter Password"
@@ -34,11 +38,15 @@ const Login = ({ navigation }) => {
 					type="password"
 					value={password}
 					onChangeText={(text) => setPassword(text)}
-				// onSubmitEditing={signIn}
+				/>
+				<Input
+					placeholder="Enter Server Url (Optional)"
+					type="text"
+					value={serverUrl}
+					onChangeText={(text) => setServerUrl(text)}
 				/>
 			</View>
-
-			<Button containerStyle={styles.button} title="Login" />
+			<Button containerStyle={styles.button} title="Login" onPress={onPressSignIn} />
 			<Button containerStyle={styles.button} title="Create Account" type="outline" onPress={onPressSignUp} />
 		</AuthWrapper>
 	)
