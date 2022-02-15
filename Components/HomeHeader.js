@@ -2,11 +2,13 @@ import Icon from 'react-native-vector-icons/Feather'
 import React, { useState } from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown';
+import { useNavigation } from '@react-navigation/native';
 
 import styles from '../style';
 
 const HomeHeader = () => {
 	const [profileDropDown, setProfileDropDown] = useState(null);
+	const navigation = useNavigation();
 
 	const showProfileDropDown = () => {
 		profileDropDown && profileDropDown.show();
@@ -16,11 +18,15 @@ const HomeHeader = () => {
 		console.log(i, v)
 	}
 
+	const onPressSideMenu = () => {
+		navigation.openDrawer();
+	}
+
 	return (
 		<View style={[styles.fullFlex, styles.homeHeaderWrapper]}>
-			<View>
+			<TouchableOpacity onPress={onPressSideMenu}>
 				<Icon name={"menu"} size={21} />
-			</View>
+			</TouchableOpacity>
 			<View style={styles.fullFlex}>
 				<Icon name={"settings"} size={19} />
 				<Icon name={"phone"} size={19} style={styles.homeHeaderPhone} />
