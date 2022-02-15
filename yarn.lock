@@ -5766,7 +5766,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@*", "prop-types@^15.7.2", "prop-types@^15.7.x":
+"prop-types@*", "prop-types@^15.6.0", "prop-types@^15.7.2", "prop-types@^15.7.x":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -5910,6 +5910,13 @@
   "version" "0.8.1"
   dependencies:
     "prop-types" "^15.7.2"
+
+"react-native-modal-dropdown@^1.0.2":
+  "integrity" "sha512-X13RbwoQdaOb9Ffi7fjRVwh9OXauXIJhum0uXGzYZLMyoCQ5yt5cxf27P/YZbdh80Fb7bdPx6vTA4PTpUK2WDQ=="
+  "resolved" "https://registry.npmjs.org/react-native-modal-dropdown/-/react-native-modal-dropdown-1.0.2.tgz"
+  "version" "1.0.2"
+  dependencies:
+    "prop-types" "^15.6.0"
 
 "react-native-parsed-text@0.0.22":
   "integrity" "sha512-hfD83RDXZf9Fvth3DowR7j65fMnlqM9PpxZBGWkzVcUTFtqe6/yPcIoIAgrJbKn6YmtzkivmhWE2MCE4JKBXrQ=="
