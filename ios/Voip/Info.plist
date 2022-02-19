@@ -70,5 +70,13 @@
       <string>Octicons.ttf</string>
       <string>Zocial.ttf</string>
     </array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<false/>
+	<key>NSCameraUsageDescription</key>
+	<false/>
+	<key>NSCameraUsageDescription</key>
+	<false/>
+	<key>NSMicrophoneUsageDescription</key>
+	<false/>
 </dict>
 </plist>

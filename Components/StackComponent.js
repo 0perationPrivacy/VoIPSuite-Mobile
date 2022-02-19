@@ -6,6 +6,7 @@ import HomeHeader from './HomeHeader';
 import Login from '../screens/Login/Login';
 import SignUp from '../screens/SignUp/SignUp';
 import Home from '../screens/Home/home';
+import Compose from '../screens/Compose/compose';
 
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
@@ -16,6 +17,7 @@ const StackComponent = () => {
 			<Stack.Screen name="Login" component={Login} options={headerOption} />
 			<Stack.Screen name="Signup" component={SignUp} options={headerOption} />
 			<Stack.Screen name="Home" component={Home} options={{ header: HomeHeader }} />
+			<Stack.Screen name="Compose" component={Compose} options={headerOption} />
 		</Stack.Navigator>
 	);
 };

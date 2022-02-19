@@ -14,6 +14,12 @@ module.exports = StyleSheet.create({
 		flex: 1,
 	},
 
+	container: {
+		padding: 10,
+		backgroundColor: 'white',
+		height: '100%'
+	},
+
 	//home header
 	fullFlex: {
 		flexDirection: 'row',
@@ -27,7 +33,7 @@ module.exports = StyleSheet.create({
 	},
 	homeHeaderPhone: {
 		marginLeft: 5,
-		marginRight: 10
+		// marginRight: 10
 	},
 	homeHeaderProfileDropDown: {
 		height: 'auto',
@@ -60,5 +66,17 @@ module.exports = StyleSheet.create({
 	drawerInnerChildText: {
 		color: '#000',
 		fontSize: 16,
+	},
+	primaryBgColor: {
+		backgroundColor: '#3770e4'
+	},
+	headerTitle: {
+		fontSize: 18,
+		fontWeight: '500',
+		color: '#000'
+	},
+	textAreaContainer: {
+		height: 200,
+		textAlignVertical: 'top',
 	}
 });
