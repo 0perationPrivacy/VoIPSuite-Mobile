@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import globalStyles from '../../style';
 import { useForm } from 'react-hook-form'
-import { Input } from '../../components';
+import { Header, Input } from '../../components';
 import Wrapper from '../../components/Wrapper';
 import { Button, Select } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
@@ -25,7 +25,7 @@ const Compose = () => {
     const onPressFileUpload = async () => {
         const result = await launchImageLibrary(fileOptions);
         const fileArray = [...file]
-        fileArray.push(result.assets[0].uri);
+        // fileArray.push(result.assets[0].uri);
 
         setFile(fileArray)
     }
@@ -79,8 +79,12 @@ const Compose = () => {
         )
     }
 
+    const renderHeader = () => {
+        return <Header />
+    }
+
     return (
-        <Wrapper>
+        <Wrapper header={renderHeader()}>
             <View style={globalStyles.flexOne}>
                 {renderSelectField()}
                 {renderInputs()}

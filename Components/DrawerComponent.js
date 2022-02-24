@@ -5,6 +5,7 @@ import Feather from 'react-native-vector-icons/Feather'
 
 import styles from '../style';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { navigate } from '../helpers/RootNavigation';
 
 export function DrawerContent(props) {
 	const width = useWindowDimensions().width * 0.3;
@@ -14,6 +15,10 @@ export function DrawerContent(props) {
 	// 	inputRange: [0, 1],
 	// 	outputRange: [-100, 0],
 	// });
+
+	const onPressNavigation = (screen) => {
+		navigate(screen)
+	}
 
 	return (
 		<DrawerContentScrollView {...props}>
@@ -37,6 +42,9 @@ export function DrawerContent(props) {
 						<Text style={styles.drawerInnerChildText}>MFA Settings</Text>
 					</TouchableOpacity>
 				</View>
+				<TouchableOpacity onPress={() => onPressNavigation('Contact')}>
+				<Text style={styles.drawerInnerHeading} >Contacts</Text>
+				</TouchableOpacity>
 			</View>
 		</DrawerContentScrollView>
 	);

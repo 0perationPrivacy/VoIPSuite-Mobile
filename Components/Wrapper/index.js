@@ -1,18 +1,26 @@
-import React from 'react'
+import React, { react } from 'react'
 import { KeyboardAvoidingView, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import styles from '../../style';
-import CustomHeader from '../Header';
+import PropTypes from 'prop-types'
 
-const Wrapper = ({ children }) => {
+const Wrapper = ({ children, header }) => {
+	console.log(header)
 	return (
 		<KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-			<CustomHeader />
+			{header}
 			<ScrollView contentContainerStyle={styles.container}>
 				{children}
 			</ScrollView>
 		</KeyboardAvoidingView>
 	)
 }
+
+Wrapper.defaultProps = {
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node
+	]).isRequired
+};
 
 export default Wrapper;
