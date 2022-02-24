@@ -48,8 +48,11 @@ module.exports = StyleSheet.create({
 	},
 	drawerInnerHeading: {
 		color: '#000',
-		fontSize: 18,
-		fontWeight: 'bold'
+		fontSize: 14,
+		fontWeight: 'bold',
+	},
+	drawerMainItemWrap : {
+		marginBottom : 15
 	},
 	drawerInnerChildWrap: {
 		marginLeft: 10,
@@ -78,5 +81,6 @@ module.exports = StyleSheet.create({
 	textAreaContainer: {
 		height: 200,
 		textAlignVertical: 'top',
-	}
+	},
+	
 });
