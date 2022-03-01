@@ -72,17 +72,17 @@ const Messages = () => {
     };
 
     return (
-        <Wrapper header={renderHeader()}>
+        <View style={globalStyles.container} >
+            {renderHeader()}
             <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
-                <SafeAreaView>
-                    <FlatList
-                        data={__messages}
-                        renderItem={(params) => renderItem(params)}
-                        keyExtractor={(item) => item.key}>
-                    </FlatList>
-                </SafeAreaView>
+                <FlatList
+                    data={__messages}
+                    renderItem={(params) => renderItem(params)}
+                    keyExtractor={(item) => item.key}
+                    showsVerticalScrollIndicator={false}>
+                </FlatList>
             </View>
-        </Wrapper>
+        </View>
     )
 }
 
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         borderRadius: 10,
         marginBottom: 10,
-        backgroundColor : '#fff'
+        backgroundColor: '#fff'
     },
     messagesListItemAvatar: {
         borderRadius: 50,
@@ -132,15 +132,15 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#212529'
     },
-    messageListButtonWrap : {
-        justifyContent : 'center',
-        marginHorizontal : 15,
-        backgroundColor : 'red',
-        borderRadius : 40,
-        width : 40,
-        height : 40,
-        paddingHorizontal : 10,
-        alignSelf : 'center'
+    messageListButtonWrap: {
+        justifyContent: 'center',
+        marginHorizontal: 15,
+        backgroundColor: 'red',
+        borderRadius: 40,
+        width: 40,
+        height: 40,
+        paddingHorizontal: 10,
+        alignSelf: 'center'
     }
 });
 

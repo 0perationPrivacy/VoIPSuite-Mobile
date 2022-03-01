@@ -5,7 +5,6 @@ import styles from '../../style';
 import PropTypes from 'prop-types'
 
 const Wrapper = ({ children, header }) => {
-	console.log(header)
 	return (
 		<KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
 			{header}
