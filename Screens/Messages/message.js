@@ -1,23 +1,38 @@
-import React, { useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
 import globalStyles from '../../style';
 import Wrapper from '../../components/Wrapper';
 import { Header, } from '../../components';
-const windowWidth = Dimensions.get('window').width;
-import { SwipeListView } from 'react-native-swipe-list-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Feather from 'react-native-vector-icons/Feather';
 
 const data = Array(20)
     .fill("")
     .map((_, i) => ({ key: `${i}`, text: `item #${i}` }));
 
 const Messages = () => {
+    const [__messages, setMessageData] = useState(data);
+    let row = [];
+    let prevOpenedRow;
+
     const fileOptions = {};
 
     useEffect(() => { }, [])
 
     const renderHeader = () => {
         return <Header />
+    }
+
+    const closeRow = (index) => {
+        if (prevOpenedRow && prevOpenedRow !== row[index]) {
+            prevOpenedRow.close();
+        }
+        prevOpenedRow = row[index];
+    };
+
+    const onDeleteMessage = () => {
+        alert('deleted')
     }
 
     const renderMessagesList = () => {
@@ -37,25 +52,34 @@ const Messages = () => {
         )
     }
 
+    const renderRightActions = () => {
+        return (
+            <TouchableOpacity style={styles.messageListButtonWrap} onPress={onDeleteMessage}>
+                <Feather name="trash" size={20} color="#fff" />
+            </TouchableOpacity>
+        );
+    };
+
+    const renderItem = ({ item, index }) => {
+        return (
+            <Swipeable
+                renderRightActions={(progress, dragX) => renderRightActions(progress, dragX)}
+                onSwipeableOpen={() => closeRow(index)}
+                ref={(ref) => (row[index] = ref)}>
+                {renderMessagesList()}
+            </Swipeable>
+        );
+    };
+
     return (
         <Wrapper header={renderHeader()}>
             <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
                 <SafeAreaView>
-                    <SwipeListView
-                        showsVerticalScrollIndicator={false}
-                        data={data}
-                        renderItem={(data, rowMap) => renderMessagesList()}
-                        // renderHiddenItem={(data, rowMap) => (
-                        //     <View style={styles.rowBack}>
-                        //         <Text>Left</Text>
-                        //         <Text>Right</Text>
-                        //     </View>
-                        // )}
-                        onRowOpen={() => alert('open')}
-                        // onResponderRelease={() => alert('close')}
-                        leftOpenValue={75}
-                        rightOpenValue={-75}
-                    />
+                    <FlatList
+                        data={__messages}
+                        renderItem={(params) => renderItem(params)}
+                        keyExtractor={(item) => item.key}>
+                    </FlatList>
                 </SafeAreaView>
             </View>
         </Wrapper>
@@ -73,7 +97,8 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 5,
         borderRadius: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        backgroundColor : '#fff'
     },
     messagesListItemAvatar: {
         borderRadius: 50,
@@ -106,6 +131,16 @@ const styles = StyleSheet.create({
     messagesListItemDescription: {
         fontSize: 12,
         color: '#212529'
+    },
+    messageListButtonWrap : {
+        justifyContent : 'center',
+        marginHorizontal : 15,
+        backgroundColor : 'red',
+        borderRadius : 40,
+        width : 40,
+        height : 40,
+        paddingHorizontal : 10,
+        alignSelf : 'center'
     }
 });
 
