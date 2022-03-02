@@ -1,5 +1,6 @@
 'use strict';
 import { StyleSheet, Dimensions } from 'react-native';
+import Metrics from './helpers/Metrics';
 let ScreenHeight = Dimensions.get("window").height;
 
 module.exports = StyleSheet.create({
@@ -18,7 +19,7 @@ module.exports = StyleSheet.create({
 	container: {
 		padding: 10,
 		backgroundColor: 'white',
-		height: '100%',
+		height: Metrics.heightPercentageToDP(100),
 	},
 
 	//home header
