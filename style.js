@@ -18,7 +18,7 @@ module.exports = StyleSheet.create({
 	container: {
 		padding: 10,
 		backgroundColor: 'white',
-		// height: '100%',
+		height: '100%',
 	},
 
 	//home header

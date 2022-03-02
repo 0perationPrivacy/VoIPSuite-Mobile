@@ -29,7 +29,7 @@ export function DrawerContent(props) {
 						<Feather name="mail" size={15} style={styles.drawerInnerChildIcon} />
 						<Text style={styles.drawerInnerChildText}>Email Settings</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.drawerInnerChildListWrap}>
+					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('ProfileSettings')}>
 						<Feather name="user" size={15} style={styles.drawerInnerChildIcon} />
 						<Text style={styles.drawerInnerChildText}>Profile Settings</Text>
 					</TouchableOpacity>
