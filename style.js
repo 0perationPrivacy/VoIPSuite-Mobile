@@ -1,5 +1,6 @@
 'use strict';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+let ScreenHeight = Dimensions.get("window").height;
 
 module.exports = StyleSheet.create({
 	authContainer: {
@@ -17,7 +18,7 @@ module.exports = StyleSheet.create({
 	container: {
 		padding: 10,
 		backgroundColor: 'white',
-		height: '100%'
+		// height: '100%',
 	},
 
 	//home header
@@ -51,8 +52,8 @@ module.exports = StyleSheet.create({
 		fontSize: 14,
 		fontWeight: 'bold',
 	},
-	drawerMainItemWrap : {
-		marginBottom : 15
+	drawerMainItemWrap: {
+		marginBottom: 15
 	},
 	drawerInnerChildWrap: {
 		marginLeft: 10,
@@ -82,5 +83,5 @@ module.exports = StyleSheet.create({
 		height: 200,
 		textAlignVertical: 'top',
 	},
-	
+
 });

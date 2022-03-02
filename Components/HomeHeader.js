@@ -22,8 +22,8 @@ const HomeHeader = () => {
 		navigation.openDrawer();
 	}
 
-	const onPressCompose = () => {
-		navigate('Compose')
+	const onPressCompose = (param) => {
+		navigate(param)
 	}
 
 	return (
@@ -32,11 +32,13 @@ const HomeHeader = () => {
 				<Icon name={"menu"} size={21} />
 			</TouchableOpacity>
 			<View style={styles.fullFlex}>
-				<TouchableOpacity onPress={onPressCompose}>
+				<TouchableOpacity onPress={() => onPressCompose('Compose')}>
 					<Icon name={"plus-circle"} size={19} style={styles.homeHeaderPhone} />
 				</TouchableOpacity>
 				<Icon name={"settings"} size={19} style={styles.homeHeaderPhone} />
-				<Icon name={"phone"} size={19} style={styles.homeHeaderPhone} />
+				<TouchableOpacity onPress={() => onPressCompose('Dialer')} >
+					<Icon name={"phone"} size={19} style={styles.homeHeaderPhone} />
+				</TouchableOpacity>
 				<View style={{ marginLeft: 10 }}>
 					<TouchableOpacity onPress={showProfileDropDown} style={styles.fullFlex}>
 						<ModalDropdown ref={e => setProfileDropDown(e)} options={['user 99', 'user 100']} defaultValue={'User 99'} dropdownStyle={styles.homeHeaderProfileDropDown} onSelect={onSelectProfile} />

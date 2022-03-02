@@ -15,9 +15,7 @@ const Messages = () => {
     const [__messages, setMessageData] = useState(data);
     let row = [];
     let prevOpenedRow;
-
-    const fileOptions = {};
-
+    
     useEffect(() => { }, [])
 
     const renderHeader = () => {

@@ -9,6 +9,7 @@ import Home from '../screens/Home/home';
 import Compose from '../screens/Compose/compose';
 import Contact from '../screens/Contacts/contact';
 import Messages from '../screens/Messages/message';
+import DialPad from '../screens/dialpad/dialpad';
 
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ const StackComponent = () => {
 			<Stack.Screen name="Compose" component={Compose} options={headerOption} />
 			<Stack.Screen name="Contact" component={Contact} options={headerOption} />
 			<Stack.Screen name="Messages" component={Messages} options={headerOption} />
+			<Stack.Screen name="Dialer" component={DialPad} options={headerOption} />
 		</Stack.Navigator>
 	);
 };

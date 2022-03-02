@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Image, TextInput, Dimensions } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, Dimensions } from 'react-native';
 import globalStyles from '../../style';
 import { useForm } from 'react-hook-form'
 import { Input } from '../../components';
 import Wrapper from '../../components/Wrapper';
-import { Button, Select, Header } from '../../components';
+import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
-import { launchImageLibrary } from 'react-native-image-picker';
 const windowWidth = Dimensions.get('window').width;
 
 const Contact = () => {

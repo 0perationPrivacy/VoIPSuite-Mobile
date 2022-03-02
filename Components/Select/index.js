@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import styles from './style';
+import PropTypes from 'prop-types'
 
 const data = [
     { label: 'Item 1', value: '1' },
 ];
 
-const CustomSelect = ({ ...rest }) => {
+const CustomSelect = ({ containerStyle, ...rest }) => {
     const [value, setValue] = useState(null);
 
     const renderItem = (item) => {
@@ -21,7 +22,7 @@ const CustomSelect = ({ ...rest }) => {
 
     return (
         <Dropdown
-            style={styles.dropdown}
+            style={[styles.dropdown, containerStyle]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -38,6 +39,10 @@ const CustomSelect = ({ ...rest }) => {
             {...rest}
         />
     );
+};
+
+CustomSelect.defaultProps = {
+    containerStyle: PropTypes.object
 };
 
 export default CustomSelect;
