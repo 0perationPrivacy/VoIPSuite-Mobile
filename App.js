@@ -14,6 +14,9 @@ import styles from './style';
 import { DrawerContent } from './components/DrawerComponent';
 import StackComponent from './components/StackComponent';
 
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   // const backgroundStyle = {
@@ -23,14 +26,16 @@ const App = () => {
   const Drawer = createDrawerNavigator();
 
   return (
-    <SafeAreaView style={styles.flexOne}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NavigationContainer ref={navigationRef}>
-        <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} >
-          <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
-        </Drawer.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.flexOne}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <NavigationContainer ref={navigationRef}>
+          <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} >
+            <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </Provider>
   );
 };
 

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeHeader from './HomeHeader';
 
 import Login from '../screens/Login/Login';
-import SignUp from '../screens/SignUp/SignUp';
+import SignUp from '../screens/SignUp/signUp';
 import Home from '../screens/Home/home';
 import Compose from '../screens/Compose/compose';
 import Contact from '../screens/Contacts/contact';
