@@ -1,5 +1,5 @@
 import { userConstants } from '../_constants';
-import { userService } from '../_services';
+import { userService } from '../../services';
 import { navigate } from '../../helpers/RootNavigation';
 import { alertActions } from './alert';
 

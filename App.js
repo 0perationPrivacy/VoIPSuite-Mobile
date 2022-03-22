@@ -15,7 +15,10 @@ import { DrawerContent } from './components/DrawerComponent';
 import StackComponent from './components/StackComponent';
 
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import { store, persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
+console.log(store, 'stsssore');
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -27,14 +30,16 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.flexOne}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <NavigationContainer ref={navigationRef}>
-          <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} >
-            <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
-          </Drawer.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaView style={styles.flexOne}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <NavigationContainer ref={navigationRef}>
+            <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} >
+              <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
+            </Drawer.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
+      </PersistGate>
     </Provider>
   );
 };
