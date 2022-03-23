@@ -26,7 +26,6 @@ const App = () => {
   // };
 
   const Drawer = createDrawerNavigator();
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

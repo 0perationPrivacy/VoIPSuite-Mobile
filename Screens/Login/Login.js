@@ -70,7 +70,7 @@ const Login = (props) => {
 	useEffect(() => {
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
-
+console.log('huziazfa');
 	return (
 		<AuthWrapper>
 			<Image source={logo} style={styles.ImageDimension} />
