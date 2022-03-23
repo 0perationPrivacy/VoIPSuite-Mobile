@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { View, KeyboardAvoidingView, StatusBar } from 'react-native'
-import { Image } from 'react-native-elements'
-import { AuthWrapper, Input, Button } from '../../components';
-import { navigate } from '../../helpers/RootNavigation';
-import styles from '../authCss';
-const logo = require('../../assets/logo-b.svg')
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '../../redux/actions'
+import React, { useEffect } from 'react'
+import { ActivityIndicator, View } from 'react-native'
+import { navigate, navigateAndReset } from '../../helpers/RootNavigation';
+import { useSelector } from 'react-redux'
 import _ from 'lodash';
-import { isEmpty } from '../../helpers/utils';
 
-const Splash = (props) => {
-    const user = useSelector(state => state.authentication.user);
+const Splash = () => {
+    const _user = useSelector(state => state.authentication);
 
     useEffect(() => {
-        console.log(user)
+        setTimeout(() => {
+            const { loggedIn, user } = _user;
+            if (loggedIn && user) {
+                navigateAndReset('Home');
+                return
+            }
+            navigateAndReset('Login')
+        }, 2000);
     }, [])
 
     return (
-        <View></View>
+        <View style={{ flex: 1, alignItems : 'center', justifyContent : 'center' }}>
+            <ActivityIndicator size={"large"} color="#3770e4" />
+        </View>
     )
 }
 

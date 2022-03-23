@@ -1,7 +1,7 @@
 import { userConstants } from '../constants';
 const initialState = {
     isLoading: false,
-    user: {},
+    user: null,
     loggedIn: false,
 };
 
@@ -9,9 +9,8 @@ export function authentication(state = initialState, action) {
     switch (action.type) {
         case userConstants.LOGIN_REQUEST:
             return {
+                ...state,
                 isLoading: true,
-                loggedIn: false,
-                user: {}
             };
         case userConstants.LOGIN_SUCCESS:
             return {
@@ -21,10 +20,14 @@ export function authentication(state = initialState, action) {
             };
         case userConstants.LOGIN_FAILURE:
             return {
+                ...state,
                 isLoading: false
             };
         case userConstants.LOGOUT:
-            return {};
+            return {
+                user: null,
+                loggedIn: false,
+            };
         default:
             return state
     }

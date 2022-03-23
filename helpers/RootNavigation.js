@@ -17,3 +17,13 @@ export function goBack() {
 export function canGoBack() {
     return navigationRef.canGoBack();
 }
+
+export function navigateAndReset(route) {
+    return navigationRef.reset({
+        index : 0,
+        routes : [
+            { name : route }
+        ]
+    })
+}
+
