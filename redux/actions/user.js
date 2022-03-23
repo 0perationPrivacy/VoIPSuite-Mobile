@@ -2,6 +2,7 @@ import { userConstants } from '../constants';
 import { userService } from '../../services';
 import { navigate } from '../../helpers/RootNavigation';
 import { alertActions } from './alert';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export const userActions = {
     login,
@@ -45,6 +46,10 @@ function register(user, errorMessagesCb) {
                 user => {
                     dispatch(success());
                     navigate('Login')
+                    showMessage({
+                        message: "Registration successful",
+                        type: "success",
+                    });
                     dispatch(alertActions.success('Registration successful'));
                 },
                 ([error, valdidationErrors]) => {
@@ -58,7 +63,7 @@ function register(user, errorMessagesCb) {
             );
     };
 
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function request() { return { type: userConstants.REGISTER_REQUEST, } }
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }

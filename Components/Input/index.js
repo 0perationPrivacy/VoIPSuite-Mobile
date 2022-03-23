@@ -28,7 +28,7 @@ const CustomInput = ({ customStyle = {}, control, name, onChangeInput, onInputLe
 	return (
 		<TextInput
 			{...rest}
-			style={[styles.inputContainer, customStyle, isError || errors?.[name] && styles.error]}
+			style={[styles.inputContainer, customStyle, isError || errors?.[name] ? styles.error : '']}
 			underlineColorAndroid={'transparent'}
 			onChangeText={onChangeInputText}
 			onBlur={_onInputLeave}

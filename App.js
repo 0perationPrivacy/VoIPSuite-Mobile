@@ -17,8 +17,7 @@ import StackComponent from './components/StackComponent';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-
-console.log(store, 'stsssore');
+import FlashMessage from "react-native-flash-message";
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -38,6 +37,7 @@ const App = () => {
               <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
             </Drawer.Navigator>
           </NavigationContainer>
+          <FlashMessage position="top" />
         </SafeAreaView>
       </PersistGate>
     </Provider>

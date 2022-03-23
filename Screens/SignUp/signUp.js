@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../redux/actions'
 import _ from 'lodash';
+import { isEmpty } from '../../helpers/utils';
 
 const SignUp = (props) => {
 	const [params, setParams] = useState({ email: "", password: "", confirm_password: "", server_url: "" });
@@ -54,6 +55,7 @@ const SignUp = (props) => {
 	}
 
 	const onSetErrorMessageFromServer = (errors) => {
+		console.log(errors);
 		setErrorMessages(errors);
 	}
 
@@ -62,9 +64,20 @@ const SignUp = (props) => {
 	}, [errors])
 
 	const onPressSignup = (data) => {
-		if (isValidate) {
-			dispatch(userActions.register(data, onSetErrorMessageFromServer))
+		const { email, password, confirm_password } = params;
+
+		if (!isValidate) return false;
+
+		if (isEmpty(email)) {
+			setErrors(prevState => ({ ...prevState, email: true }));
+			return false;
 		}
+		if (isEmpty(password) || password != confirm_password) {
+			setErrors(prevState => ({ ...prevState, password: true }));
+			return false;
+		}
+
+		dispatch(userActions.register(data, onSetErrorMessageFromServer))
 	}
 
 	return (
