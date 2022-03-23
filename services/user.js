@@ -33,7 +33,7 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`${API_URL}/auth/get-signup`, requestOptions).then(handleResponse);
+    return fetch(`${API_URL}/auth/register`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
@@ -41,13 +41,16 @@ function handleResponse(response) {
         const data = text && JSON.parse(text);
         if (!response.ok) {
             if (response.status === 401) {
-                // auto logout if 401 response returned from api
                 logout();
-                location.reload(true);
+            }
+
+            let valdidationErrors = {};
+            if ('errors' in data) {
+                valdidationErrors = data?.errors?.errors
             }
 
             const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
+            return Promise.reject([error,valdidationErrors]);
         }
 
         return data;

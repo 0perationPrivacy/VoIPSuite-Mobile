@@ -1,4 +1,4 @@
-import { userConstants } from '../_constants';
+import { userConstants } from '../constants';
 import { userService } from '../../services';
 import { navigate } from '../../helpers/RootNavigation';
 import { alertActions } from './alert';
@@ -47,7 +47,8 @@ function register(user) {
                     navigate('Login')
                     dispatch(alertActions.success('Registration successful'));
                 },
-                error => {
+                ([error, valdidationErrors]) => {
+                    console.log(valdidationErrors)
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }

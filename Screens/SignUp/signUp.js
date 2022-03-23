@@ -6,16 +6,26 @@ import { navigate } from '../../helpers/RootNavigation';
 import styles from '../authCss';
 const logo = require('../../assets/logo-b.svg')
 import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { userActions } from '../../redux/actions'
 
 const SignUp = (props) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 	const [serverUrl, setServerUrl] = useState('')
-    const { control, handleSubmit } = useForm();
+	const { control, handleSubmit } = useForm();
+
+	const dispatch = useDispatch();
+	// const types = useSelector(state => state.users.types);
+	// const loggingIn = useSelector(state => state.authentication.loggingIn);
 
 	const onPressLogin = () => {
 		navigate('Login')
+	}
+
+	const onPressSignup = (data) => {
+		dispatch(userActions.register(data))
 	}
 
 	return (
@@ -26,10 +36,11 @@ const SignUp = (props) => {
 				<Input
 					placeholder="Enter Username"
 					autoFocus
-					type="text"
+					type="email"
 					value={username}
 					onChangeText={(text) => setUsername(text)}
 					control={control}
+					name="email"
 				/>
 				<Input
 					placeholder="Enter Password"
@@ -38,7 +49,7 @@ const SignUp = (props) => {
 					value={password}
 					onChangeText={(text) => setPassword(text)}
 					control={control}
-				// onSubmitEditing={signIn}
+					name="password"
 				/>
 				<Input
 					placeholder="Confirm Password"
@@ -47,7 +58,7 @@ const SignUp = (props) => {
 					value={confirmPassword}
 					onChangeText={(text) => setConfirmPassword(text)}
 					control={control}
-				// onSubmitEditing={signIn}
+					name="confirm_password"
 				/>
 				<Input
 					placeholder="Enter Server Url (Optional)"
@@ -55,10 +66,12 @@ const SignUp = (props) => {
 					value={serverUrl}
 					onChangeText={(text) => setServerUrl(text)}
 					control={control}
+					onSubmitEditing={handleSubmit(onPressSignup)}
+					name="server_url"
 				/>
 			</View>
 
-			<Button containerStyle={styles.button} title="Sign Up" />
+			<Button containerStyle={styles.button} title="Sign Up" onPress={handleSubmit(onPressSignup)} />
 			<Button containerStyle={styles.button} title="Login" type="outline" onPress={onPressLogin} />
 		</AuthWrapper>
 
