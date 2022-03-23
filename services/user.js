@@ -46,11 +46,11 @@ function handleResponse(response) {
 
             let valdidationErrors = {};
             if ('errors' in data) {
-                valdidationErrors = data?.errors?.errors
+                valdidationErrors = data.errors?.errors
             }
 
             const error = (data && data.message) || response.statusText;
-            return Promise.reject([error,valdidationErrors]);
+            return Promise.reject([error, valdidationErrors]);
         }
 
         return data;

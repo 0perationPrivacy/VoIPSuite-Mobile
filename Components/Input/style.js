@@ -9,5 +9,9 @@ module.exports = StyleSheet.create({
 		padding: 5,
 		marginBottom: 15,
 		height: 45
+	},
+	error: {
+		borderColor: 'red',
+		borderWidth: 2
 	}
 });

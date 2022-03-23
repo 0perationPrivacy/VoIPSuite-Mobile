@@ -36,7 +36,7 @@ function logout() {
     return { type: userConstants.LOGOUT };
 }
 
-function register(user) {
+function register(user, errorMessagesCb) {
     return dispatch => {
         dispatch(request(user));
 
@@ -48,7 +48,10 @@ function register(user) {
                     dispatch(alertActions.success('Registration successful'));
                 },
                 ([error, valdidationErrors]) => {
-                    console.log(valdidationErrors)
+                    if (errorMessagesCb) {
+                        errorMessagesCb(valdidationErrors)
+                    }
+
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }

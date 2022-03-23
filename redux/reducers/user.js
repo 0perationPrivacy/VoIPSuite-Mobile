@@ -28,11 +28,11 @@ export function authentication(state = initialState, action) {
 export function registration(state = {}, action) {
     switch (action.type) {
         case userConstants.REGISTER_REQUEST:
-            return { registering: true };
+            return { isLoading: true };
         case userConstants.REGISTER_SUCCESS:
-            return {};
+            return { isLoading: false };
         case userConstants.REGISTER_FAILURE:
-            return {};
+            return { isLoading: false };
         default:
             return state
     }
