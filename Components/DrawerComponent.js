@@ -2,10 +2,11 @@ import React from 'react';
 import { View, useWindowDimensions, StyleSheet, Text } from 'react-native';
 import { DrawerContentScrollView, DrawerItem, useDrawerProgress, } from '@react-navigation/drawer';
 import Feather from 'react-native-vector-icons/Feather'
-
 import styles from '../style';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { navigate } from '../helpers/RootNavigation';
+import { useDispatch, useSelector } from 'react-redux'
+import { userActions } from '../redux/actions/'
 
 export function DrawerContent(props) {
 	const width = useWindowDimensions().width * 0.3;
@@ -16,8 +17,15 @@ export function DrawerContent(props) {
 	// 	outputRange: [-100, 0],
 	// });
 
+	const dispatch = useDispatch();
+
+
 	const onPressNavigation = (screen) => {
 		navigate(screen)
+	}
+
+	const onPressLogout = () => {
+		dispatch(userActions.logout())
 	}
 
 	return (
@@ -47,6 +55,9 @@ export function DrawerContent(props) {
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => onPressNavigation('Messages')}>
 					<Text style={styles.drawerInnerHeading} >Messages</Text>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={onPressLogout}>
+					<Text style={styles.drawerInnerHeading} >Logout</Text>
 				</TouchableOpacity>
 			</View>
 		</DrawerContentScrollView>

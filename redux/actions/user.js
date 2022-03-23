@@ -1,6 +1,6 @@
 import { userConstants } from '../constants';
 import { userService } from '../../services';
-import { navigate } from '../../helpers/RootNavigation';
+import { navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import { alertActions } from './alert';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
@@ -42,8 +42,13 @@ function login(data, errorMessagesCb) {
 }
 
 function logout() {
-    userService.logout();
-    return { type: userConstants.LOGOUT };
+    return dispatch => {
+        dispatch(logout());
+
+        navigateAndReset('Login')
+    };
+
+    function logout() { return { type: userConstants.LOGOUT } }
 }
 
 function register(user, errorMessagesCb) {
