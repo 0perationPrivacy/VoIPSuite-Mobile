@@ -39,7 +39,7 @@ const SignUp = (props) => {
 	const onInputLeave = (name, value) => {
 		if (validations?.[name]) {
 			let _errors = { ...errors };
-			if (_.isEmpty(value)) {
+			if (isEmpty(value)) {
 				Object.assign(_errors, { [name]: true })
 			}
 			else { delete _errors[name] }
@@ -123,7 +123,7 @@ const SignUp = (props) => {
 				/>
 				<Input
 					placeholder="Enter Server Url (Optional)"
-					type="text"
+					keyboardType="url"
 					defaultValue={params.server_url}
 					onChangeText={(text) => setServerUrl(text)}
 					control={control}

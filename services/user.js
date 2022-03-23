@@ -8,14 +8,14 @@ export const userService = {
     register,
 };
 
-function login(username, password) {
+function login(data) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify(data)
     };
 
-    return fetch(`${API_URL}/users/authenticate`, requestOptions)
+    return fetch(`${API_URL}/auth/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             return user;

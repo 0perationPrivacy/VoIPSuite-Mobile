@@ -10,24 +10,33 @@ export const userActions = {
     register,
 };
 
-function login(username, password) {
+function login(data, errorMessagesCb) {
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(request());
 
-        userService.login(username, password)
+
+        userService.login(data)
             .then(
                 user => {
                     dispatch(success(user));
+                    showMessage({
+                        message: user?.message,
+                        type: "success",
+                    });
                     navigate('Home')
                 },
-                error => {
+                ([error, valdidationErrors]) => {
+                    if (errorMessagesCb) {
+                        errorMessagesCb(valdidationErrors)
+                    }
+
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
-    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
+    function request() { return { type: userConstants.LOGIN_REQUEST } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
