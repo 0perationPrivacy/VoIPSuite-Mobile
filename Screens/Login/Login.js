@@ -81,9 +81,8 @@ const Login = (props) => {
 				<Text style={globalStyle.screenInnerTitle}>Login</Text>
 				<View style={styles.inputContainer}>
 					<Input
-						placeholder="Enter Email"
+						placeholder="Enter Username"
 						autoFocus
-						keyboardType="email-address"
 						defaultValue={params.email}
 						onChangeText={(text) => setUsername(text)}
 						style={styles.inputWrap}

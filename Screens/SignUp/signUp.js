@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, KeyboardAvoidingView, StatusBar } from 'react-native'
+import { View, KeyboardAvoidingView, StatusBar, Text, TouchableOpacity } from 'react-native'
 import { Image } from 'react-native-elements'
 import { AuthWrapper, Input, Button } from '../../components';
 import { navigate } from '../../helpers/RootNavigation';
@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../redux/actions'
 import _ from 'lodash';
 import { isEmpty } from '../../helpers/utils';
+import globalStyle from '../../style';
+import Icon from 'react-native-vector-icons/Feather'
+import Metrics from '../../helpers/Metrics';
 
 const SignUp = (props) => {
 	const [params, setParams] = useState({ email: "", password: "", confirm_password: "", server_url: "" });
@@ -82,60 +85,81 @@ const SignUp = (props) => {
 
 	return (
 		<AuthWrapper>
-			<StatusBar style="light" />
-			<Image source={logo} style={styles.ImageDimension} />
-			<View style={styles.inputContainer}>
-				<Input
-					placeholder="Enter Username"
-					autoFocus
-					keyboardType="email-address"
-					defaultValue={params.email}
-					control={control}
-					name="email"
-					onChangeInput={onChangeInput}
-					onInputLeave={onInputLeave}
-					isError={errors?.email}
-					errors={errorMessages}
-				/>
-				<Input
-					placeholder="Enter Password"
-					secureTextEntry
-					type="password"
-					defaultValue={params.password}
-					control={control}
-					name="password"
-					onChangeInput={onChangeInput}
-					onInputLeave={onInputLeave}
-					isError={errors?.password}
-					errors={errorMessages}
-				/>
-				<Input
-					placeholder="Confirm Password"
-					secureTextEntry
-					type="password"
-					defaultValue={params.confirm_password}
-					control={control}
-					name="confirm_password"
-					onChangeInput={onChangeInput}
-					onInputLeave={onInputLeave}
-					isError={errors?.confirm_password}
-					errors={errorMessages}
-				/>
-				<Input
-					placeholder="Enter Server Url (Optional)"
-					keyboardType="url"
-					defaultValue={params.server_url}
-					onChangeText={(text) => setServerUrl(text)}
-					control={control}
-					onSubmitEditing={handleSubmit(onPressSignup)}
-					name="server_url"
-					onChangeInput={onChangeInput}
-					onInputLeave={onInputLeave}
-				/>
-			</View>
+			{/* <StatusBar style="light" /> */}
+			<View style={styles.authContainerCard}>
+				{/* <Image source={logo} style={styles.ImageDimension} /> */}
+				<Text style={globalStyle.screenInnerTitle}>Signup</Text>
+				<View style={styles.inputContainer}>
+					<Input
+						placeholder="Enter Username"
+						autoFocus
+						defaultValue={params.email}
+						control={control}
+						name="email"
+						onChangeInput={onChangeInput}
+						onInputLeave={onInputLeave}
+						isError={errors?.email}
+						errors={errorMessages}
+						icon={'user'}
+					/>
+					<Input
+						placeholder="Enter Password"
+						secureTextEntry
+						type="password"
+						defaultValue={params.password}
+						control={control}
+						name="password"
+						onChangeInput={onChangeInput}
+						onInputLeave={onInputLeave}
+						isError={errors?.password}
+						errors={errorMessages}
+						icon={'shield'}
+					/>
+					<Input
+						placeholder="Confirm Password"
+						secureTextEntry
+						type="password"
+						defaultValue={params.confirm_password}
+						control={control}
+						name="confirm_password"
+						onChangeInput={onChangeInput}
+						onInputLeave={onInputLeave}
+						isError={errors?.confirm_password}
+						errors={errorMessages}
+						icon={'shield'}
+					/>
+					<Input
+						placeholder="Enter Server Url (Optional)"
+						keyboardType="url"
+						defaultValue={params.server_url}
+						onChangeText={(text) => setServerUrl(text)}
+						control={control}
+						onSubmitEditing={handleSubmit(onPressSignup)}
+						name="server_url"
+						onChangeInput={onChangeInput}
+						onInputLeave={onInputLeave}
+					/>
+				</View>
 
-			<Button containerStyle={styles.button} title="Sign Up" onPress={handleSubmit(onPressSignup)} loading={isLoading} />
-			<Button containerStyle={styles.button} title="Login" type="outline" onPress={onPressLogin} />
+				<Button containerStyle={styles.button} title="Sign Up" onPress={handleSubmit(onPressSignup)} loading={isLoading} />
+				<View style={styles.createAccountWrap}>
+					<Text style={globalStyle.defaultTextColor}>Already have an account? </Text>
+					<TouchableOpacity onPress={onPressLogin}>
+						<Text style={styles.createAccountText} >Login</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.socialLinksWrap}>
+					<TouchableOpacity style={styles.socialLinksItem}>
+						<Icon name="twitter" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.socialLinksItem}>
+						<Icon name="github" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.socialLinksItem}>
+						<Icon name="credit-card" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
+					</TouchableOpacity>
+				</View>
+			</View>
 		</AuthWrapper>
 
 	)

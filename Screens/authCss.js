@@ -15,7 +15,8 @@ module.exports = StyleSheet.create({
     authContainerCard: {
         backgroundColor: getColorByTheme('#fff', '#121212'),
         width: '100%',
-        padding: Metrics.ratio(10),
+        paddingHorizontal: Metrics.ratio(10),
+        paddingVertical: Metrics.ratio(20),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -45,7 +46,7 @@ module.exports = StyleSheet.create({
     },
     socialLinksWrap: {
         flexDirection: 'row',
-        marginTop: Metrics.ratio(20),
+        marginTop: Metrics.ratio(25),
         justifyContent: 'center'
     },
     socialLinksItem: {
