@@ -73,7 +73,7 @@ const Login = (props) => {
 	useEffect(() => {
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
-	
+
 	return (
 		<AuthWrapper>
 			{/* <Image source={logo} style={styles.ImageDimension} /> */}
@@ -118,20 +118,20 @@ const Login = (props) => {
 				</View>
 				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
 				<View style={styles.createAccountWrap}>
-					<Text>Don’t have an account yet?</Text>
+					<Text style={globalStyle.defaultTextColor}>Don’t have an account yet?</Text>
 					<TouchableOpacity onPress={onPressSignUp}>
 						<Text style={styles.createAccountText} >Sign up</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.socialLinksWrap}>
 					<TouchableOpacity style={styles.socialLinksItem}>
-						<Icon name="twitter" size={Metrics.ratio(30)} />
+						<Icon name="twitter" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.socialLinksItem}>
-						<Icon name="github" size={Metrics.ratio(30)} />
+						<Icon name="github" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.socialLinksItem}>
-						<Icon name="credit-card" size={Metrics.ratio(30)} />
+						<Icon name="credit-card" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
 					</TouchableOpacity>
 				</View>
 			</View>

@@ -3,10 +3,11 @@ import {
   SafeAreaView,
   StatusBar,
   useColorScheme,
+  Appearance
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createDrawerNavigator, } from '@react-navigation/drawer';
 import { navigationRef } from './helpers/RootNavigation';
 
@@ -25,13 +26,15 @@ const App = () => {
   //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   // };
 
+  const colorScheme = Appearance.getColorScheme();
   const Drawer = createDrawerNavigator();
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaView style={styles.flexOne}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <NavigationContainer ref={navigationRef}>
+          {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
+          <NavigationContainer ref={navigationRef} >
             <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} >
               <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
             </Drawer.Navigator>

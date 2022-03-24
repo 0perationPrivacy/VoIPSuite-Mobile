@@ -1,6 +1,7 @@
 'use strict';
 import { StyleSheet, Dimensions } from 'react-native';
 import Metrics from './helpers/Metrics';
+import { getColorByTheme } from './helpers/utils';
 let ScreenHeight = Dimensions.get("window").height;
 
 module.exports = StyleSheet.create({
@@ -8,10 +9,10 @@ module.exports = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 10,
-		backgroundColor: 'white',
+		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
 		// flex: 1,
 		height: '100%',
-		paddingHorizontal : Metrics.ratio(10)
+		paddingHorizontal: Metrics.ratio(10),
 	},
 	flexOne: {
 		flex: 1,
@@ -86,9 +87,15 @@ module.exports = StyleSheet.create({
 		textAlignVertical: 'top',
 	},
 
-	screenInnerTitle : {
-		fontSize : Metrics.ratio(21),
-		textAlign: 'center'
+	screenInnerTitle: {
+		fontSize: Metrics.ratio(21),
+		textAlign: 'center',
+		color: getColorByTheme('#000', '#fff'),
+	},
+	defaultIconColor : {
+		color: getColorByTheme('#000', '#fff'),
+	},
+	defaultTextColor : {
+		color: getColorByTheme('#000', '#fff'),
 	}
-
 });

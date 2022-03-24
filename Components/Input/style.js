@@ -1,5 +1,6 @@
 'use strict';
 import { StyleSheet } from 'react-native';
+import { getColorByTheme } from '../../helpers/utils';
 
 module.exports = StyleSheet.create({
 	mainWrap: {
@@ -12,7 +13,8 @@ module.exports = StyleSheet.create({
 		padding: 5,
 		marginBottom: 15,
 		height: 45,
-		flex: 0.9
+		flex: 0.9,
+		color: getColorByTheme('#000', '#fff')
 	},
 	iconWrap: {
 		justifyContent: 'center',
@@ -23,7 +25,7 @@ module.exports = StyleSheet.create({
 		borderRightWidth: 0,
 		flex: 0.1,
 		alignItems: 'center',
-		backgroundColor : '#cacaca'
+		backgroundColor: '#cacaca'
 	},
 	error: {
 		borderColor: 'red',

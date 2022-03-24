@@ -1,6 +1,7 @@
 'use strict';
 import { StyleSheet, useWindowDimensions } from 'react-native';
 import Metrics from '../helpers/Metrics';
+import { getColorByTheme } from '../helpers/utils';
 
 module.exports = StyleSheet.create({
     ImageDimension: {
@@ -12,7 +13,7 @@ module.exports = StyleSheet.create({
         marginVertical: 15,
     },
     authContainerCard: {
-        backgroundColor: '#fff',
+        backgroundColor: getColorByTheme('#fff', '#121212'),
         width: '100%',
         padding: Metrics.ratio(10),
         shadowColor: "#000",

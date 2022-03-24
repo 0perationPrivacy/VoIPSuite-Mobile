@@ -1,4 +1,5 @@
 {
   "name": "Voip",
-  "displayName": "Voip"
+  "displayName": "Voip",
+  "userInterfaceStyle": "automatic"
 }
