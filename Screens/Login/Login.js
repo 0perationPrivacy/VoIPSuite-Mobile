@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Image } from 'react-native-elements'
 import { AuthWrapper, Input, Button } from '../../components';
 import { navigate } from '../../helpers/RootNavigation';
 const logo = require('../../assets/logo-b.svg')
 import styles from '../authCss';
+import globalStyle from '../../style';
 import { useForm } from 'react-hook-form'
 import { isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../redux/actions'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Feather'
+import Metrics from '../../helpers/Metrics';
 
 const Login = (props) => {
 	const [params, setParams] = useState({ email: "", password: "", server_url: "" });
@@ -63,54 +67,74 @@ const Login = (props) => {
 	}
 
 	const onSetErrorMessageFromServer = (errors) => {
-		console.log(errors,'error');
 		setErrorMessages(errors);
 	}
 
 	useEffect(() => {
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
-console.log('huziazfa');
+	
 	return (
 		<AuthWrapper>
-			<Image source={logo} style={styles.ImageDimension} />
-			<View style={styles.inputContainer}>
-				<Input
-					placeholder="Enter Email"
-					autoFocus
-					keyboardType="email-address"
-					defaultValue={params.email}
-					onChangeText={(text) => setUsername(text)}
-					style={styles.inputWrap}
-					control={control}
-					onInputLeave={onInputLeave}
-					isError={errors?.email}
-					errors={errorMessages}
-					name="email"
-				/>
-				<Input
-					placeholder="Enter Password"
-					secureTextEntry
-					type="password"
-					defaultValue={params.password}
-					onChangeText={(text) => setPassword(text)}
-					control={control}
-					onInputLeave={onInputLeave}
-					isError={errors?.password}
-					errors={errorMessages}
-					name="password"
-				/>
-				<Input
-					placeholder="Enter Server Url (Optional)"
-					keyboardType="url"
-					defaultValue={params.password}
-					onChangeText={(text) => setServerUrl(text)}
-					control={control}
-					onInputLeave={onInputLeave}
-				/>
+			{/* <Image source={logo} style={styles.ImageDimension} /> */}
+			<View style={styles.authContainerCard}>
+				<Text style={globalStyle.screenInnerTitle}>Login</Text>
+				<View style={styles.inputContainer}>
+					<Input
+						placeholder="Enter Email"
+						autoFocus
+						keyboardType="email-address"
+						defaultValue={params.email}
+						onChangeText={(text) => setUsername(text)}
+						style={styles.inputWrap}
+						control={control}
+						onInputLeave={onInputLeave}
+						isError={errors?.email}
+						errors={errorMessages}
+						name="email"
+						icon={'user'}
+					/>
+					<Input
+						placeholder="Enter Password"
+						secureTextEntry
+						type="password"
+						defaultValue={params.password}
+						onChangeText={(text) => setPassword(text)}
+						control={control}
+						onInputLeave={onInputLeave}
+						isError={errors?.password}
+						errors={errorMessages}
+						name="password"
+						icon={'shield'}
+					/>
+					<Input
+						placeholder="Enter Server Url (Optional)"
+						keyboardType="url"
+						defaultValue={params.password}
+						onChangeText={(text) => setServerUrl(text)}
+						control={control}
+						onInputLeave={onInputLeave}
+					/>
+				</View>
+				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
+				<View style={styles.createAccountWrap}>
+					<Text>Don’t have an account yet?</Text>
+					<TouchableOpacity onPress={onPressSignUp}>
+						<Text style={styles.createAccountText} >Sign up</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.socialLinksWrap}>
+					<TouchableOpacity style={styles.socialLinksItem}>
+						<Icon name="twitter" size={Metrics.ratio(30)} />
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.socialLinksItem}>
+						<Icon name="github" size={Metrics.ratio(30)} />
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.socialLinksItem}>
+						<Icon name="credit-card" size={Metrics.ratio(30)} />
+					</TouchableOpacity>
+				</View>
 			</View>
-			<Button containerStyle={styles.button} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
-			<Button containerStyle={styles.button} title="Create Account" type="outline" onPress={onPressSignUp} />
 		</AuthWrapper>
 	)
 }

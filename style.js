@@ -10,7 +10,8 @@ module.exports = StyleSheet.create({
 		padding: 10,
 		backgroundColor: 'white',
 		// flex: 1,
-		height: '100%'
+		height: '100%',
+		paddingHorizontal : Metrics.ratio(10)
 	},
 	flexOne: {
 		flex: 1,
@@ -84,5 +85,10 @@ module.exports = StyleSheet.create({
 		height: 200,
 		textAlignVertical: 'top',
 	},
+
+	screenInnerTitle : {
+		fontSize : Metrics.ratio(21),
+		textAlign: 'center'
+	}
 
 });

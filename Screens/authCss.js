@@ -1,5 +1,6 @@
 'use strict';
 import { StyleSheet, useWindowDimensions } from 'react-native';
+import Metrics from '../helpers/Metrics';
 
 module.exports = StyleSheet.create({
     ImageDimension: {
@@ -10,6 +11,20 @@ module.exports = StyleSheet.create({
         width: '100%',
         marginVertical: 15,
     },
+    authContainerCard: {
+        backgroundColor: '#fff',
+        width: '100%',
+        padding: Metrics.ratio(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
     button: {
         width: '100%',
         marginTop: 5,
@@ -17,12 +32,22 @@ module.exports = StyleSheet.create({
     createAccountWrap: {
         marginTop: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        alignSelf: 'flex-start',
     },
     createAccountText: {
-
+        color: '#0d6efd',
+        fontSize: 16,
+        marginLeft: 5,
     },
     signInButton: {
-
+        backgroundColor: '#198754'
+    },
+    socialLinksWrap: {
+        flexDirection: 'row',
+        marginTop: Metrics.ratio(20),
+        justifyContent: 'center'
+    },
+    socialLinksItem: {
+        marginHorizontal: Metrics.ratio(10)
     }
 });
