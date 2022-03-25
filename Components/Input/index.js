@@ -3,6 +3,7 @@ import { TextInput, View } from 'react-native'
 import styles from './style';
 import { useForm, useController } from 'react-hook-form'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { getColorByTheme } from '../../helpers/utils';
 
 const CustomInput = ({ customStyle = {},
 	control, name,
@@ -43,6 +44,7 @@ const CustomInput = ({ customStyle = {},
 				underlineColorAndroid={'transparent'}
 				onChangeText={onChangeInputText}
 				onBlur={_onInputLeave}
+				placeholderTextColor={getColorByTheme('#000', '#fff')}
 			/>
 		</View>
 	)

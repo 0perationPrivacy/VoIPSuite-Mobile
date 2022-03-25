@@ -1,8 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, InputToolbar } from 'react-native-gifted-chat'
 import Icon from 'react-native-vector-icons/Feather'
 import globalStyles from '../../style';
+import MessageInput from '../../components/CustomInputToolbar';
+import { getColorByTheme } from '../../helpers/utils';
 
 const Home = (props) => {
 	const [messages, setMessages] = useState([]);
@@ -42,6 +44,9 @@ const Home = (props) => {
 				user={{
 					_id: 1,
 				}}
+				renderInputToolbar={MessageInput}
+				messagesContainerStyle={globalStyles.themeBg}
+				timeTextStyle={{ color: 'red' }}
 			/>
 			{/* {renderComposeButton()} */}
 		</View>
@@ -56,8 +61,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		position: 'absolute',
-		bottom : 100,
-		right : 10
+		bottom: 100,
+		right: 10
 	}
 });
 

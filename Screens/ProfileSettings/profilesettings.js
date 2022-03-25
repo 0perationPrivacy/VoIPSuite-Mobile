@@ -7,6 +7,7 @@ import Wrapper from '../../components/Wrapper';
 import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
+import { getColorByTheme } from '../../helpers/utils';
 const windowWidth = Dimensions.get('window').width;
 
 const ProfileSettings = () => {
@@ -35,10 +36,10 @@ const ProfileSettings = () => {
         return (
             <View style={styles.tabsWrapper}>
                 <TouchableOpacity style={[styles.tabItemButton, activeTab === 1 && styles.activeTabItemButton]} onPress={() => onPressTabChange(1)}>
-                    <Text style={[activeTab === 1 && styles.activeTabItemButtonText]}>Telnyx</Text>
+                    <Text style={[activeTab === 1 && styles.activeTabItemButtonText, styles.tabItemButtonText]}>Telnyx</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.tabItemButton, activeTab === 2 && styles.activeTabItemButton]} onPress={() => onPressTabChange(2)}>
-                    <Text style={[activeTab === 2 && styles.activeTabItemButtonText]}>Twilio</Text>
+                    <Text style={[activeTab === 2 && styles.activeTabItemButtonText, styles.tabItemButtonText]}>Twilio</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -47,7 +48,7 @@ const ProfileSettings = () => {
     const renderProfileSettingInput = () => {
         return (
             <View style={styles.profileSettingsInputWrapper}>
-                <Feather name="user" size={20} />
+                <Feather name="user" size={20} style={globalStyles.defaultIconColor} />
                 <Input
                     name="profileName"
                     control={control}
@@ -66,7 +67,7 @@ const ProfileSettings = () => {
             <>
                 <Text style={styles.providersInputTitle}>Twilio Keys</Text>
                 <View style={[styles.profileSettingsInputWrapper, styles.providersInputWrapper]}>
-                    <Feather name="key" size={20} />
+                    <Feather name="key" size={20} style={globalStyles.defaultIconColor} />
                     <Input
                         name="tiwlioSid"
                         control={control}
@@ -76,7 +77,7 @@ const ProfileSettings = () => {
                     />
                 </View>
                 <View style={[styles.profileSettingsInputWrapper, styles.providersInputWrapper]}>
-                    <Feather name="key" size={20} />
+                    <Feather name="key" size={20} style={globalStyles.defaultIconColor} />
                     <Input
                         name="tiwlioToken"
                         control={control}
@@ -94,7 +95,7 @@ const ProfileSettings = () => {
             <>
                 <Text style={styles.providersInputTitle}>Telnyx Key</Text>
                 <View style={[styles.profileSettingsInputWrapper, styles.providersInputWrapper]}>
-                    <Feather name="key" size={20} />
+                    <Feather name="key" size={20} style={globalStyles.defaultIconColor} />
                     <Input
                         name="telnyxKey"
                         control={control}
@@ -113,9 +114,9 @@ const ProfileSettings = () => {
                 {renderTabs()}
                 {renderProfileSettingInput()}
                 <View style={styles.providersContainer}>
-                    { activeTab === 1 ?  renderTelnyxInputs() : renderTwilioInputs()}
+                    {activeTab === 1 ? renderTelnyxInputs() : renderTwilioInputs()}
                 </View>
-                <Button title="Save" onPress={onPressSave}/>
+                <Button title="Save" onPress={onPressSave} />
             </View>
         </Wrapper>
     )
@@ -137,11 +138,14 @@ const styles = StyleSheet.create({
     activeTabItemButton: {
         backgroundColor: '#0d6efd'
     },
+    tabItemButtonText: {
+        color: getColorByTheme('#000', '#fff')
+    },
     activeTabItemButtonText: {
         color: '#fff'
     },
     profileSettingsInputWrapper: {
-        marginTop: 10,
+        marginTop: Metrics.ratio(20),
         flexDirection: 'row',
         alignItems: 'center',
         // marginBottom: Metrics.doubleBaseMargin
@@ -160,7 +164,8 @@ const styles = StyleSheet.create({
         marginBottom: Metrics.smallMargin
     },
     providersInputTitle: {
-        fontSize: Metrics.ratio(20)
+        fontSize: Metrics.ratio(20),
+        color: getColorByTheme('#000', '#fff')
     }
 });
 

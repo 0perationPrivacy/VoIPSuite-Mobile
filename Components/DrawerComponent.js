@@ -34,19 +34,19 @@ export function DrawerContent(props) {
 				<Text style={styles.drawerInnerHeading}>Settings</Text>
 				<View style={styles.drawerInnerChildWrap}>
 					<TouchableOpacity style={styles.drawerInnerChildListWrap}>
-						<Feather name="mail" size={15} style={styles.drawerInnerChildIcon} />
+						<Feather name="mail" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
 						<Text style={styles.drawerInnerChildText}>Email Settings</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('ProfileSettings')}>
-						<Feather name="user" size={15} style={styles.drawerInnerChildIcon} />
+						<Feather name="user" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
 						<Text style={styles.drawerInnerChildText}>Profile Settings</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.drawerInnerChildListWrap}>
-						<Feather name="settings" size={15} style={styles.drawerInnerChildIcon} />
+						<Feather name="settings" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
 						<Text style={styles.drawerInnerChildText}>Account Settings</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.drawerInnerChildListWrap}>
-						<Feather name="shield" size={15} style={styles.drawerInnerChildIcon} />
+						<Feather name="shield" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
 						<Text style={styles.drawerInnerChildText}>MFA Settings</Text>
 					</TouchableOpacity>
 				</View>
@@ -56,7 +56,7 @@ export function DrawerContent(props) {
 				<TouchableOpacity onPress={() => onPressNavigation('Messages')}>
 					<Text style={styles.drawerInnerHeading} >Messages</Text>
 				</TouchableOpacity>
-				<TouchableOpacity onPress={onPressLogout}>
+				<TouchableOpacity onPress={onPressLogout} style={{ marginTop: 20 }}>
 					<Text style={styles.drawerInnerHeading} >Logout</Text>
 				</TouchableOpacity>
 			</View>

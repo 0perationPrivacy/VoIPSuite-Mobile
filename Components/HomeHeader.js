@@ -29,20 +29,20 @@ const HomeHeader = () => {
 	return (
 		<View style={[styles.fullFlex, styles.homeHeaderWrapper]}>
 			<TouchableOpacity onPress={onPressSideMenu}>
-				<Icon name={"menu"} size={21} />
+				<Icon name={"menu"} size={21} style={styles.defaultIconColor} />
 			</TouchableOpacity>
 			<View style={styles.fullFlex}>
 				<TouchableOpacity onPress={() => onPressCompose('Compose')}>
-					<Icon name={"plus-circle"} size={19} style={styles.homeHeaderPhone} />
+					<Icon name={"plus-circle"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
 				</TouchableOpacity>
-				<Icon name={"settings"} size={19} style={styles.homeHeaderPhone} />
+				<Icon name={"settings"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
 				<TouchableOpacity onPress={() => onPressCompose('Dialer')} >
-					<Icon name={"phone"} size={19} style={styles.homeHeaderPhone} />
+					<Icon name={"phone"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
 				</TouchableOpacity>
 				<View style={{ marginLeft: 10 }}>
 					<TouchableOpacity onPress={showProfileDropDown} style={styles.fullFlex}>
-						<ModalDropdown ref={e => setProfileDropDown(e)} options={['user 99', 'user 100']} defaultValue={'User 99'} dropdownStyle={styles.homeHeaderProfileDropDown} onSelect={onSelectProfile} />
-						<Icon name={"arrow-down"} size={19} />
+						<ModalDropdown textStyle={styles.defaultTextColor} ref={e => setProfileDropDown(e)} options={['user 99', 'user 100']} defaultValue={'User 99'} dropdownStyle={styles.homeHeaderProfileDropDown}  onSelect={onSelectProfile} />
+						<Icon name={"arrow-down"} size={19} style={styles.defaultIconColor} />
 					</TouchableOpacity>
 				</View>
 			</View>

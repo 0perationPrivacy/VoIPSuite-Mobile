@@ -67,8 +67,8 @@ const Compose = () => {
     const renderFileUploadButton = () => {
         return (
             <TouchableOpacity style={styles.uploadButtonWrap} onPress={onPressFileUpload}>
-                <Feather name="upload" size={25} />
-                <Text>Upload Image</Text>
+                <Feather name="upload" size={25} style={globalStyles.defaultIconColor} />
+                <Text style={globalStyles.defaultTextColor}>Upload Image</Text>
             </TouchableOpacity>
         )
     }

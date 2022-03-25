@@ -35,7 +35,7 @@ const App = () => {
         <SafeAreaView style={styles.flexOne}>
           {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
           <NavigationContainer ref={navigationRef} >
-            <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} >
+            <Drawer.Navigator screenOptions={{ drawerStyle: styles.drawerStyle }} drawerContent={(props) => <DrawerContent {...props} />} >
               <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
             </Drawer.Navigator>
           </NavigationContainer>

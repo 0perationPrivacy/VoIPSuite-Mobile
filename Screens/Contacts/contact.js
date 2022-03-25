@@ -100,15 +100,15 @@ const Contact = () => {
     const renderFileUploadButton = () => {
         return (
             <TouchableOpacity style={styles.uploadButtonWrap} onPress={onPressContactImport}>
-                <Feather name="upload" size={25} />
-                <Text>Import Contact</Text>
+                <Feather style={globalStyles.defaultIconColor} name="upload" size={25} />
+                <Text style={globalStyles.defaultTextColor}>Import Contact</Text>
             </TouchableOpacity>
         )
     }
 
     return (
         <Wrapper header={renderHeader()}>
-            <View style={globalStyles.flexOne}>
+            <View style={[globalStyles.flexOne, { marginTop: 10 }]}>
                 {renderInputs()}
                 {renderFileUploadButton()}
                 {renderButton()}
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         borderColor: '#ececec',
         fontSize: 16,
         padding: 5,
-        marginBottom: 15,
+        // marginBottom: 15,
         width: windowWidth - 100,
         flexDirection: 'row'
     },

@@ -13,6 +13,7 @@ module.exports = StyleSheet.create({
 		// flex: 1,
 		height: '100%',
 		paddingHorizontal: Metrics.ratio(10),
+
 	},
 	flexOne: {
 		flex: 1,
@@ -20,8 +21,9 @@ module.exports = StyleSheet.create({
 
 	container: {
 		padding: 10,
-		backgroundColor: 'white',
+		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
 		height: Metrics.heightPercentageToDP(100),
+		paddingTop: Metrics.ratio(25)
 	},
 
 	//home header
@@ -33,7 +35,9 @@ module.exports = StyleSheet.create({
 	homeHeaderWrapper: {
 		paddingVertical: 10,
 		paddingHorizontal: 10,
-		backgroundColor: '#fff'
+		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
+		borderBottomWidth: 0.5,
+		borderBottomColor: getColorByTheme('#2e2e2e', '#fff'),
 	},
 	homeHeaderPhone: {
 		marginLeft: 5,
@@ -42,18 +46,22 @@ module.exports = StyleSheet.create({
 	homeHeaderProfileDropDown: {
 		height: 'auto',
 		marginTop: 10,
+		backgroundColor: '#000'
 	},
 
 	//drawer
+	drawerStyle: {
+		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
+	},
 	drawerContainer: {
-		flex: 1,
+		// flex: 1,
 		paddingHorizontal: 10,
-		paddingTop: 20
+		paddingTop: 20,
 	},
 	drawerInnerHeading: {
-		color: '#000',
 		fontSize: 14,
 		fontWeight: 'bold',
+		color: getColorByTheme('#000', '#fff'),
 	},
 	drawerMainItemWrap: {
 		marginBottom: 15
@@ -71,7 +79,7 @@ module.exports = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	drawerInnerChildText: {
-		color: '#000',
+		color: getColorByTheme('#000', '#fff'),
 		fontSize: 16,
 	},
 	primaryBgColor: {
@@ -80,7 +88,7 @@ module.exports = StyleSheet.create({
 	headerTitle: {
 		fontSize: 18,
 		fontWeight: '500',
-		color: '#000'
+		color: getColorByTheme('#000', '#fff'),
 	},
 	textAreaContainer: {
 		height: 200,
@@ -92,10 +100,13 @@ module.exports = StyleSheet.create({
 		textAlign: 'center',
 		color: getColorByTheme('#000', '#fff'),
 	},
-	defaultIconColor : {
+	defaultIconColor: {
 		color: getColorByTheme('#000', '#fff'),
 	},
-	defaultTextColor : {
+	defaultTextColor: {
 		color: getColorByTheme('#000', '#fff'),
-	}
+	},
+	themeBg: {
+		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
+	},
 });

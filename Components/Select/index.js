@@ -27,6 +27,7 @@ const CustomSelect = ({ containerStyle, ...rest }) => {
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
+            containerStyle={styles.itemContainerStyle}
             data={data}
             labelField="label"
             valueField="value"
@@ -36,7 +37,7 @@ const CustomSelect = ({ containerStyle, ...rest }) => {
             }}
             renderItem={renderItem}
             maxHeight={120}
-            {...rest}
+        // {...rest}
         />
     );
 };

@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
 import { useForm } from 'react-hook-form'
+import { getColorByTheme } from '../../helpers/utils';
 
 const data = [
     { value: 1 },
@@ -119,7 +120,8 @@ const styles = StyleSheet.create({
         marginVertical: 15,
         borderWidth: 0,
         fontSize: 30,
-        marginTop: 20
+        marginTop: 20,
+        color: getColorByTheme('#000', '#fff')
     },
     numberListContainer: {
         alignItems: 'center',
@@ -138,7 +140,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     numberListText: {
-        fontSize: 24
+        fontSize: 24,
+        color: getColorByTheme('#000', '#fff')
     },
     dialPadActionContainer: {
         flexDirection: 'row',
