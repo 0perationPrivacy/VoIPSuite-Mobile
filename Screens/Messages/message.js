@@ -6,6 +6,8 @@ import { Header, } from '../../components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
+import Metrics from '../../helpers/Metrics';
+import { getColorByTheme } from '../../helpers/utils';
 
 const data = Array(20)
     .fill("")
@@ -86,29 +88,33 @@ const Messages = () => {
 
 const styles = StyleSheet.create({
     mainContainerWrap: {
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        marginTop : Metrics.ratio(20)
     },
     messagesListItemWrap: {
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: '#ececec',
-        paddingVertical: 5,
+        paddingVertical: Metrics.ratio(10),
         paddingHorizontal: 5,
         borderRadius: 10,
         marginBottom: 10,
-        backgroundColor: '#fff'
+        backgroundColor: getColorByTheme('#fff', '#2e2e2e')
     },
     messagesListItemAvatar: {
         borderRadius: 50,
         width: 50,
         height: 50,
-        backgroundColor: '#f6f6f6',
+        backgroundColor: getColorByTheme('#f6f6f6', '#2e2e2e'),
         alignItems: 'center',
         justifyContent: 'center',
+        borderWidth : 1,
+        borderColor : getColorByTheme('#2e2e2e', '#fff'),
         // flex : 0.1
     },
     messagesListItemAvatarText: {
-        fontSize: 22
+        fontSize: 22,
+        color : getColorByTheme('#000', '#fff'),
     },
     messagesListItemDetailWrap: {
         marginLeft: '5%',
@@ -120,15 +126,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     messagesListItemTitle: {
-        fontSize: 20
+        fontSize: 20,
+        color : getColorByTheme('#000', '#fff'),
     },
     messagesListItemTime: {
         fontSize: 12,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color : getColorByTheme('#000', '#fff'),
     },
     messagesListItemDescription: {
         fontSize: 12,
-        color: '#212529'
+        color : getColorByTheme('#212529', '#fff'),
     },
     messageListButtonWrap: {
         justifyContent: 'center',
