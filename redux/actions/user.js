@@ -1,6 +1,6 @@
 import { userConstants } from '../constants';
 import { userService } from '../../services';
-import { navigate, navigateAndReset } from '../../helpers/RootNavigation';
+import { closeDrawer, navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import { alertActions } from './alert';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
@@ -23,12 +23,18 @@ function login(data, errorMessagesCb) {
                         message: user?.message,
                         type: "success",
                     });
-                    navigate('Home')
+                    navigateAndReset('Home')
                 },
                 ([error, valdidationErrors]) => {
+
                     if (errorMessagesCb) {
                         errorMessagesCb(valdidationErrors)
                     }
+
+                    showMessage({
+                        message: error.toString(),
+                        type: "danger",
+                    });
 
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
@@ -44,8 +50,8 @@ function login(data, errorMessagesCb) {
 function logout() {
     return dispatch => {
         dispatch(logout());
-
-        navigateAndReset('Login')
+        navigateAndReset('Login');
+        closeDrawer()
     };
 
     function logout() { return { type: userConstants.LOGOUT } }

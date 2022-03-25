@@ -1,4 +1,4 @@
-import { createNavigationContainerRef } from '@react-navigation/native';
+import { createNavigationContainerRef, DrawerActions } from '@react-navigation/native';
 
 export const navigationRef = createNavigationContainerRef()
 
@@ -20,10 +20,18 @@ export function canGoBack() {
 
 export function navigateAndReset(route) {
     return navigationRef.reset({
-        index : 0,
-        routes : [
-            { name : route }
+        index: 0,
+        routes: [
+            { name: route }
         ]
     })
+}
+
+export function openDrawer(routeName, params) {
+    navigationRef.dispatch(DrawerActions.openDrawer());
+}
+
+export function closeDrawer(routeName, params) {
+    navigationRef.dispatch(DrawerActions.closeDrawer());
 }
 

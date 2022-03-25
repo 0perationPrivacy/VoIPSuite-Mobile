@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
 import styles from '../style'
-import { navigate } from '../helpers/RootNavigation'
+import { navigate, openDrawer } from '../helpers/RootNavigation'
 
 const HomeHeader = () => {
 	const [profileDropDown, setProfileDropDown] = useState(null);
@@ -19,7 +19,7 @@ const HomeHeader = () => {
 	}
 
 	const onPressSideMenu = () => {
-		navigation.openDrawer();
+		openDrawer()
 	}
 
 	const onPressCompose = (param) => {
