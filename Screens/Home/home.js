@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import globalStyles from '../../style';
 import MessageInput from '../../components/CustomInputToolbar';
 import { getColorByTheme } from '../../helpers/utils';
+import { Header } from '../../components';
 
 const Home = (props) => {
 	const [messages, setMessages] = useState([]);
@@ -38,6 +39,7 @@ const Home = (props) => {
 
 	return (
 		<View style={globalStyles.flexOne}>
+			<Header />
 			<GiftedChat
 				messages={messages}
 				onSend={messages => onSend(messages)}

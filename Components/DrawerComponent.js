@@ -4,7 +4,7 @@ import { DrawerContentScrollView, DrawerItem, useDrawerProgress, } from '@react-
 import Feather from 'react-native-vector-icons/Feather'
 import styles from '../style';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { navigate } from '../helpers/RootNavigation';
+import { navigate, navigateAndReset } from '../helpers/RootNavigation';
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../redux/actions/'
 
@@ -24,6 +24,10 @@ export function DrawerContent(props) {
 		navigate(screen)
 	}
 
+	const onPressWithReset = (screen) => {
+		navigateAndReset(screen)
+	}
+
 	const onPressLogout = () => {
 		dispatch(userActions.logout())
 	}
@@ -31,9 +35,12 @@ export function DrawerContent(props) {
 	return (
 		<DrawerContentScrollView {...props}>
 			<View style={styles.drawerContainer}>
+				<TouchableOpacity style={styles.drawerMainItemWrap} onPress={() => onPressWithReset('Home')}>
+					<Text style={styles.drawerInnerHeading} >Home</Text>
+				</TouchableOpacity>
 				<Text style={styles.drawerInnerHeading}>Settings</Text>
 				<View style={styles.drawerInnerChildWrap}>
-					<TouchableOpacity style={styles.drawerInnerChildListWrap}>
+					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('emailsettings')}>
 						<Feather name="mail" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
 						<Text style={styles.drawerInnerChildText}>Email Settings</Text>
 					</TouchableOpacity>

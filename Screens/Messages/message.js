@@ -17,7 +17,7 @@ const Messages = () => {
     const [__messages, setMessageData] = useState(data);
     let row = [];
     let prevOpenedRow;
-    
+
     useEffect(() => { }, [])
 
     const renderHeader = () => {
@@ -72,16 +72,13 @@ const Messages = () => {
     };
 
     return (
-        <View style={globalStyles.container} >
-            {renderHeader()}
-            <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
-                <FlatList
-                    data={__messages}
-                    renderItem={(params) => renderItem(params)}
-                    keyExtractor={(item) => item.key}
-                    showsVerticalScrollIndicator={false}>
-                </FlatList>
-            </View>
+        <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
+            <FlatList
+                data={__messages}
+                renderItem={(params) => renderItem(params)}
+                keyExtractor={(item) => item.key}
+                showsVerticalScrollIndicator={false}>
+            </FlatList>
         </View>
     )
 }
@@ -89,7 +86,8 @@ const Messages = () => {
 const styles = StyleSheet.create({
     mainContainerWrap: {
         paddingHorizontal: 10,
-        marginTop : Metrics.ratio(20)
+        paddingTop: Metrics.ratio(10),
+        backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
     },
     messagesListItemWrap: {
         flexDirection: 'row',
@@ -108,13 +106,13 @@ const styles = StyleSheet.create({
         backgroundColor: getColorByTheme('#f6f6f6', '#2e2e2e'),
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth : 1,
-        borderColor : getColorByTheme('#2e2e2e', '#fff'),
+        borderWidth: 1,
+        borderColor: getColorByTheme('#2e2e2e', '#fff'),
         // flex : 0.1
     },
     messagesListItemAvatarText: {
         fontSize: 22,
-        color : getColorByTheme('#000', '#fff'),
+        color: getColorByTheme('#000', '#fff'),
     },
     messagesListItemDetailWrap: {
         marginLeft: '5%',
@@ -127,16 +125,16 @@ const styles = StyleSheet.create({
     },
     messagesListItemTitle: {
         fontSize: 20,
-        color : getColorByTheme('#000', '#fff'),
+        color: getColorByTheme('#000', '#fff'),
     },
     messagesListItemTime: {
         fontSize: 12,
         alignSelf: 'center',
-        color : getColorByTheme('#000', '#fff'),
+        color: getColorByTheme('#000', '#fff'),
     },
     messagesListItemDescription: {
         fontSize: 12,
-        color : getColorByTheme('#212529', '#fff'),
+        color: getColorByTheme('#212529', '#fff'),
     },
     messageListButtonWrap: {
         justifyContent: 'center',
