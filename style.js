@@ -48,6 +48,12 @@ module.exports = StyleSheet.create({
 		marginTop: 10,
 		backgroundColor: '#000'
 	},
+	profileDropDownItemContainer: {
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		paddingHorizontal: Metrics.buttonPadding,
+		paddingVertical: 5
+	},
 
 	//drawer
 	drawerStyle: {

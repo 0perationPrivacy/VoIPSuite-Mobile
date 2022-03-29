@@ -5,6 +5,7 @@ import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
 import styles from '../style'
 import { navigate, openDrawer } from '../helpers/RootNavigation'
+import Metrics from '../helpers/Metrics'
 
 const HomeHeader = () => {
 	const [profileDropDown, setProfileDropDown] = useState(null);
@@ -26,6 +27,14 @@ const HomeHeader = () => {
 		navigate(param)
 	}
 
+	const renderProfileItem = (item) => {
+		return (
+			<View style={styles.profileDropDownItemContainer}>
+				<Text style={styles.textItem}>{item}</Text>
+			</View>
+		);
+	}
+
 	return (
 		<View style={[styles.fullFlex, styles.homeHeaderWrapper]}>
 			<TouchableOpacity onPress={onPressSideMenu}>
@@ -41,7 +50,7 @@ const HomeHeader = () => {
 				</TouchableOpacity>
 				<View style={{ marginLeft: 10 }}>
 					<TouchableOpacity onPress={showProfileDropDown} style={styles.fullFlex}>
-						<ModalDropdown textStyle={styles.defaultTextColor} ref={e => setProfileDropDown(e)} options={['user 99', 'user 100']} defaultValue={'User 99'} dropdownStyle={styles.homeHeaderProfileDropDown}  onSelect={onSelectProfile} />
+						<ModalDropdown renderRow={renderProfileItem} textStyle={styles.defaultTextColor} ref={e => setProfileDropDown(e)} options={['user 99', 'user 100']} defaultValue={'User 99'} dropdownStyle={styles.homeHeaderProfileDropDown} onSelect={onSelectProfile} />
 						<Icon name={"arrow-down"} size={19} style={styles.defaultIconColor} />
 					</TouchableOpacity>
 				</View>
