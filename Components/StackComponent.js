@@ -13,6 +13,7 @@ import DialPad from '../screens/dialpad/dialpad';
 import ProfileSettings from '../screens/ProfileSettings/profilesettings';
 import Splash from '../screens/Splash';
 import EmailSettings from '../screens/EmailSettings/email';
+import Accounts from '../screens/Accounts';
 
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
@@ -29,6 +30,7 @@ const StackComponent = () => {
 			<Stack.Screen name="Dialer" component={DialPad} options={headerOption} />
 			<Stack.Screen name="ProfileSettings" component={ProfileSettings} options={headerOption} />
 			<Stack.Screen name="emailsettings" component={EmailSettings} options={headerOption} />
+			<Stack.Screen name="accounts" component={Accounts} options={headerOption} />
 		</Stack.Navigator>
 	);
 };

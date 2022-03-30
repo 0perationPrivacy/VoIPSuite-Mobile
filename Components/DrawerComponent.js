@@ -48,7 +48,7 @@ export function DrawerContent(props) {
 						<Feather name="user" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
 						<Text style={styles.drawerInnerChildText}>Profile Settings</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.drawerInnerChildListWrap}>
+					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('accounts')}>
 						<Feather name="settings" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
 						<Text style={styles.drawerInnerChildText}>Account Settings</Text>
 					</TouchableOpacity>
