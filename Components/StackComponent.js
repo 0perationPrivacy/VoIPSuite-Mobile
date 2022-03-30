@@ -14,6 +14,7 @@ import ProfileSettings from '../screens/ProfileSettings/profilesettings';
 import Splash from '../screens/Splash';
 import EmailSettings from '../screens/EmailSettings/email';
 import Accounts from '../screens/Accounts';
+import ChangeUsername from '../screens/Accounts/username';
 
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
@@ -31,6 +32,7 @@ const StackComponent = () => {
 			<Stack.Screen name="ProfileSettings" component={ProfileSettings} options={headerOption} />
 			<Stack.Screen name="emailsettings" component={EmailSettings} options={headerOption} />
 			<Stack.Screen name="accounts" component={Accounts} options={headerOption} />
+			<Stack.Screen name="changeusername" component={ChangeUsername} options={headerOption} />
 		</Stack.Navigator>
 	);
 };

@@ -4,6 +4,7 @@ import { Header } from '../../components';
 import Icon from 'react-native-vector-icons/Feather'
 import Metrics from '../../helpers/Metrics';
 import Wrapper from '../../components/Wrapper';
+import { navigate } from '../../helpers/RootNavigation';
 
 const Accounts = (props) => {
 
@@ -11,10 +12,14 @@ const Accounts = (props) => {
     return <Header title={'Account Settings'} />
   }
 
+  const onPressChangeUsername = () => {
+    navigate('changeusername')
+  }
+
   return (
     <Wrapper header={renderHeader()}>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.itemContainer}>
+        <TouchableOpacity style={styles.itemContainer} onPress={onPressChangeUsername}>
           <Icon name="user" color="#fff" size={18} />
           <Text style={styles.itemText}>Change Username</Text>
         </TouchableOpacity>
