@@ -14,7 +14,6 @@ function login(data, errorMessagesCb) {
     return dispatch => {
         dispatch(request());
 
-
         userService.login(data)
             .then(
                 user => {

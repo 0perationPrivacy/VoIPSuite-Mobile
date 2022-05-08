@@ -11,7 +11,7 @@ const Splash = () => {
         setTimeout(() => {
             const { loggedIn, user } = _user;
             if (loggedIn && user) {
-                navigateAndReset('changeusername');
+                navigateAndReset('Messages');
                 return
             }
             navigateAndReset('Login')

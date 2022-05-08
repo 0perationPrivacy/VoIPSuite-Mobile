@@ -50,7 +50,7 @@ module.exports = StyleSheet.create({
 	},
 	profileDropDownItemContainer: {
 		backgroundColor: '#fff',
-		alignItems: 'center',
+		// alignItems: 'center',
 		paddingHorizontal: Metrics.buttonPadding,
 		paddingVertical: 5
 	},
