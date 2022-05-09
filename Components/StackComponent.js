@@ -46,7 +46,7 @@ const StackComponent = () => {
 			<Stack.Screen name="Home" component={Home} options={headerOption} />
 			<Stack.Screen name="Compose" component={Compose} options={headerOption} />
 			<Stack.Screen name="Contact" component={Contact} options={headerOption} />
-			<Stack.Screen name="Messages" component={Messages} options={{ header: HomeHeader }} />
+			<Stack.Screen name="Messages" component={Messages} options={headerOption} />
 			<Stack.Screen name="Dialer" component={DialPad} options={headerOption} />
 			<Stack.Screen name="ProfileSettings" component={ProfileSettings} options={headerOption} />
 			<Stack.Screen name="emailsettings" component={EmailSettings} options={headerOption} />

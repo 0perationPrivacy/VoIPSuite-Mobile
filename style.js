@@ -44,15 +44,15 @@ module.exports = StyleSheet.create({
 		// marginRight: 10
 	},
 	homeHeaderProfileDropDown: {
-		height: 'auto',
+		// height: Metrics.ratio(50),
 		marginTop: 10,
-		backgroundColor: '#000'
+		// backgroundColor: '#000'
 	},
 	profileDropDownItemContainer: {
 		backgroundColor: '#fff',
 		// alignItems: 'center',
 		paddingHorizontal: Metrics.buttonPadding,
-		paddingVertical: 5
+		paddingVertical: Metrics.ratio(15)
 	},
 
 	//drawer

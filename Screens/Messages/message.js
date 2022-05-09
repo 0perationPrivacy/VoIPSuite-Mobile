@@ -8,6 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
 import { getColorByTheme } from '../../helpers/utils';
+import HomeHeader from '../../components/HomeHeader';
 
 const data = Array(20)
     .fill("")
@@ -21,7 +22,7 @@ const Messages = () => {
     useEffect(() => { }, [])
 
     const renderHeader = () => {
-        return <Header />
+        return <HomeHeader />
     }
 
     const closeRow = (index) => {
@@ -72,14 +73,17 @@ const Messages = () => {
     };
 
     return (
-        <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
-            <FlatList
-                data={__messages}
-                renderItem={(params) => renderItem(params)}
-                keyExtractor={(item) => item.key}
-                showsVerticalScrollIndicator={false}>
-            </FlatList>
-        </View>
+        <>
+            {renderHeader()}
+            <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
+                <FlatList
+                    data={__messages}
+                    renderItem={(params) => renderItem(params)}
+                    keyExtractor={(item) => item.key}
+                    showsVerticalScrollIndicator={false}>
+                </FlatList>
+            </View>
+        </>
     )
 }
 

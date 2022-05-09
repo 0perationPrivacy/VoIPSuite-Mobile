@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import CustomInput from '../Input';
 import CustomButton from '../Button';
 
-const CustomModal = ({ isVisible = false, onBackdropPress = () => { }, onPressSave = () => { }, ...rest }) => {
+const CustomModal = ({ isVisible = false, isLoading = false, onBackdropPress = () => { }, onPressSave = () => { }, ...rest }) => {
 	const [profileName, setProfileName] = useState(null);
 	const [errors, setErrors] = useState({});
 
@@ -40,7 +40,7 @@ const CustomModal = ({ isVisible = false, onBackdropPress = () => { }, onPressSa
 					name="profile"
 					isError={errors?.profile}
 				/>
-				<CustomButton title={'Save'} onPress={handleSubmit(onPress)} />
+				<CustomButton loading={isLoading} title={'Save'} onPress={handleSubmit(onPress)} />
 			</View>
 		</Modal>
 	)

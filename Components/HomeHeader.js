@@ -1,40 +1,69 @@
 import Icon from 'react-native-vector-icons/Feather'
 import React, { useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
 import styles from '../style'
 import { navigate, openDrawer } from '../helpers/RootNavigation'
-import Metrics from '../helpers/Metrics'
 import { CustomModal } from '.'
 import { useDispatch, useSelector } from 'react-redux'
 import { profileActions } from '../redux/actions/profile'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import _ from 'lodash'
 
 const HomeHeader = () => {
+
+	const defaultProfileObj = { 'id': null, 'profile': 'Add new profile' };
+
 	const [profileDropDown, setProfileDropDown] = useState(null);
-	const [isProfileModalVisible, setProfileModalVisibility] = useState(true);
-	const [profiles, setPofiles] = useState(
-		[
-			{ 'name': 'profile 1' },
-			{ 'name': 'profile 1' },
-			{ 'name': 'profile 1' }
-		]
-	);
+	const [isProfileModalVisible, setProfileModalVisibility] = useState(false);
+	const [profileList, setProfileList] = useState([]);
+	const [profiles, setProfiles] = useState([defaultProfileObj]);
+	const [profileName, setProfileName] = useState('Choose Profile Name');
 
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
-	const isLoading = useSelector(state => state.authentication.isLoading);
+
+	const isLoading = useSelector(state => state.profile.isLoading);
+	const profile = useSelector(state => state.profile.items);
 
 	useEffect(() => {
-		console.log(isProfileModalVisible)
-	}, [isProfileModalVisible])
+		getProfileList()
+	}, [])
+
+	useEffect(() => {
+		if (profile && _.isArray(profile)) {
+			let data = []
+			profile.map((item, index) => {
+				const { id, profile } = item;
+				data.push({ id, profile })
+			})
+
+			data.push(defaultProfileObj);
+			setProfiles(data);
+			onSetProfileNameRedux(data[0]?.profile)
+		}
+	}, [profile])
+
+	const getProfileList = () => {
+		dispatch(profileActions.getProfileAction())
+	}
 
 	const showProfileDropDown = () => {
 		profileDropDown && profileDropDown.show();
 	}
 
-	const onSelectProfile = (i, v) => {
-		console.log(i, v)
+	const onSetProfileNameRedux = (name) => {
+		setProfileName(name);
+		dispatch(profileActions.setProfileName(name))
+	}
+
+	const onSelectProfile = (i, item) => {
+		const { id } = item;
+		if (id === null) {
+			setProfileModalVisibility(true)
+		}
+		setProfileName(id)
 	}
 
 	const onPressSideMenu = () => {
@@ -49,26 +78,29 @@ const HomeHeader = () => {
 		setProfileModalVisibility(false)
 	}
 
-	const onModalOpen = () => {
-		setProfileModalVisibility(true)
-	}
-
 	const onPressSaveProfileName = (data, errorCb) => {
-		dispatch(profileActions.createProfileAction(data, errorCb))
+		dispatch(profileActions.createProfileAction(data, onSaveProfileCb, errorCb))
 	}
 
-	const renderProfileItem = ({ name }, index) => {
-		if (profiles.length === index + 1) {
-			return (
-				<TouchableOpacity style={styles.profileDropDownItemContainer} onPress={onModalOpen}>
-					<Text style={styles.textItem}>{'Add New Profile'}</Text>
-				</TouchableOpacity>
-			)
+	const onSaveProfileCb = () => {
+		setProfileModalVisibility(false)
+		getProfileList();
+	}
+
+	const renderButtonText = (rowData) => {
+		const { profile, id } = rowData;
+		if (id) {
+			onSetProfileNameRedux(profile);
 		}
+		return `${profile}`;
+	};
+
+	const renderProfileItem = (item, index) => {
+		const { profile } = item;
 
 		return (
 			<View style={styles.profileDropDownItemContainer}>
-				<Text style={styles.textItem}>{name}</Text>
+				<Text style={styles.textItem}>{profile}</Text>
 			</View>
 		)
 	}
@@ -88,7 +120,18 @@ const HomeHeader = () => {
 				</TouchableOpacity>
 				<View style={{ marginLeft: 10 }}>
 					<TouchableOpacity onPress={showProfileDropDown} style={styles.fullFlex}>
-						<ModalDropdown renderRow={renderProfileItem} textStyle={styles.defaultTextColor} ref={e => setProfileDropDown(e)} options={profiles} defaultValue={'User 99'} dropdownStyle={styles.homeHeaderProfileDropDown} onSelect={onSelectProfile} />
+						<ModalDropdown
+							renderRow={renderProfileItem}
+							textStyle={styles.defaultTextColor}
+							ref={e => setProfileDropDown(e)}
+							options={profiles}
+							defaultValue={profileName}
+							dropdownStyle={styles.homeHeaderProfileDropDown}
+							renderButtonText={(rowData) => renderButtonText(rowData)}
+							onSelect={onSelectProfile}
+							scrollEnabled={true}
+							showsVerticalScrollIndicator={true}
+						/>
 						<Icon name={"arrow-down"} size={19} style={styles.defaultIconColor} />
 					</TouchableOpacity>
 				</View>
@@ -96,7 +139,9 @@ const HomeHeader = () => {
 			<CustomModal
 				isVisible={isProfileModalVisible}
 				onBackdropPress={onModalClose}
-				onPressSave={onPressSaveProfileName} />
+				onPressSave={onPressSaveProfileName}
+				isLoading={isLoading}
+			/>
 		</View>
 	)
 }

@@ -5,10 +5,10 @@ import { handleResponse } from './handle';
 
 export const profileService = {
   createProfileName,
+  getProfileList
 };
 
 function createProfileName(data) {
-  console.log(data);
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' , ...authHeader()},
@@ -18,3 +18,11 @@ function createProfileName(data) {
   return fetch(`${API_URL}/profile/create`, requestOptions).then(handleResponse);
 }
 
+function getProfileList() {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' , ...authHeader()},
+  };
+
+  return fetch(`${API_URL}/profile/getdata`, requestOptions).then(handleResponse);
+}
