@@ -11,7 +11,7 @@ import { profileActions } from '../redux/actions/profile'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import _ from 'lodash'
 
-const HomeHeader = () => {
+const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 	const defaultProfileObj = { 'id': null, 'profile': 'Add new profile' };
 
@@ -60,9 +60,13 @@ const HomeHeader = () => {
 
 	const onSelectProfile = (i, item) => {
 		const { id } = item;
+
 		if (id === null) {
 			setProfileModalVisibility(true)
 		}
+
+		if (id) onPressProfile(id);
+
 		setProfileName(id)
 	}
 

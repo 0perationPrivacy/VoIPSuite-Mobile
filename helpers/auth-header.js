@@ -1,9 +1,9 @@
 import { store } from "../redux/store";
 
-
+const state = store.getState();
 export function authHeader() {
     // return authorization header with jwt token
-    const state = store.getState();
+  
     const { user } = state?.authentication;
 
     if (user && user.token) {
@@ -11,4 +11,10 @@ export function authHeader() {
     } else {
         return {};
     }
+}
+
+export function getUserId() {
+    const { user } = state?.authentication;
+
+    return user?.data?._id;
 }

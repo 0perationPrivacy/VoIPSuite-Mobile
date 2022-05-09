@@ -22,7 +22,7 @@ function login(data, errorMessagesCb) {
                         message: user?.message,
                         type: "success",
                     });
-                    navigateAndReset('Home')
+                    navigateAndReset('Messages')
                 },
                 ([error, valdidationErrors]) => {
 

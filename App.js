@@ -20,6 +20,19 @@ import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
 
+// XMLHttpRequest = global.originalXMLHttpRequest ?
+//   global.originalXMLHttpRequest :
+//   global.XMLHttpRequest;
+
+// // fetch logger
+// global._fetch = fetch;
+// global.fetch = function (uri, options, ...args) {
+//   return global._fetch(uri, options, ...args).then((response) => {
+//     console.log('Fetch', { request: { uri, options, ...args }, response });
+//     return response;
+//   });
+// };
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   // const backgroundStyle = {
@@ -45,5 +58,6 @@ const App = () => {
     </Provider>
   );
 };
+
 
 export default App;
