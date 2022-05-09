@@ -5,10 +5,12 @@ import { useForm, useController } from 'react-hook-form'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { getColorByTheme } from '../../helpers/utils';
 
-const CustomInput = ({ customStyle = {},
+const CustomInput = ({
+	customStyle = {},
 	control, name,
 	onChangeInput, onInputLeave,
-	isError, errors, icon = null, ...rest }) => {
+	isError, errors, icon = null, ...rest
+}) => {
 
 	const { field } = useController({
 		control,
@@ -19,7 +21,7 @@ const CustomInput = ({ customStyle = {},
 	const onChangeInputText = (text) => {
 		const { onChange } = field;
 		onChange(text);
-
+		
 		if (onChangeInput) {
 			onChangeInput(name, text)
 		}

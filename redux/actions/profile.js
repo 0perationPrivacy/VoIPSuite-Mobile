@@ -9,25 +9,20 @@ export const profileActions = {
     createProfileAction,
 };
 
-function createProfileAction(user, errorMessagesCb) {
+function createProfileAction(data, errorMessagesCb) {
     return dispatch => {
         dispatch(request());
 
-        profileService.createProfileName(user)
+        profileService.createProfileName(data)
             .then(
-                user => {
+                response => {
                     dispatch(success());
-                    // showMessage({
-                    //     message: "Registration successful",
-                    //     type: "success",
-                    // });
-                    // dispatch(alertActions.success('Registration successful'));
+                    dispatch(alertActions.success(response?.message));
                 },
                 ([error, valdidationErrors]) => {
                     if (errorMessagesCb) {
                         errorMessagesCb(valdidationErrors)
                     }
-
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }

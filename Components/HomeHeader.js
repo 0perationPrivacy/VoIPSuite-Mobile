@@ -53,9 +53,8 @@ const HomeHeader = () => {
 		setProfileModalVisibility(true)
 	}
 
-	const onPressSaveProfileName = (data) => {
-		console.log('agya')
-		dispatch(profileActions.createProfileAction(data))
+	const onPressSaveProfileName = (data, errorCb) => {
+		dispatch(profileActions.createProfileAction(data, errorCb))
 	}
 
 	const renderProfileItem = ({ name }, index) => {

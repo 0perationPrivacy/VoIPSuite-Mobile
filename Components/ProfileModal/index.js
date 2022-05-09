@@ -7,13 +7,22 @@ import CustomInput from '../Input';
 import CustomButton from '../Button';
 
 const CustomModal = ({ isVisible = false, onBackdropPress = () => { }, onPressSave = () => { }, ...rest }) => {
-	const [profileName, setProfileName] = useState('');
+	const [profileName, setProfileName] = useState(null);
+	const [errors, setErrors] = useState({});
+
 	const { control, handleSubmit } = useForm();
 
-	const onPress = () => {
-		let data = { profile : profileName };
-		onPressSave(data);
+	const onPress = (data) => {
+		onPressSave(data, onSetErrorMessageFromServer);
 	}
+
+	const onSetErrorMessageFromServer = (errors) => {
+		setErrors(errors);
+	}
+
+	useEffect(() => {
+		// setValidate(Object.keys(errors).length === 0)
+	}, [errors])
 
 	return (
 		<Modal
@@ -26,11 +35,12 @@ const CustomModal = ({ isVisible = false, onBackdropPress = () => { }, onPressSa
 				<Text style={styles.modalTitle}>Add Profile</Text>
 				<CustomInput
 					placeholder="Enter Profile"
-					onChangeText={(text) => setProfileName(text)}
+					onChangeInput={(text) => setProfileName(text)}
 					control={control}
-					name="profile_name"
+					name="profile"
+					isError={errors?.profile}
 				/>
-				<CustomButton title={'Save'} onPress={onPress} />
+				<CustomButton title={'Save'} onPress={handleSubmit(onPress)} />
 			</View>
 		</Modal>
 	)

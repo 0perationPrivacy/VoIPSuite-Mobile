@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Provider, useSelector } from 'react-redux';
+import { showMessage, hideMessage } from "react-native-flash-message";
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeHeader from './HomeHeader';
@@ -16,9 +19,25 @@ import EmailSettings from '../screens/EmailSettings/email';
 import Accounts from '../screens/Accounts';
 import ChangeUsername from '../screens/Accounts/username';
 
+import _ from 'lodash';
+
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
 	const headerOption = { headerShown: false };
+
+	const alert = useSelector(state => state.alert);
+
+	useEffect(() => {
+		const { message, type } = alert;
+		if (!_.isEmpty(message)) {
+			showMessage({
+				message: message,
+				type: type,
+			});
+		}
+
+	}, [alert])
+
 	return (
 		<Stack.Navigator initialRouteName="Splash">
 			<Stack.Screen name="Splash" component={Splash} options={headerOption} />
