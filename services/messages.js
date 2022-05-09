@@ -5,6 +5,7 @@ import { handleResponse } from './handle';
 
 export const messagesService = {
   getMessageByProfileId,
+  deleteMessage
 };
 
 let prefix = 'setting';
@@ -20,4 +21,16 @@ function getMessageByProfileId(setting) {
   };
 
   return fetch(`${API_URL}/${prefix}/sms-number-list`, requestOptions).then(handleResponse);
+}
+
+function deleteMessage(number) {
+  let user = getUserId();
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify({ user, number })
+  };
+
+  return fetch(`${API_URL}/${prefix}/message-list-delete`, requestOptions).then(handleResponse);
 }

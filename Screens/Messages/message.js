@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
@@ -45,8 +45,8 @@ const Messages = () => {
         prevOpenedRow = row[index];
     };
 
-    const onDeleteMessage = () => {
-        alert('deleted')
+    const onDeleteMessage = (item) => {
+        dispatch(messagesActions.deleteMessageAction(item, getMessagesByProfileId()))
     }
 
     const getMessagesByProfileId = (profileId) => {
@@ -62,9 +62,9 @@ const Messages = () => {
 
         return (
             <TouchableOpacity style={styles.messagesListItemWrap} key={index}>
-                <View style={styles.messagesListItemAvatar}>
+                {/* <View style={styles.messagesListItemAvatar}>
                     <Text style={styles.messagesListItemAvatarText}>A</Text>
-                </View>
+                </View> */}
                 <View style={styles.messagesListItemDetailWrap}>
                     <View style={styles.messagesListItemTitleWrap}>
                         <Text style={styles.messagesListItemTitle}>{first_name} {last_name}</Text>
@@ -79,9 +79,9 @@ const Messages = () => {
         )
     }
 
-    const renderRightActions = () => {
+    const renderRightActions = (item) => {
         return (
-            <TouchableOpacity style={styles.messageListButtonWrap} onPress={onDeleteMessage}>
+            <TouchableOpacity style={styles.messageListButtonWrap} onPress={() => onDeleteMessage(item)}>
                 <Feather name="trash" size={20} color="#fff" />
             </TouchableOpacity>
         );
@@ -90,7 +90,7 @@ const Messages = () => {
     const renderItem = ({ item, index }) => {
         return (
             <Swipeable
-                renderRightActions={(progress, dragX) => renderRightActions(progress, dragX)}
+                renderRightActions={(progress, dragX) => renderRightActions(item)}
                 onSwipeableOpen={() => closeRow(index)}
                 ref={(ref) => (row[index] = ref)}>
                 {renderMessagesList(item, index)}
@@ -105,6 +105,14 @@ const Messages = () => {
             </View>
         );
     };
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        )
+    }
 
     return (
         <>

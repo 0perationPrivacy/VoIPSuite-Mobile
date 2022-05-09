@@ -21,6 +21,23 @@ export function messages(state = initialState, action) {
         ...state,
         isLoading: false,
       };
+
+
+    case messagesConstants.DELETE_MESSAGES_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case messagesConstants.DELETE_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case messagesConstants.DELETE_MESSAGES_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
       return state
   }
