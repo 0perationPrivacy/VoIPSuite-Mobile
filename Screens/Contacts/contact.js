@@ -7,21 +7,43 @@ import Wrapper from '../../components/Wrapper';
 import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 const windowWidth = Dimensions.get('window').width;
+import { isEmpty } from '../../helpers/utils';
+import { useDispatch, useSelector } from 'react-redux'
+import { contactActions } from '../../redux/actions';
+import { navigateAndReset } from '../../helpers/RootNavigation';
 
 const Contact = () => {
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
-    const [phone, setPhone] = useState(null);
-    const [note, setNote] = useState(null);
+    const [params, setParams] = useState({ first_name: "", last_name: "", note: "", number: "" });
+    const [isValidate, setValidate] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [errorMessages, setErrorMessages] = useState({});
     const [file, setFile] = useState([]);
+
+    const validations = {
+        first_name: true,
+        last_name: true,
+        number: true,
+    }
+
+    const dispatch = useDispatch();
+    const isLoading = useSelector(state => state.contact.isLoading);
+
     const { control, handleSubmit } = useForm();
 
     const fileOptions = {};
 
     useEffect(() => { }, [])
 
-    const onPressSaveMessage = (data) => {
-        alert(JSON.stringify(data))
+    const onPressSaveContact = (data) => {
+        if (!isValidate) return false;
+
+        dispatch(contactActions.createContactAction(data, onContactSaveSuccess, onSetErrorMessageFromServer))
+
+        // alert(JSON.stringify(data))
+    }
+
+    const onContactSaveSuccess = () => {
+        navigateAndReset('ContactList')
     }
 
     const onPressContactImport = async () => {
@@ -32,17 +54,38 @@ const Contact = () => {
         alert('search press')
     }
 
+    const onInputLeave = (name, value) => {
+        if (validations?.[name]) {
+            let _errors = { ...errors };
+            if (isEmpty(value)) {
+                Object.assign(_errors, { [name]: true })
+            }
+            else { delete _errors[name] }
+
+            setErrors(_errors);
+        }
+
+    }
+
+    const onSetErrorMessageFromServer = (errors) => {
+        setErrorMessages(errors);
+    }
+
+    useEffect(() => {
+        setValidate(Object.keys(errors).length === 0)
+    }, [errors])
+
     const renderHeader = () => {
-        return <Header headerBody={renderSearchField()} headerRight={renderHeaderRight()} />
+        return <Header title={'Add Contact'} headerRight={renderHeaderRight()} />
     }
 
     const renderSearchField = () => {
         return (
             <View style={styles.searchInputWrapper}>
-                <TextInput style={styles.searchInput} />
-                <TouchableOpacity onPress={onPressSearch} style={styles.searchIconWrap}>
+                {/* <TextInput style={styles.searchInput} /> */}
+                {/* <TouchableOpacity onPress={onPressSearch} style={styles.searchIconWrap}>
                     <Feather name="search" size={18} color="#ececec" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         )
     }
@@ -55,35 +98,38 @@ const Contact = () => {
     }
 
     const renderInputs = () => {
+        const { first_name, last_name, note, number } = params;
         return (
             <>
                 <Input
                     placeholder="First Name"
                     autoFocus
-                    value={firstName}
-                    onChangeText={(text) => setFirstName(text)}
+                    number={first_name}
                     control={control}
-                    name="firstName"
+                    name="first_name"
+                    onInputLeave={onInputLeave}
+                    isError={errors?.first_name}
                 />
                 <Input
                     placeholder="Last Name"
-                    value={lastName}
-                    onChangeText={(text) => setLastName(text)}
+                    number={last_name}
                     control={control}
-                    name="lastName"
+                    name="last_name"
+                    onInputLeave={onInputLeave}
+                    isError={errors?.last_name}
                 />
                 <Input
                     placeholder="Phone"
                     keyboardType={'numeric'}
-                    value={phone}
-                    onChangeText={(text) => setPhone(text)}
+                    number={number}
                     control={control}
-                    name="phone"
+                    name="number"
+                    onInputLeave={onInputLeave}
+                    isError={errors?.number}
                 />
                 <Input
                     placeholder="Note"
-                    value={note}
-                    onChangeText={(text) => setNote(text)}
+                    number={note}
                     control={control}
                     name="note"
                     multiline={true}
@@ -94,7 +140,7 @@ const Contact = () => {
     }
 
     const renderButton = () => {
-        return <Button title="Save" onPress={handleSubmit(onPressSaveMessage)} />
+        return <Button title="Save" onPress={handleSubmit(onPressSaveContact)} loading={isLoading} />
     }
 
     const renderFileUploadButton = () => {

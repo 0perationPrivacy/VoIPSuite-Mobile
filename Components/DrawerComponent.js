@@ -57,7 +57,7 @@ export function DrawerContent(props) {
 						<Text style={styles.drawerInnerChildText}>MFA Settings</Text>
 					</TouchableOpacity>
 				</View>
-				<TouchableOpacity style={styles.drawerMainItemWrap} onPress={() => onPressNavigation('Contact')}>
+				<TouchableOpacity style={styles.drawerMainItemWrap} onPress={() => onPressNavigation('ContactList')}>
 					<Text style={styles.drawerInnerHeading} >Contacts</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => onPressNavigation('Messages')}>

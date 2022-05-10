@@ -84,7 +84,6 @@ const Login = (props) => {
 						placeholder="Enter Username"
 						autoFocus
 						defaultValue={params.email}
-						onChangeText={(text) => setUsername(text)}
 						style={styles.inputWrap}
 						control={control}
 						onInputLeave={onInputLeave}
@@ -98,7 +97,6 @@ const Login = (props) => {
 						secureTextEntry
 						type="password"
 						defaultValue={params.password}
-						onChangeText={(text) => setPassword(text)}
 						control={control}
 						onInputLeave={onInputLeave}
 						isError={errors?.password}
@@ -110,7 +108,6 @@ const Login = (props) => {
 						placeholder="Enter Server Url (Optional)"
 						keyboardType="url"
 						defaultValue={params.password}
-						onChangeText={(text) => setServerUrl(text)}
 						control={control}
 						onInputLeave={onInputLeave}
 					/>
