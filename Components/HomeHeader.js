@@ -65,8 +65,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 			setProfileModalVisibility(true)
 		}
 
-		if (id) onPressProfile(id);
-
+		onPressProfile(id);
 		setProfileName(id)
 	}
 

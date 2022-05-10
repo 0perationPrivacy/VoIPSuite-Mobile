@@ -9,6 +9,7 @@ import HomeHeader from '../../components/HomeHeader';
 import { useDispatch, useSelector } from 'react-redux'
 import { messagesActions } from '../../redux/actions';
 import _ from 'lodash'
+import Loader from '../../components/Loader';
 
 // const data = Array(20)
 //     .fill("")
@@ -50,6 +51,7 @@ const Messages = () => {
     }
 
     const getMessagesByProfileId = (profileId) => {
+        if (profileId === undefined) return;
         dispatch(messagesActions.getMessagesByProfileIdAction(profileId));
     }
 
@@ -92,7 +94,9 @@ const Messages = () => {
             <Swipeable
                 renderRightActions={(progress, dragX) => renderRightActions(item)}
                 onSwipeableOpen={() => closeRow(index)}
-                ref={(ref) => (row[index] = ref)}>
+                ref={(ref) => (row[index] = ref)}
+                key={index}
+            >
                 {renderMessagesList(item, index)}
             </Swipeable>
         );
@@ -106,17 +110,10 @@ const Messages = () => {
         );
     };
 
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" />
-            </View>
-        )
-    }
-
     return (
         <>
             {renderHeader()}
+            {isLoading && <Loader />}
             <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
                 <FlatList
                     data={__messages}

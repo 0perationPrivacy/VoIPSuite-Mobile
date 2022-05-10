@@ -19,7 +19,7 @@ const Splash = () => {
     }, [])
 
     return (
-        <View style={{ flex: 1, alignItems : 'center', justifyContent : 'center' }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <ActivityIndicator size={"large"} color="#3770e4" />
         </View>
     )
