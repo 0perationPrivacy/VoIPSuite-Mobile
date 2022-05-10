@@ -7,9 +7,8 @@ import styles from '../../style';
 import { canGoBack, goBack } from '../../helpers/RootNavigation';
 import { getColorByTheme } from '../../helpers/utils';
 
-const CustomHeader = (props) => {
+const CustomHeader = ({ isTitle, onBackProp, headerBody, headerRight, title }) => {
     const route = useRoute();
-    const { isTitle, onBackProp, headerBody, headerRight, title } = props;
 
     const onPressBack = () => {
         onBackProp ? onBackProp() : goBack();

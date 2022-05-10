@@ -9,7 +9,7 @@ const loggerMiddleware = createLogger();
 
 const persistConfig = {
     key: 'root',
-    storage : AsyncStorage,
+    storage: AsyncStorage,
     whitelist: ['authentication'],
 }
 

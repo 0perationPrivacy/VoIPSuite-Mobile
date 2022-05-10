@@ -5,15 +5,14 @@ import { handleResponse } from './handle';
 
 export const messagesService = {
   getMessageByProfileId,
-  deleteMessage
+  deleteMessage,
+  viewMessage
 };
 
-let prefix = 'setting';
+var prefix = 'setting';
+var user = getUserId();
 
 function getMessageByProfileId(setting) {
-  let user = getUserId();
-  console.log('user id', user, setting, { user, setting })
-
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -24,8 +23,6 @@ function getMessageByProfileId(setting) {
 }
 
 function deleteMessage(number) {
-  let user = getUserId();
-
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -33,4 +30,16 @@ function deleteMessage(number) {
   };
 
   return fetch(`${API_URL}/${prefix}/message-list-delete`, requestOptions).then(handleResponse);
+}
+
+function viewMessage(postData) {
+  let data = { ...postData, user: user }
+  console.log(data);
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify(data)
+  };
+
+  return fetch(`${API_URL}/${prefix}/message-list`, requestOptions).then(handleResponse);
 }

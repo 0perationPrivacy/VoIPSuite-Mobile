@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { messagesActions } from '../../redux/actions';
 import _ from 'lodash'
 import Loader from '../../components/Loader';
+import { navigate } from '../../helpers/RootNavigation';
 
 // const data = Array(20)
 //     .fill("")
@@ -17,6 +18,7 @@ import Loader from '../../components/Loader';
 
 const Messages = () => {
     const [__messages, setMessages] = useState([]);
+    const [activeProfile, setActiveProfile] = useState(null);
 
     let row = [];
     let prevOpenedRow;
@@ -52,7 +54,14 @@ const Messages = () => {
 
     const getMessagesByProfileId = (profileId) => {
         if (profileId === undefined) return;
+
+        setActiveProfile(profileId);
         dispatch(messagesActions.getMessagesByProfileIdAction(profileId));
+    }
+
+    const onPressMessageList = (contact) => {
+        let data = { number: contact, profile: { id: activeProfile } }
+        navigate('Home', { data })
     }
 
     const renderMessagesList = (item, index) => {
@@ -63,7 +72,10 @@ const Messages = () => {
         const time = getReadableTime(created_at);
 
         return (
-            <TouchableOpacity style={styles.messagesListItemWrap} key={index}>
+            <TouchableOpacity
+                style={styles.messagesListItemWrap}
+                key={`swipe-item-${index}`}
+                onPress={() => onPressMessageList(item)}>
                 {/* <View style={styles.messagesListItemAvatar}>
                     <Text style={styles.messagesListItemAvatarText}>A</Text>
                 </View> */}
@@ -92,10 +104,10 @@ const Messages = () => {
     const renderItem = ({ item, index }) => {
         return (
             <Swipeable
+                key={`swipe-${index}`}
                 renderRightActions={(progress, dragX) => renderRightActions(item)}
                 onSwipeableOpen={() => closeRow(index)}
                 ref={(ref) => (row[index] = ref)}
-                key={index}
             >
                 {renderMessagesList(item, index)}
             </Swipeable>
