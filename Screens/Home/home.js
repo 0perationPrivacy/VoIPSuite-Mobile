@@ -15,7 +15,8 @@ import { goBack } from '../../helpers/RootNavigation';
 
 const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
-	const [contactInfo, setContactInfo] = useState({});
+	const [contactInfo, setContactInfo] = useState(null);
+	const [contactNumber, setContactNumber] = useState(null);
 
 	const dispatch = useDispatch();
 	const route = useRoute();
@@ -57,17 +58,23 @@ const Home = (props) => {
 	useEffect(() => {
 		if (_.isArray(messages)) {
 			let contact = messages[0]?.contact
+			let number = messages[0]?.number
 
 			let data = [];
 			messages.map((mItem) => {
-				const { _id, message, created_at, contact, type } = mItem;
-				const { first_name, last_name, user } = contact;
-				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : user, name: `${first_name} ${last_name}` } })
+				const { _id, message, created_at, contact, type, number } = mItem;
+				let _contact = contact ? contact?.first_name + ' ' + contact?.last_name : number;
+				let _contactUser = contact ? user : _id;
+
+				console.log(_contact, _contactUser)
+
+				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser, name: _contact } })
 			})
 
-			// console
+			console.log(data);
 
 			setContactInfo(contact);
+			setContactNumber(number);
 			setMessages(data);
 		}
 	}, [messages])
@@ -85,12 +92,15 @@ const Home = (props) => {
 	}
 
 	const headerBody = () => {
-		return (
-			<View>
-				<Text style={styles.headerBodyText}>{contactInfo?.first_name} {contactInfo?.last_name}</Text>
-				<Text style={styles.headerBodyTextSecondary}>{contactInfo?.number}</Text>
-			</View>
-		)
+		if (contactInfo) {
+			return (
+				<View>
+					<Text style={styles.headerBodyText}>{contactInfo?.first_name} {contactInfo?.last_name}</Text>
+					<Text style={styles.headerBodyTextSecondary}>{contactInfo?.number}</Text>
+				</View>
+			)
+		}
+		return <Text style={styles.headerBodyText}>{contactNumber}</Text>
 	}
 
 	const headerRight = () => {
