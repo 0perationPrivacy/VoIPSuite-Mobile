@@ -38,7 +38,7 @@ function createContactAction(data, cb, errorMessagesCb) {
   function failure(error) { return { type: contactConstants.CREATE_CONTACT_FAILURE, error } }
 }
 
-function getAllContactsAction() {
+function getAllContactsAction(cb) {
   return dispatch => {
     dispatch(request());
 
@@ -46,11 +46,13 @@ function getAllContactsAction() {
       .then(
         response => {
           dispatch(success(response.data));
+          cb();
           // dispatch(alertActions.success(response?.message));
         },
         ([error]) => {
           dispatch(failure(error.toString()));
           dispatch(alertActions.error(error.toString()));
+          cb();
         }
       );
   };

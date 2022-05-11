@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react'
+import { View, StyleSheet, TouchableOpacity, Text, FlatList, RefreshControl } from 'react-native';
 import globalStyles from '../../style';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
@@ -13,6 +13,7 @@ import { navigate } from '../../helpers/RootNavigation';
 
 const ContactList = () => {
   const [__messages, setMessages] = useState([]);
+  const [refreshing, setRefreshing] = useState(true);
 
   let row = [];
   let prevOpenedRow;
@@ -31,8 +32,17 @@ const ContactList = () => {
     }
   }, [messages])
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getAllContacts()
+  }, []);
+
   const getAllContacts = () => {
-    dispatch(contactActions.getAllContactsAction())
+    dispatch(contactActions.getAllContactsAction(onCompleteGetContacts))
+  }
+
+  const onCompleteGetContacts = () => {
+    setRefreshing(false)
   }
 
   const onPressDeleteContact = (id) => {
@@ -95,7 +105,7 @@ const ContactList = () => {
   return (
     <>
       {renderHeader()}
-      {isLoading && <Loader />}
+      {isLoading || refreshing && <Loader />}
       <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
         <FlatList
           data={__messages}
@@ -103,6 +113,12 @@ const ContactList = () => {
           keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={emptyList}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
         >
         </FlatList>
       </View>
