@@ -39,6 +39,22 @@ export function contact(state = initialState, action) {
         isLoading: false,
       };
 
+    case contactConstants.DELETE_CONTACT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case contactConstants.DELETE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case contactConstants.DELETE_CONTACT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     default:
       return state
   }

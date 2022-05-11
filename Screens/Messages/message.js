@@ -65,8 +65,9 @@ const Messages = () => {
     }
 
     const renderMessagesList = (item, index) => {
-        const { contact, message, created_at } = item;
-        const { first_name, last_name } = contact;
+        const { contact, message, created_at, _id } = item;
+
+        let _contact = contact ? contact?.first_name + ' ' + contact?.last_name : _id;
 
         const date = getReadableDate(created_at);
         const time = getReadableTime(created_at);
@@ -81,7 +82,7 @@ const Messages = () => {
                 </View> */}
                 <View style={styles.messagesListItemDetailWrap}>
                     <View style={styles.messagesListItemTitleWrap}>
-                        <Text style={styles.messagesListItemTitle}>{first_name} {last_name}</Text>
+                        <Text style={styles.messagesListItemTitle}>{_contact}</Text>
                         <Text style={styles.messagesListItemDate}>{date}</Text>
                     </View>
                     <View style={styles.messagesBottomView}>
@@ -130,7 +131,7 @@ const Messages = () => {
                 <FlatList
                     data={__messages}
                     renderItem={(params) => renderItem(params)}
-                    keyExtractor={(item) => item.key}
+                    keyExtractor={(item) => item._id}
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={emptyList}
                 >
@@ -211,7 +212,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     emptyMessage: {
-        fontSize: 18
+        fontSize: 18,
+        color: getColorByTheme('#000', '#fff'),
     },
     emptyContainer: {
         flex: 1,

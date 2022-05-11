@@ -62,7 +62,7 @@ const Home = (props) => {
 			messages.map((mItem) => {
 				const { _id, message, created_at, contact, type } = mItem;
 				const { first_name, last_name, user } = contact;
-				data.push({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : user, name: `${first_name} ${last_name}` } })
+				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : user, name: `${first_name} ${last_name}` } })
 			})
 
 			// console
@@ -133,12 +133,14 @@ const styles = StyleSheet.create({
 	},
 	headerBodyText: {
 		fontSize: 18,
-		textAlign: 'center'
+		textAlign: 'center',
+		color: getColorByTheme('#000', '#fff'),
 	},
 	headerBodyTextSecondary: {
 		fontSize: 16,
 		// color: '#ff5821',
-		textAlign: 'center'
+		textAlign: 'center',
+		color: getColorByTheme('#000', '#fff'),
 	}
 });
 

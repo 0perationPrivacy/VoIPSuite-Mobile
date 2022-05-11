@@ -4,7 +4,8 @@ import { alertActions } from './alert';
 
 export const contactActions = {
   createContactAction,
-  getAllContactsAction
+  getAllContactsAction,
+  deleteContactAction
 };
 
 function createContactAction(data, cb, errorMessagesCb) {
@@ -57,4 +58,30 @@ function getAllContactsAction() {
   function request() { return { type: contactConstants.GET_CONTACT_REQUEST, } }
   function success(data) { return { type: contactConstants.GET_CONTACT_SUCCESS, data } }
   function failure(error) { return { type: contactConstants.GET_CONTACT_FAILURE, error } }
+}
+
+function deleteContactAction(params, cb) {
+  return dispatch => {
+    dispatch(request());
+
+    contactService.deleteContact(params)
+      .then(
+        response => {
+          dispatch(success());
+          dispatch(alertActions.success(response?.message));
+
+          if (cb) {
+            cb()
+          }
+        },
+        ([error, valdidationErrors]) => {
+          dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
+        }
+      );
+  };
+
+  function request() { return { type: contactConstants.DELETE_CONTACT_REQUEST, } }
+  function success() { return { type: contactConstants.DELETE_CONTACT_SUCCESS, } }
+  function failure(error) { return { type: contactConstants.DELETE_CONTACT_FAILURE, error } }
 }

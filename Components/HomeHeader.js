@@ -35,8 +35,8 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		if (profile && _.isArray(profile)) {
 			let data = []
 			profile.map((item, index) => {
-				const { id, profile } = item;
-				data.push({ id, profile })
+				const { id, profile, number } = item;
+				data.push({ id, profile, number })
 			})
 
 			data.push(defaultProfileObj);
@@ -99,11 +99,12 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	};
 
 	const renderProfileItem = (item, index) => {
-		const { profile } = item;
+		const { profile, number } = item;
 
 		return (
 			<View style={styles.profileDropDownItemContainer}>
 				<Text style={styles.textItem}>{profile}</Text>
+				{number && <Text style={[styles.textItem, { color: '#ff5821' }]}>{number}</Text>}
 			</View>
 		)
 	}

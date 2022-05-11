@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
 import globalStyles from '../../style';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
-import { getColorByTheme, getReadableDate, getReadableTime } from '../../helpers/utils';
+import { getColorByTheme } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
-import { contactActions, messagesActions } from '../../redux/actions';
+import { contactActions } from '../../redux/actions';
 import _ from 'lodash'
 import Loader from '../../components/Loader';
 import { Header } from '../../components';
+import { navigate } from '../../helpers/RootNavigation';
 
 const ContactList = () => {
   const [__messages, setMessages] = useState([]);
@@ -35,15 +35,16 @@ const ContactList = () => {
     dispatch(contactActions.getAllContactsAction())
   }
 
-  const closeRow = (index) => {
-    if (prevOpenedRow && prevOpenedRow !== row[index]) {
-      prevOpenedRow.close();
-    }
-    prevOpenedRow = row[index];
-  };
+  const onPressDeleteContact = (id) => {
+    dispatch(contactActions.deleteContactAction({ contact_id: id }, getAllContacts))
+  }
 
-  const onDeleteMessage = (item) => {
-    dispatch(messagesActions.deleteMessageAction(item, getMessagesByProfileId()))
+  const onPressEditContact = (item) => {
+
+  }
+
+  const onPressAddContacts = () => {
+    navigate('Contact')
   }
 
   const renderHeader = () => {
@@ -52,34 +53,34 @@ const ContactList = () => {
 
   const renderHeaderRight = () => {
     return (
-      <TouchableOpacity>
-        <Feather name="plus" size={24} />
+      <TouchableOpacity onPress={onPressAddContacts}>
+        <Feather style={globalStyles.defaultIconColor} name="plus" size={24} />
       </TouchableOpacity>
     )
   }
 
   const renderItem = ({ item, index }) => {
-    const { first_name, last_name, note, number } = item;
+    const { first_name, last_name, note, number, _id } = item;
 
     return (
-      <TouchableOpacity
+      <View
         style={styles.messagesListItemWrap}
-        key={`swipe-item-${index}`}>
+        key={`contact-item-${index}`}>
         <View style={styles.messagesListItemDetailWrap}>
           <View>
             <Text style={styles.contactNameText}>{first_name} {last_name}</Text>
-            <Text>{number}</Text>
+            <Text style={styles.contactNumberText}>{number}</Text>
           </View>
           <View style={styles.contactActionContainer}>
-            <TouchableOpacity style={styles.contactActionItemContainer}>
-              <Feather name="edit" size={18} />
+            <TouchableOpacity style={styles.contactActionItemContainer} onPress={() => onPressEditContact(_id)}>
+              <Feather style={globalStyles.defaultIconColor} name="edit" size={18} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.contactActionItemContainer}>
-              <Feather name="trash" size={18} />
+            <TouchableOpacity style={styles.contactActionItemContainer} onPress={() => onPressDeleteContact(_id)}>
+              <Feather style={globalStyles.defaultIconColor} name="trash" size={18} />
             </TouchableOpacity>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     )
   };
 
@@ -99,7 +100,7 @@ const ContactList = () => {
         <FlatList
           data={__messages}
           renderItem={(params) => renderItem(params)}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={emptyList}
         >
@@ -132,7 +133,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contactNameText: {
-    fontSize: 18
+    fontSize: 18,
+    color: getColorByTheme('#000', '#fff')
+  },
+  contactNumberText: {
+    fontSize: 16,
+    color: getColorByTheme('#000', '#fff')
   },
   contactActionContainer: {
     flexDirection: 'row',
@@ -140,7 +146,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contactActionItemContainer: {
-    marginHorizontal : Metrics.ratio(2)
+    marginHorizontal: Metrics.ratio(2)
   },
   emptyMessage: {
     fontSize: 18

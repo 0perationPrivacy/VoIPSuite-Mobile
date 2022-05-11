@@ -5,17 +5,17 @@ import { handleResponse } from './handle';
 
 export const contactService = {
   createContact,
-  getAllContacts
+  getAllContacts,
+  deleteContact
 };
 
 var prefix = 'contact';
-var user = getUserId();
 
-function createContact(data) {
+function createContact(params) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
+    body: JSON.stringify(params)
   };
 
   return fetch(`${API_URL}/${prefix}/create`, requestOptions).then(handleResponse);
@@ -28,4 +28,14 @@ function getAllContacts() {
   };
 
   return fetch(`${API_URL}/${prefix}/get-all`, requestOptions).then(handleResponse);
+}
+
+function deleteContact(params) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify(params)
+  };
+
+  return fetch(`${API_URL}/${prefix}/delete`, requestOptions).then(handleResponse);
 }
