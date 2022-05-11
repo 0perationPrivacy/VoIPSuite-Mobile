@@ -7,9 +7,9 @@ const logo = require('../../assets/logo-b.svg')
 import styles from '../authCss';
 import globalStyle from '../../style';
 import { useForm } from 'react-hook-form'
-import { isEmpty } from '../../helpers/utils';
+import { getColorByTheme, isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '../../redux/actions'
+import { emailActions, userActions } from '../../redux/actions'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather'
 import Metrics from '../../helpers/Metrics';
@@ -17,7 +17,7 @@ import Wrapper from '../../components/Wrapper';
 import { CheckBox } from 'react-native-elements/dist/checkbox/CheckBox';
 
 const EmailSettings = (props) => {
-	const [params, setParams] = useState({ username: "", password: "", from: "", to: "", host: "", port: "", is_secure: false });
+	const [params, setParams] = useState({ email: "", password: "", sender_email: "", to_email: "", host: "", port: "", is_secure: false });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
@@ -25,25 +25,26 @@ const EmailSettings = (props) => {
 	const validations = {
 		email: true,
 		password: true,
+		sender_email: true,
+		to_email: true,
+		host: true,
+		port: true,
 	}
 
 	const { control, handleSubmit } = useForm();
 
 	const dispatch = useDispatch();
-	const isLoading = useSelector(state => state.authentication.isLoading);
+	const isLoading = useSelector(state => state.email.isLoading);
 
 	const onPressSignUp = () => {
 		navigate('Signup');
 	}
 
-	const onPressSignIn = (data) => {
-		// const { email, password } = data;
+	const onPressSaveEmail = (data) => {
 
-		// console.log(data);
+		if (!isValidate) return false;
 
-		// if (!isValidate) return false;
-
-		// if (isEmpty(email)) {
+		// if (isEmpty(username)) {
 		// 	setErrors(prevState => ({ ...prevState, email: true }));
 		// 	return false;
 		// }
@@ -52,27 +53,29 @@ const EmailSettings = (props) => {
 		// 	return false;
 		// }
 
-		// dispatch(userActions.login(data, onSetErrorMessageFromServer))
+		dispatch(emailActions.createEmailCredAction(data, onSetErrorMessageFromServer))
 	}
 
 	const onInputLeave = (name, value) => {
-		// if (validations?.[name]) {
-		// 	let _errors = { ...errors };
-		// 	if (isEmpty(value)) {
-		// 		Object.assign(_errors, { [name]: true })
-		// 	}
-		// 	else { delete _errors[name] }
+		if (validations?.[name]) {
+			let _errors = { ...errors };
+			if (isEmpty(value)) {
+				Object.assign(_errors, { [name]: true })
+			}
+			else { delete _errors[name] }
 
-		// 	setErrors(_errors);
-		// }
+			setErrors(_errors);
+		}
 
 	}
 
-	const onSetErrorMessageFromServer = (errors) => {
-		setErrorMessages(errors);
+	const onSetErrorMessageFromServer = (_errors) => {
+		console.log(_errors,'s')
+		setErrors(_errors);
 	}
 
 	useEffect(() => {
+		console.log(errors,'ss')
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
 
@@ -89,25 +92,15 @@ const EmailSettings = (props) => {
 	return (
 		<Wrapper header={renderHeader()}>
 			<View>
-				{/* <Input
-					placeholder="Enter Username"
-					autoFocus
-					defaultValue={params.email}
-					onChangeText={(text) => setUsername(text)}
-					style={styles.inputWrap}
-					control={control}
-					onInputLeave={onInputLeave}
-					// isError={errors?.email}
-					// errors={errorMessages}
-					name="email"
-				/> */}
 				<Input
 					placeholder="Enter Username"
 					keyboardType="url"
-					defaultValue={params.username}
+					defaultValue={params.email}
 					onChangeText={(text) => setServerUrl(text)}
 					control={control}
 					onInputLeave={onInputLeave}
+					isError={errors?.email}
+					name="email"
 				/>
 				<Input
 					placeholder="Enter Password"
@@ -118,22 +111,28 @@ const EmailSettings = (props) => {
 					onInputLeave={onInputLeave}
 					secureTextEntry
 					type="password"
+					isError={errors?.password}
+					name="password"
 				/>
 				<Input
 					placeholder="Enter FROM"
-					keyboardType="url"
-					defaultValue={params.from}
+					keyboardType={"email-address"}
+					defaultValue={params.sender_email}
 					onChangeText={(text) => setServerUrl(text)}
 					control={control}
 					onInputLeave={onInputLeave}
+					isError={errors?.sender_email}
+					name="sender_email"
 				/>
 				<Input
 					placeholder="Enter TO"
-					keyboardType="url"
-					defaultValue={params.to}
+					keyboardType={"email-address"}
+					defaultValue={params.to_email}
 					onChangeText={(text) => setServerUrl(text)}
 					control={control}
 					onInputLeave={onInputLeave}
+					isError={errors?.to_email}
+					name="to_email"
 				/>
 				<Input
 					placeholder="Enter Host (smtp.domain.com)"
@@ -142,6 +141,8 @@ const EmailSettings = (props) => {
 					onChangeText={(text) => setServerUrl(text)}
 					control={control}
 					onInputLeave={onInputLeave}
+					isError={errors?.host}
+					name="host"
 				/>
 				<Input
 					placeholder="Enter Port (465 or 587)"
@@ -150,15 +151,17 @@ const EmailSettings = (props) => {
 					onChangeText={(text) => setServerUrl(text)}
 					control={control}
 					onInputLeave={onInputLeave}
+					isError={errors?.port}
+					name="port"
 				/>
 				<CheckBox title="Secure"
 					containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
-					textStyle={{ color: "#fff" }}
+					textStyle={{ color: getColorByTheme("#000", "#fff") }}
 					onPress={onChangeSecure}
 					checked={params.is_secure}
-					checkedColor={'#fff'} />
+					checkedColor={getColorByTheme("#000", "#fff")} />
 			</View>
-			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
+			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSaveEmail)} loading={isLoading} />
 		</Wrapper>
 	)
 }

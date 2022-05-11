@@ -4,6 +4,7 @@ import { profileConstants } from "./profile";
 import { messagesConstants } from "./messages";
 import { contactConstants } from "./contact";
 import { callConstants } from "./call";
+import { emailConstants } from "./email";
 
 export {
     alertConstants,
@@ -11,5 +12,6 @@ export {
     profileConstants,
     messagesConstants,
     contactConstants,
-    callConstants
+    callConstants,
+    emailConstants
 }
