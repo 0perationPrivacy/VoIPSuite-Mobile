@@ -41,7 +41,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 			data.push(defaultProfileObj);
 			setProfiles(data);
-			onSetProfileNameRedux(data[0]?.profile)
+			onSetProfileNameRedux({ profile: data[0]?.profile, id: data[0]?.id })
 		}
 	}, [profile])
 
@@ -54,7 +54,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	}
 
 	const onSetProfileNameRedux = (name) => {
-		setProfileName(name);
+		setProfileName(name.profile);
 		dispatch(profileActions.setProfileName(name))
 	}
 
@@ -93,7 +93,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	const renderButtonText = (rowData) => {
 		const { profile, id } = rowData;
 		if (id) {
-			onSetProfileNameRedux(profile);
+			onSetProfileNameRedux({ profile, id });
 		}
 		return `${profile}`;
 	};

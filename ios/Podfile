@@ -12,6 +12,8 @@ target 'Voip' do
     :hermes_enabled => false
   )
 
+  pod 'RNCallKeep', :path => '../node_modules/react-native-callkeep'
+
   target 'VoipTests' do
     inherit! :complete
     # Pods for testing

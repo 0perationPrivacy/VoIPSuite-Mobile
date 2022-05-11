@@ -8,6 +8,8 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
 import { useForm } from 'react-hook-form'
 import { getColorByTheme } from '../../helpers/utils';
+import { useDispatch, useSelector } from 'react-redux'
+import { callActions } from '../../redux/actions';
 
 const data = [
     { value: 1 },
@@ -43,6 +45,23 @@ const DialPad = () => {
             setNumber(__number)
         }
     }
+
+    const dispatch = useDispatch();
+    const isLoading = useSelector(state => state.call.isLoading);
+    const token = useSelector(state => state.call.token);
+    const profile = useSelector(state => state.profile.profileName);
+
+    const getProviderToken = () => {
+        const { id } = profile;
+        console.log(profile);
+        if (id) {
+            dispatch(callActions.getProviderTokenAction({ setting_id: id }))
+        }
+    }
+
+    useEffect(() => {
+        // getProviderToken();
+    }, [profile])
 
     const renderHeader = () => {
         return <Header isTitle={false} />

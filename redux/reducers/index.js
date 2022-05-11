@@ -4,6 +4,7 @@ import { authentication, registration } from './user';
 import { profile } from './profile';
 import { messages } from './messages';
 import { contact } from './contact';
+import { call } from './call';
 
 export default combineReducers({
     alert,
@@ -11,5 +12,6 @@ export default combineReducers({
     registration,
     profile,
     messages,
-    contact
+    contact,
+    call
 });

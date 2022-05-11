@@ -2,7 +2,7 @@ import { profileConstants } from '../constants';
 const initialState = {
   isLoading: false,
   items: [],
-  profileName: null,
+  profileName: {},
 };
 
 export function profile(state = initialState, action) {
