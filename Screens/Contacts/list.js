@@ -50,7 +50,7 @@ const ContactList = () => {
   }
 
   const onPressEditContact = (item) => {
-
+    navigate('Contact', { item })
   }
 
   const onPressAddContacts = () => {
@@ -82,7 +82,7 @@ const ContactList = () => {
             <Text style={styles.contactNumberText}>{number}</Text>
           </View>
           <View style={styles.contactActionContainer}>
-            <TouchableOpacity style={styles.contactActionItemContainer} onPress={() => onPressEditContact(_id)}>
+            <TouchableOpacity style={styles.contactActionItemContainer} onPress={() => onPressEditContact(item)}>
               <Feather style={globalStyles.defaultIconColor} name="edit" size={18} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.contactActionItemContainer} onPress={() => onPressDeleteContact(_id)}>

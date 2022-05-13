@@ -8,11 +8,11 @@ export const contactActions = {
   deleteContactAction
 };
 
-function createContactAction(data, cb, errorMessagesCb) {
+function createContactAction(data, cb, errorMessagesCb, isEditRquest = false) {
   return dispatch => {
     dispatch(request());
 
-    contactService.createContact(data)
+    contactService.createContact(data, isEditRquest)
       .then(
         response => {
           dispatch(success());

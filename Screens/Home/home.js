@@ -62,7 +62,7 @@ const Home = (props) => {
 
 			let data = [];
 			messages.map((mItem) => {
-				const { _id, message, created_at, contact, type, number } = mItem;
+				const { _id, message, created_at, contact, type, number,user } = mItem;
 				let _contact = contact ? contact?.first_name + ' ' + contact?.last_name : number;
 				let _contactUser = contact ? user : _id;
 

@@ -11,14 +11,18 @@ export const contactService = {
 
 var prefix = 'contact';
 
-function createContact(params) {
+function createContact(params, isEditRquest = false) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
     body: JSON.stringify(params)
   };
 
-  return fetch(`${API_URL}/${prefix}/create`, requestOptions).then(handleResponse);
+  let name = isEditRquest ? 'update' : 'create';
+
+  console.log(name, params)
+
+  return fetch(`${API_URL}/${prefix}/${name}`, requestOptions).then(handleResponse);
 }
 
 function getAllContacts() {

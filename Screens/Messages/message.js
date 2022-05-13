@@ -86,7 +86,7 @@ const Messages = () => {
                         <Text style={styles.messagesListItemDate}>{date}</Text>
                     </View>
                     <View style={styles.messagesBottomView}>
-                        <Text style={styles.messagesListItemDescription}>{message.substring(0, 15)}.......</Text>
+                        <Text style={styles.messagesListItemDescription}>{message && message.substring(0, 15)}.......</Text>
                         <Text style={[styles.messagesListItemDate, styles.messagesListItemTime]}>{time}</Text>
                     </View>
                 </View>

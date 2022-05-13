@@ -9,12 +9,13 @@ const CustomInput = ({
 	customStyle = {},
 	control, name,
 	onChangeInput, onInputLeave,
+	defaultValue,
 	isError, errors, icon = null, ...rest
 }) => {
 
 	const { field } = useController({
 		control,
-		defaultValue: '',
+		defaultValue,
 		name,
 	})
 
@@ -47,6 +48,7 @@ const CustomInput = ({
 				onChangeText={onChangeInputText}
 				onBlur={_onInputLeave}
 				placeholderTextColor={getColorByTheme('#000', '#fff')}
+				defaultValue={defaultValue}
 			/>
 		</View>
 	)

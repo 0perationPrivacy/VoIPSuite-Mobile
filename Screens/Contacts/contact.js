@@ -11,6 +11,7 @@ import { isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
 import { contactActions } from '../../redux/actions';
 import { navigateAndReset } from '../../helpers/RootNavigation';
+import { useRoute } from '@react-navigation/native';
 
 const Contact = () => {
     const [params, setParams] = useState({ first_name: "", last_name: "", note: "", number: "" });
@@ -18,6 +19,8 @@ const Contact = () => {
     const [errors, setErrors] = useState({});
     const [errorMessages, setErrorMessages] = useState({});
     const [file, setFile] = useState([]);
+    const [contactId, setId] = useState(null);
+    const [isVisible, setVisible] = useState(false);
 
     const validations = {
         first_name: true,
@@ -28,16 +31,35 @@ const Contact = () => {
     const dispatch = useDispatch();
     const isLoading = useSelector(state => state.contact.isLoading);
 
+    const route = useRoute();
+
     const { control, handleSubmit } = useForm();
 
-    const fileOptions = {};
+    useEffect(() => {
+        const { params } = route;
+        console.log(params, 'params');
 
-    useEffect(() => { }, [])
+        if (params?.item) {
+            const { item } = params
+            const { created_at, __v, user, ...other } = item
+            setParams(other);
+            setId(item?._id);
+        }
+
+        setVisible(true)
+
+    }, [])
 
     const onPressSaveContact = (data) => {
         if (!isValidate) return false;
+        let isEdit = false;
 
-        dispatch(contactActions.createContactAction(data, onContactSaveSuccess, onSetErrorMessageFromServer))
+        if (contactId) {
+            Object.assign(data, { contact_id: contactId })
+            isEdit = true;
+        }
+
+        dispatch(contactActions.createContactAction(data, onContactSaveSuccess, onSetErrorMessageFromServer, isEdit))
 
         // alert(JSON.stringify(data))
     }
@@ -104,7 +126,7 @@ const Contact = () => {
                 <Input
                     placeholder="First Name"
                     autoFocus
-                    number={first_name}
+                    defaultValue={first_name}
                     control={control}
                     name="first_name"
                     onInputLeave={onInputLeave}
@@ -112,7 +134,7 @@ const Contact = () => {
                 />
                 <Input
                     placeholder="Last Name"
-                    number={last_name}
+                    defaultValue={last_name}
                     control={control}
                     name="last_name"
                     onInputLeave={onInputLeave}
@@ -121,7 +143,7 @@ const Contact = () => {
                 <Input
                     placeholder="Phone"
                     keyboardType={'numeric'}
-                    number={number}
+                    defaultValue={number}
                     control={control}
                     name="number"
                     onInputLeave={onInputLeave}
@@ -129,7 +151,7 @@ const Contact = () => {
                 />
                 <Input
                     placeholder="Note"
-                    number={note}
+                    defaultValue={note}
                     control={control}
                     name="note"
                     multiline={true}
@@ -152,15 +174,18 @@ const Contact = () => {
         )
     }
 
-    return (
-        <Wrapper header={renderHeader()}>
-            <View style={[globalStyles.flexOne, { marginTop: 10 }]}>
-                {renderInputs()}
-                {renderFileUploadButton()}
-                {renderButton()}
-            </View>
-        </Wrapper>
-    )
+    if (isVisible) {
+        return (
+            <Wrapper header={renderHeader()}>
+                <View style={[globalStyles.flexOne, { marginTop: 10 }]}>
+                    {renderInputs()}
+                    {renderFileUploadButton()}
+                    {renderButton()}
+                </View>
+            </Wrapper>
+        )
+    }
+    return null;
 }
 
 const styles = StyleSheet.create({
