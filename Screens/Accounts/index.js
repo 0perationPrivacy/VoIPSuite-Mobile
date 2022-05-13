@@ -1,10 +1,12 @@
-import React, {  } from 'react'
+import React, { } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Header } from '../../components';
 import Icon from 'react-native-vector-icons/Feather'
 import Metrics from '../../helpers/Metrics';
 import Wrapper from '../../components/Wrapper';
 import { navigate } from '../../helpers/RootNavigation';
+import globalStyle from '../../style';
+import { getColorByTheme } from '../../helpers/utils';
 
 const Accounts = (props) => {
 
@@ -20,19 +22,19 @@ const Accounts = (props) => {
     <Wrapper header={renderHeader()}>
       <View style={styles.container}>
         <TouchableOpacity style={styles.itemContainer} onPress={onPressChangeUsername}>
-          <Icon name="user" color="#fff" size={18} />
+          <Icon name="user" style={globalStyle.defaultIconColor} size={18} />
           <Text style={styles.itemText}>Change Username</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}>
-          <Icon name="key" color="#fff" size={18} />
+          <Icon name="key" style={globalStyle.defaultIconColor} size={18} />
           <Text style={styles.itemText}>Change Password</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}>
-          <Icon name="trash" color="#fff" size={18} />
+          <Icon name="trash" style={globalStyle.defaultIconColor} size={18} />
           <Text style={styles.itemText}>Delete Account</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}>
-          <Icon name="info" color="#fff" size={18} />
+          <Icon name="info" style={globalStyle.defaultIconColor} size={18} />
           <Text style={styles.itemText}>Fallback Setting</Text>
         </TouchableOpacity>
       </View>
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.ratio(10)
   },
   itemText: {
-    color: '#fff',
+    color: getColorByTheme('#000', '#fff'),
     marginLeft: Metrics.ratio(5),
     fontSize: 18
   }

@@ -35,9 +35,6 @@ export function DrawerContent(props) {
 	return (
 		<DrawerContentScrollView {...props}>
 			<View style={styles.drawerContainer}>
-				<TouchableOpacity style={styles.drawerMainItemWrap} onPress={() => onPressWithReset('Home')}>
-					<Text style={styles.drawerInnerHeading} >Home</Text>
-				</TouchableOpacity>
 				<Text style={styles.drawerInnerHeading}>Settings</Text>
 				<View style={styles.drawerInnerChildWrap}>
 					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('emailsettings')}>
