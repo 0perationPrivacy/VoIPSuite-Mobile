@@ -145,7 +145,6 @@
 				D98E2D09F8F157A6AECDB627 /* Pods-Voip-VoipTests.debug.xcconfig */,
 				7F4398E8897F47BE9650BD85 /* Pods-Voip-VoipTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

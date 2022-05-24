@@ -2,6 +2,7 @@
   package="com.voip">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <application
       android:name=".MainApplication"

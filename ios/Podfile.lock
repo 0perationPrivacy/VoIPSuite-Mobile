@@ -272,13 +272,12 @@ PODS:
   - React-jsinspector (0.67.2)
   - React-logger (0.67.2):
     - glog
+  - react-native-contacts (7.0.4):
+    - React-Core
   - react-native-image-picker (4.7.3):
     - React-Core
   - react-native-safe-area-context (3.3.2):
     - React-Core
-  - react-native-twilio-phone (1.10.0):
-    - React
-    - TwilioVoice (~> 6.3)
   - React-perflogger (0.67.2)
   - React-RCTActionSheet (0.67.2):
     - React-Core/RCTActionSheetHeaders (= 0.67.2)
@@ -384,7 +383,6 @@ PODS:
     - React-RCTImage
   - RNVectorIcons (9.0.0):
     - React-Core
-  - TwilioVoice (6.4.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -431,9 +429,9 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-twilio-phone (from `../node_modules/react-native-twilio-phone`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -469,7 +467,6 @@ SPEC REPOS:
     - fmt
     - libevent
     - OpenSSL-Universal
-    - TwilioVoice
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -507,12 +504,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-contacts:
+    :path: "../node_modules/react-native-contacts"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-twilio-phone:
-    :path: "../node_modules/react-native-twilio-phone"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -583,9 +580,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 52beb652bbc61201bd70cbe4f0b8edb607e8da4f
   React-jsinspector: 595f76eba2176ebd8817a1fffd47b84fbdab9383
   React-logger: 23de8ea0f44fa00ee77e96060273225607fd4d78
+  react-native-contacts: 1bff4c47816d611f26b06fa8b3eaf2db4d1b2c86
   react-native-image-picker: 4e6008ad8c2321622affa2c85432a5ebd02d480c
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
-  react-native-twilio-phone: 80da6832c92cd6415bca8f31d2c24e34ea9bec20
   React-perflogger: 3c9bb7372493e49036f07a82c44c8cf65cbe88db
   React-RCTActionSheet: 052606483045a408693aa7e864410b4a052f541a
   React-RCTAnimation: 08d4cac13222bb1348c687a0158dfd3b577cdb63
@@ -604,10 +601,9 @@ SPEC CHECKSUMS:
   RNReanimated: e28dfaa950064b674fde0a9b736e62b9dff500a7
   RNScreens: 4d83613b50b74ed277026375dc0810893b0c347f
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
-  TwilioVoice: a5e54e522af8ee24f3fb1797ac26ef9ac5ca5bb7
   Yoga: 9b6696970c3289e8dea34b3eda93f23e61fb8121
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: c38767ae46c1ca005dff5f7e22ceaf886a11fdc2
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

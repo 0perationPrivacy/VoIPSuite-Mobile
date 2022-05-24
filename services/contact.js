@@ -6,7 +6,8 @@ import { handleResponse } from './handle';
 export const contactService = {
   createContact,
   getAllContacts,
-  deleteContact
+  deleteContact,
+  createImportedContact
 };
 
 var prefix = 'contact';
@@ -42,4 +43,15 @@ function deleteContact(params) {
   };
 
   return fetch(`${API_URL}/${prefix}/delete`, requestOptions).then(handleResponse);
+}
+
+function createImportedContact(data) {
+  console.log(data,'data')
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify(data)
+  };
+
+  return fetch(`${API_URL}/${prefix}/multiple-add`, requestOptions).then(handleResponse);
 }

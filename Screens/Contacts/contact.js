@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { contactActions } from '../../redux/actions';
 import { navigateAndReset } from '../../helpers/RootNavigation';
 import { useRoute } from '@react-navigation/native';
+import Contacts from 'react-native-contacts';
+import _ from 'lodash';
 
 const Contact = () => {
     const [params, setParams] = useState({ first_name: "", last_name: "", note: "", number: "" });
@@ -69,7 +71,19 @@ const Contact = () => {
     }
 
     const onPressContactImport = async () => {
-        alert('contact has been imported')
+        let importedContacts = await Contacts.getAll()
+        let data = [];
+
+        if (importedContacts && _.isArray(importedContacts)) {
+            console.log(importedContacts, '=<<<<<, contacts')
+            importedContacts.map((item) => {
+                const { familyName, givenName, phoneNumbers } = item;
+                data.push({ first_name: familyName, last_name: givenName, number: phoneNumbers?.[0]?.number, note: "notes go here" })
+            })
+
+            dispatch(contactActions.createImportedContactAction(data, onContactSaveSuccess))
+        }
+
     }
 
     const onPressSearch = () => {

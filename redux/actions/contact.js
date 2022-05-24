@@ -5,7 +5,8 @@ import { alertActions } from './alert';
 export const contactActions = {
   createContactAction,
   getAllContactsAction,
-  deleteContactAction
+  deleteContactAction,
+  createImportedContactAction
 };
 
 function createContactAction(data, cb, errorMessagesCb, isEditRquest = false) {
@@ -86,4 +87,34 @@ function deleteContactAction(params, cb) {
   function request() { return { type: contactConstants.DELETE_CONTACT_REQUEST, } }
   function success() { return { type: contactConstants.DELETE_CONTACT_SUCCESS, } }
   function failure(error) { return { type: contactConstants.DELETE_CONTACT_FAILURE, error } }
+}
+
+function createImportedContactAction(data, cb, errorMessagesCb) {
+  return dispatch => {
+    dispatch(request());
+
+    contactService.createImportedContact(data)
+      .then(
+        response => {
+          dispatch(success());
+          dispatch(alertActions.success(response?.message));
+
+          if (cb) {
+            cb()
+          }
+
+        },
+        ([error, valdidationErrors]) => {
+          if (errorMessagesCb) {
+            errorMessagesCb(valdidationErrors)
+          }
+          dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
+        }
+      );
+  };
+
+  function request() { return { type: contactConstants.CREATE_CONTACT_REQUEST, } }
+  function success() { return { type: contactConstants.CREATE_CONTACT_SUCCESS } }
+  function failure(error) { return { type: contactConstants.CREATE_CONTACT_FAILURE, error } }
 }
