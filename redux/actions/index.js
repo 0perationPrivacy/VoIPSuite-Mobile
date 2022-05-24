@@ -5,6 +5,7 @@ import { messagesActions } from "./messages";
 import { contactActions } from "./contact";
 import { callActions } from "./call";
 import { emailActions } from "./email";
+import { settingsActions } from "./settings";
 
 export {
     alertActions,
@@ -13,5 +14,6 @@ export {
     messagesActions,
     contactActions,
     callActions,
-    emailActions
+    emailActions,
+    settingsActions
 }

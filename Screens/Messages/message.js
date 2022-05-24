@@ -7,7 +7,7 @@ import Metrics from '../../helpers/Metrics';
 import { getColorByTheme, getReadableDate, getReadableTime } from '../../helpers/utils';
 import HomeHeader from '../../components/HomeHeader';
 import { useDispatch, useSelector } from 'react-redux'
-import { messagesActions } from '../../redux/actions';
+import { messagesActions, settingsActions } from '../../redux/actions';
 import _ from 'lodash'
 import Loader from '../../components/Loader';
 import { navigate } from '../../helpers/RootNavigation';
@@ -26,6 +26,7 @@ const Messages = () => {
     const dispatch = useDispatch();
     const isLoading = useSelector(state => state.messages.isLoading);
     const messages = useSelector(state => state.messages.items);
+    const user = useSelector(state => state.authentication.user);
 
     useEffect(() => {
         getMessagesByProfileId()
@@ -57,6 +58,12 @@ const Messages = () => {
 
         setActiveProfile(profileId);
         dispatch(messagesActions.getMessagesByProfileIdAction(profileId));
+
+        if (user && user?.token) {
+            const { _id } = user.data
+            let data = { user: _id, setting: profileId }
+            dispatch(settingsActions.getProfileSettings(data));
+        }
     }
 
     const onPressMessageList = (contact) => {

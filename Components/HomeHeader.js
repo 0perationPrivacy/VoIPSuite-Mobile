@@ -28,7 +28,6 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	const profile = useSelector(state => state.profile.items);
 
 	useEffect(() => {
-		getProfileList()
 	}, [])
 
 	useEffect(() => {
@@ -42,12 +41,10 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 			data.push(defaultProfileObj);
 			setProfiles(data);
 			onSetProfileNameRedux({ profile: data[0]?.profile, id: data[0]?.id })
+			onPressProfile(data[0]?.id);
 		}
 	}, [profile])
 
-	const getProfileList = () => {
-		dispatch(profileActions.getProfileAction())
-	}
 
 	const showProfileDropDown = () => {
 		profileDropDown && profileDropDown.show();

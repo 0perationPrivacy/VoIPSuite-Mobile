@@ -38,7 +38,7 @@ function createProfileAction(data, cb, errorMessagesCb) {
     function failure(error) { return { type: profileConstants.CREATE_PROFILE_FAILURE, error } }
 }
 
-function getProfileAction() {
+function getProfileAction(cb) {
     return dispatch => {
         dispatch(request());
 
@@ -46,6 +46,9 @@ function getProfileAction() {
             .then(
                 response => {
                     dispatch(success(response.data));
+                    if (cb) {
+                        cb();
+                    }
                     // dispatch(alertActions.success(response?.message));
                 },
                 ([error]) => {
