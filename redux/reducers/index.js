@@ -8,7 +8,7 @@ import { call } from './call';
 import { email } from './email';
 import { settings } from './settings';
 
-export default combineReducers({
+const appReducer = combineReducers({
     alert,
     authentication,
     registration,
@@ -19,3 +19,14 @@ export default combineReducers({
     email,
     settings
 });
+
+
+const rootReducer = (state, action) => {
+    if (action.type === 'USER_LOGOUT') {
+        return appReducer(undefined, action)
+    }
+
+    return appReducer(state, action)
+}
+
+export default rootReducer

@@ -10,7 +10,7 @@ const loggerMiddleware = createLogger();
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['authentication'],
+    whitelist: ['authentication', 'profile', 'settings'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
