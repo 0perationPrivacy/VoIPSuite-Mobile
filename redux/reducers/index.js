@@ -7,6 +7,7 @@ import { contact } from './contact';
 import { call } from './call';
 import { email } from './email';
 import { settings } from './settings';
+import { uploads } from './uploads';
 
 const appReducer = combineReducers({
     alert,
@@ -17,7 +18,8 @@ const appReducer = combineReducers({
     contact,
     call,
     email,
-    settings
+    settings,
+    uploads
 });
 
 

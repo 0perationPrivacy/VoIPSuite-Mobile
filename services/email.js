@@ -4,7 +4,8 @@ import { authHeader } from '../helpers/auth-header';
 import { handleResponse } from './handle';
 
 export const emailService = {
-  setEmailCredentials
+  setEmailCredentials,
+  getUserEmailData
 };
 
 var prefix = 'email';
@@ -17,4 +18,13 @@ function setEmailCredentials(data) {
   };
 
   return fetch(`${API_URL}/${prefix}/create`, requestOptions).then(handleResponse);
+}
+
+function getUserEmailData() {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+  };
+
+  return fetch(`${API_URL}/${prefix}/setting-get`, requestOptions).then(handleResponse);
 }

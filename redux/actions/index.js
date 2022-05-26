@@ -6,6 +6,7 @@ import { contactActions } from "./contact";
 import { callActions } from "./call";
 import { emailActions } from "./email";
 import { settingsActions } from "./settings";
+import { uploadsActions } from "./uploads";
 
 export {
     alertActions,
@@ -15,5 +16,6 @@ export {
     contactActions,
     callActions,
     emailActions,
-    settingsActions
+    settingsActions,
+    uploadsActions
 }

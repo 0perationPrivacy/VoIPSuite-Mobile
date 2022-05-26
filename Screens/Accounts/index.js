@@ -18,6 +18,10 @@ const Accounts = (props) => {
     navigate('changeusername')
   }
 
+  const onPressChangePassword = () => {
+    navigate('changepassword')
+  }
+
   return (
     <Wrapper header={renderHeader()}>
       <View style={styles.container}>
@@ -25,7 +29,7 @@ const Accounts = (props) => {
           <Icon name="user" style={globalStyle.defaultIconColor} size={18} />
           <Text style={styles.itemText}>Change Username</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemContainer}>
+        <TouchableOpacity style={styles.itemContainer} onPress={onPressChangePassword}>
           <Icon name="key" style={globalStyle.defaultIconColor} size={18} />
           <Text style={styles.itemText}>Change Password</Text>
         </TouchableOpacity>

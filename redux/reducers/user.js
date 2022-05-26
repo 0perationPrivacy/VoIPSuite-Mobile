@@ -18,6 +18,13 @@ export function authentication(state = initialState, action) {
                 loggedIn: true,
                 isLoading: false,
             };
+        case userConstants.NAME_CHANGE_SUCCESS:
+            let __user = { ...state.user, data: action.user }
+            return {
+                user: __user,
+                loggedIn: true,
+                isLoading: false,
+            };
         case userConstants.LOGIN_FAILURE:
             return {
                 ...state,

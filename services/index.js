@@ -5,6 +5,7 @@ import { contactService } from "./contact";
 import { callService } from "./call";
 import { emailService } from "./email";
 import { settingsService } from "./settings";
+import { uploadService } from "./uploads";
 
 export {
     userService,
@@ -13,5 +14,6 @@ export {
     contactService,
     callService,
     emailService,
-    settingsService
+    settingsService,
+    uploadService
 }

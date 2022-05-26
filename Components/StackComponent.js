@@ -21,6 +21,7 @@ import ChangeUsername from '../screens/Accounts/username';
 
 import _ from 'lodash';
 import ContactList from '../screens/Contacts/list';
+import ChangePassword from '../screens/Accounts/password';
 
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
@@ -54,6 +55,7 @@ const StackComponent = () => {
 			<Stack.Screen name="emailsettings" component={EmailSettings} options={headerOption} />
 			<Stack.Screen name="accounts" component={Accounts} options={headerOption} />
 			<Stack.Screen name="changeusername" component={ChangeUsername} options={headerOption} />
+			<Stack.Screen name="changepassword" component={ChangePassword} options={headerOption} />
 		</Stack.Navigator>
 	);
 };

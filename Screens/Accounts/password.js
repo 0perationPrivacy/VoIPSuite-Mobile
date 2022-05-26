@@ -8,13 +8,13 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../redux/actions'
 import Wrapper from '../../components/Wrapper';
+import _ from 'lodash';
 
-const ChangeUsername = (props) => {
-  const [params, setParams] = useState({ email: "" });
-  const [isValidate, setValidate] = useState(false);
+const ChangePassword = (props) => {
+  const [params, setParams] = useState({ c_password: "", old_password: "", password: "" });
   const [errors, setErrors] = useState({});
-  const [errorMessages, setErrorMessages] = useState({});
   const [userData, setUserData] = useState({});
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
   const validations = {
     email: true,
@@ -28,66 +28,62 @@ const ChangeUsername = (props) => {
   const isLoading = useSelector(state => state.authentication.isLoading);
 
   useEffect(() => {
-    initUserData()
-  }, [])
-
-  const initUserData = () => {
     if (user && user?.token) {
       const { email } = user.data
-      setUserData(user.data);
-      setParams({ email: email });
+      // setUserData(user.data);
+      // setParams({ email: email });
 
       console.log(user)
     }
-  }
+  }, [])
 
   const onPressSignUp = () => {
     navigate('Signup');
   }
 
   const onPressChange = (data) => {
-    console.log(data)
-    dispatch(userActions.changeUsernameAction(data, initUserData, onSetErrorMessageFromServer))
+    console.log(params)
+    dispatch(userActions.changePasswordAction(params))
   }
 
-  const onInputLeave = (name, value) => {
-    // if (validations?.[name]) {
-    // 	let _errors = { ...errors };
-    // 	if (isEmpty(value)) {
-    // 		Object.assign(_errors, { [name]: true })
-    // 	}
-    // 	else { delete _errors[name] }
-
-    // 	setErrors(_errors);
-    // }
-
+  const onChangeText = (name, text) => {
+    setParams(prevState => ({ ...prevState, [name]: text }));
+    if (name === 'c_password') {
+      setConfirmPasswordError(text != params.password)
+    }
   }
-
-  const onSetErrorMessageFromServer = (errors) => {
-    setErrorMessages(errors);
-  }
-
-  useEffect(() => {
-    setValidate(Object.keys(errors).length === 0)
-  }, [errors])
-
 
   const renderHeader = () => {
-    return <Header title={'Change Username'} />
+    return <Header title={'Change Password'} />
   }
 
   return (
     <Wrapper header={renderHeader()}>
       <View>
         <Input
-          placeholder="Enter Username"
-          defaultValue={params.email}
+          placeholder="Old Password"
+          defaultValue={params.old_password}
           control={control}
-          onInputLeave={onInputLeave}
+          name={'old_password'}
           autoFocus
-          name={'email'}
+          onChangeInput={onChangeText}
         />
       </View>
+      <Input
+        placeholder="New Password"
+        defaultValue={params.password}
+        control={control}
+        name={'password'}
+        onChangeInput={onChangeText}
+      />
+      <Input
+        placeholder="Confirm Password"
+        defaultValue={params.c_password}
+        control={control}
+        onChangeInput={onChangeText}
+        name={'c_password'}
+        isError={confirmPasswordError}
+      />
       <Button
         containerStyle={styles.button}
         buttonStyle={styles.signInButton}
@@ -98,4 +94,4 @@ const ChangeUsername = (props) => {
   )
 }
 
-export default ChangeUsername;
+export default ChangePassword;

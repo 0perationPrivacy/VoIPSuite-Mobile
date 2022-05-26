@@ -6,6 +6,7 @@ import { contactConstants } from "./contact";
 import { callConstants } from "./call";
 import { emailConstants } from "./email";
 import { settingsConstants } from "./settings";
+import { uploadConstants } from "./uploads";
 
 export {
     alertConstants,
@@ -15,5 +16,6 @@ export {
     contactConstants,
     callConstants,
     emailConstants,
-    settingsConstants
+    settingsConstants,
+    uploadConstants
 }

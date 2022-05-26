@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
-import { Image } from 'react-native-elements'
-import { AuthWrapper, Input, Button, Header } from '../../components';
-import { navigate } from '../../helpers/RootNavigation';
+import { View } from 'react-native'
+import { Input, Button, Header } from '../../components';
 const logo = require('../../assets/logo-b.svg')
 import styles from '../authCss';
-import globalStyle from '../../style';
 import { useForm } from 'react-hook-form'
 import { getColorByTheme, isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
-import { emailActions, userActions } from '../../redux/actions'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/Feather'
-import Metrics from '../../helpers/Metrics';
+import { emailActions } from '../../redux/actions'
 import Wrapper from '../../components/Wrapper';
 import { CheckBox } from 'react-native-elements/dist/checkbox/CheckBox';
+import _ from 'lodash';
 
 const EmailSettings = (props) => {
 	const [params, setParams] = useState({ email: "", password: "", sender_email: "", to_email: "", host: "", port: "", is_secure: false });
@@ -34,10 +29,22 @@ const EmailSettings = (props) => {
 	const { control, handleSubmit } = useForm();
 
 	const dispatch = useDispatch();
+	const settings = useSelector(state => state.email.settings);
 	const isLoading = useSelector(state => state.email.isLoading);
 
-	const onPressSignUp = () => {
-		navigate('Signup');
+	useEffect(() => {
+		getEmailSettings()
+	}, [])
+
+	useEffect(() => {
+		console.log(settings)
+		if(!_.isEmpty(settings)){
+			setParams(settings)
+		}
+	}, [settings])
+
+	const getEmailSettings = () => {
+		dispatch(emailActions.getEmailSettingsAction())
 	}
 
 	const onPressSaveEmail = (data) => {
@@ -70,12 +77,12 @@ const EmailSettings = (props) => {
 	}
 
 	const onSetErrorMessageFromServer = (_errors) => {
-		console.log(_errors,'s')
+		console.log(_errors, 's')
 		setErrors(_errors);
 	}
 
 	useEffect(() => {
-		console.log(errors,'ss')
+		console.log(errors, 'ss')
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
 
@@ -161,7 +168,7 @@ const EmailSettings = (props) => {
 					checked={params.is_secure}
 					checkedColor={getColorByTheme("#000", "#fff")} />
 			</View>
-			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSaveEmail)} loading={isLoading} />
+			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Update" onPress={handleSubmit(onPressSaveEmail)} loading={isLoading} />
 		</Wrapper>
 	)
 }

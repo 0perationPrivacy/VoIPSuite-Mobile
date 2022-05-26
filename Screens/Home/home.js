@@ -12,6 +12,7 @@ import _ from 'lodash'
 import { messagesActions } from '../../redux/actions';
 import { useRoute } from '@react-navigation/native';
 import { goBack } from '../../helpers/RootNavigation';
+import Metrics from '../../helpers/Metrics';
 
 const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
@@ -62,7 +63,7 @@ const Home = (props) => {
 
 			let data = [];
 			messages.map((mItem) => {
-				const { _id, message, created_at, contact, type, number,user } = mItem;
+				const { _id, message, created_at, contact, type, number, user } = mItem;
 				let _contact = contact ? contact?.first_name + ' ' + contact?.last_name : number;
 				let _contactUser = contact ? user : _id;
 
@@ -92,7 +93,7 @@ const Home = (props) => {
 	}
 
 	const headerBody = () => {
-		if (contactInfo) {
+		if (contactInfo && _.isObject(contactInfo)) {
 			return (
 				<View>
 					<Text style={styles.headerBodyText}>{contactInfo?.first_name} {contactInfo?.last_name}</Text>
@@ -100,7 +101,14 @@ const Home = (props) => {
 				</View>
 			)
 		}
-		return <Text style={styles.headerBodyText}>{contactNumber}</Text>
+		return (
+			<View style={styles.headerContactNumberContainer}>
+				<Text style={styles.headerBodyText}>{contactNumber}</Text>
+				<TouchableOpacity style={styles.headerContactNumberAddBtn}>
+					<Feather size={22} name="plus" />
+				</TouchableOpacity>
+			</View>
+		)
 	}
 
 	const headerRight = () => {
@@ -151,6 +159,12 @@ const styles = StyleSheet.create({
 		// color: '#ff5821',
 		textAlign: 'center',
 		color: getColorByTheme('#000', '#fff'),
+	},
+	headerContactNumberContainer: {
+		flexDirection: 'row'
+	},
+	headerContactNumberAddBtn: {
+		marginLeft: Metrics.ratio(5),
 	}
 });
 

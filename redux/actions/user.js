@@ -8,6 +8,8 @@ export const userActions = {
     login,
     logout,
     register,
+    changeUsernameAction,
+    changePasswordAction
 };
 
 function login(data, errorMessagesCb) {
@@ -22,7 +24,7 @@ function login(data, errorMessagesCb) {
                         message: user?.message,
                         type: "success",
                     });
-                    navigateAndReset('Messages')
+                    navigateAndReset('Splash')
                 },
                 ([error, valdidationErrors]) => {
 
@@ -85,4 +87,71 @@ function register(user, errorMessagesCb) {
     function request() { return { type: userConstants.REGISTER_REQUEST, } }
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function changeUsernameAction(user, cb, errorMessagesCb) {
+    return dispatch => {
+        dispatch(request(user));
+
+        userService.changeUsername(user)
+            .then(
+                response => {
+                    dispatch(success(response.data));
+                    showMessage({
+                        message: response.message,
+                        type: "success",
+                    });
+                    dispatch(alertActions.success(response.message));
+
+                    cb();
+                },
+                ([error, valdidationErrors]) => {
+                    if (errorMessagesCb) {
+                        errorMessagesCb(valdidationErrors)
+                    }
+
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request() { return { type: userConstants.LOGIN_REQUEST, } }
+    function success(user) { return { type: userConstants.NAME_CHANGE_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+
+function changePasswordAction(user, errorMessagesCb) {
+    return dispatch => {
+        dispatch(request(user));
+
+        userService.changePassword(user)
+            .then(
+                response => {
+                    dispatch(success(response.data));
+                    showMessage({
+                        message: response.message,
+                        type: "success",
+                    });
+                    dispatch(alertActions.success(response.message));
+                },
+                ([error, valdidationErrors]) => {
+                    if (errorMessagesCb) {
+                        errorMessagesCb(valdidationErrors)
+                    }
+
+                    showMessage({
+                        message: error.toString(),
+                        type: "danger",
+                    });
+
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request() { return { type: userConstants.LOGIN_REQUEST, } }
+    function success(user) { return { type: userConstants.NAME_CHANGE_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
