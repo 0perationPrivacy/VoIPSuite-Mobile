@@ -5,7 +5,8 @@ import { handleResponse } from './handle';
 
 export const emailService = {
   setEmailCredentials,
-  getUserEmailData
+  getUserEmailData,
+  saveProfileEmailSettings
 };
 
 var prefix = 'email';
@@ -27,4 +28,14 @@ function getUserEmailData() {
   };
 
   return fetch(`${API_URL}/${prefix}/setting-get`, requestOptions).then(handleResponse);
+}
+
+function saveProfileEmailSettings(data) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify(data)
+  };
+
+  return fetch(`${API_URL}/${prefix}/save/setting`, requestOptions).then(handleResponse);
 }

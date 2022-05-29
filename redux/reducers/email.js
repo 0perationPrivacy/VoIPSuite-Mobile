@@ -30,6 +30,12 @@ export function email(state = initialState, action) {
         settings: action.settings
       };
 
+    case emailConstants.SAVE_EMAIL_SETTINGS_SUCCESS:
+      return {
+        ...initialState,
+        isLoading: false
+      };
+
     default:
       return state
   }

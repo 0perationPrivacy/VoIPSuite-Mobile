@@ -1,14 +1,12 @@
-import { profileConstants, userConstants } from '../constants';
-import { userService } from '../../services';
-import { closeDrawer, navigate, navigateAndReset } from '../../helpers/RootNavigation';
+import { profileConstants } from '../constants';
 import { alertActions } from './alert';
-import { showMessage, hideMessage } from "react-native-flash-message";
 import { profileService } from '../../services/profile';
 
 export const profileActions = {
     createProfileAction,
     getProfileAction,
-    setProfileName
+    setProfileName,
+    setProfileList
 };
 
 function createProfileAction(data, cb, errorMessagesCb) {
@@ -69,4 +67,12 @@ function setProfileName(profile) {
     };
 
     function request(profile) { return { type: profileConstants.SET_PROFILE_NAME, profile } }
+}
+
+function setProfileList(profiles) {
+    return dispatch => {
+        dispatch(request(profiles));
+    };
+
+    function request(data) { return { type: profileConstants.GET_PROFILE_SUCCESS, data } }
 }

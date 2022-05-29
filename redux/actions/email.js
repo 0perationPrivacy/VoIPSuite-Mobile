@@ -4,7 +4,8 @@ import { alertActions } from './alert';
 
 export const emailActions = {
   createEmailCredAction,
-  getEmailSettingsAction
+  getEmailSettingsAction,
+  saveProfileEmailSettingsAction
 };
 
 function createEmailCredAction(data, errorMessagesCb) {
@@ -57,5 +58,30 @@ function getEmailSettingsAction(cb) {
 
   function request() { return { type: emailConstants.CREATE_EMAIL_REQUEST, } }
   function success(settings) { return { type: emailConstants.GET_EMAIL_SUCCESS, settings } }
+  function failure(error) { return { type: emailConstants.CREATE_EMAIL_FAILURE, error } }
+}
+
+function saveProfileEmailSettingsAction(data, cb) {
+  return dispatch => {
+    dispatch(request());
+
+    emailService.saveProfileEmailSettings(data)
+      .then(
+        response => {
+          const { data, message } = response;
+          dispatch(success());
+          dispatch(alertActions.success(message));
+
+          cb(data);
+        },
+        ([error, valdidationErrors]) => {
+          dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
+        }
+      );
+  };
+
+  function request() { return { type: emailConstants.CREATE_EMAIL_REQUEST, } }
+  function success() { return { type: emailConstants.SAVE_EMAIL_SETTINGS_SUCCESS, } }
   function failure(error) { return { type: emailConstants.CREATE_EMAIL_FAILURE, error } }
 }

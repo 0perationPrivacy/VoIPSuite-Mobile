@@ -6,7 +6,7 @@ import styles from '../authCss';
 import { useForm } from 'react-hook-form'
 import { getColorByTheme, isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
-import { emailActions } from '../../redux/actions'
+import { emailActions, profileActions } from '../../redux/actions'
 import Wrapper from '../../components/Wrapper';
 import { CheckBox } from 'react-native-elements/dist/checkbox/CheckBox';
 import _ from 'lodash';
@@ -16,6 +16,7 @@ const EmailSettings = (props) => {
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
+	const [isEmailInfo, setEmailInfo] = useState(false);
 
 	const validations = {
 		email: true,
@@ -31,15 +32,16 @@ const EmailSettings = (props) => {
 	const dispatch = useDispatch();
 	const settings = useSelector(state => state.email.settings);
 	const isLoading = useSelector(state => state.email.isLoading);
+	const profiles = useSelector(state => state.profile.items);
 
 	useEffect(() => {
-		getEmailSettings()
+		getEmailSettings();
 	}, [])
 
 	useEffect(() => {
-		console.log(settings)
-		if(!_.isEmpty(settings)){
-			setParams(settings)
+		if (!_.isEmpty(settings)) {
+			setParams(settings);
+			setEmailInfo(true);
 		}
 	}, [settings])
 
@@ -63,6 +65,13 @@ const EmailSettings = (props) => {
 		dispatch(emailActions.createEmailCredAction(data, onSetErrorMessageFromServer))
 	}
 
+	const onPressChangeProfileEmailSettings = (id, isChecked) => {
+		let status = isChecked ? 'false' : 'true';
+		let data = { setting_id: id, status }
+
+		dispatch(emailActions.saveProfileEmailSettingsAction(data, onSuccessProfleSettingsSave))
+	}
+
 	const onInputLeave = (name, value) => {
 		if (validations?.[name]) {
 			let _errors = { ...errors };
@@ -77,12 +86,26 @@ const EmailSettings = (props) => {
 	}
 
 	const onSetErrorMessageFromServer = (_errors) => {
-		console.log(_errors, 's')
 		setErrors(_errors);
 	}
 
+	const onSuccessProfleSettingsSave = (profile) => {
+		const { emailnotification, id } = profile;
+		let __profiles = [...profiles];
+		console.log(__profiles, 'before');
+		const returnProfile = __profiles.filter((item) => {
+			if (item.id === id) {
+				item.emailnotification = emailnotification;
+				return true
+			}
+		})
+		console.log(__profiles, 'after');
+		console.log(returnProfile, 'returnProfile');
+
+		dispatch(profileActions.setProfileList(__profiles))
+	}
+
 	useEffect(() => {
-		console.log(errors, 'ss')
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
 
@@ -94,6 +117,27 @@ const EmailSettings = (props) => {
 
 	const renderHeader = () => {
 		return <Header title={'Email Settings'} />
+	}
+
+	const renderProfileList = () => {
+		return (
+			profiles && profiles.map((item, index) => {
+				const { profile, emailnotification, id } = item;
+				let isChecked = emailnotification === 'true' ? true : false;
+
+				return (
+					<View key={index}>
+						<CheckBox
+							title={profile}
+							containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
+							textStyle={{ color: getColorByTheme("#000", "#fff") }}
+							onPress={() => onPressChangeProfileEmailSettings(id, isChecked)}
+							checked={isChecked}
+							checkedColor={getColorByTheme("#000", "#fff")} />
+					</View>
+				)
+			})
+		)
 	}
 
 	return (
@@ -169,6 +213,7 @@ const EmailSettings = (props) => {
 					checkedColor={getColorByTheme("#000", "#fff")} />
 			</View>
 			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Update" onPress={handleSubmit(onPressSaveEmail)} loading={isLoading} />
+			{isEmailInfo && renderProfileList()}
 		</Wrapper>
 	)
 }
