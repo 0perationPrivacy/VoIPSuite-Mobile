@@ -48,6 +48,10 @@ const Contact = () => {
             setId(item?._id);
         }
 
+        if (params?.number) {
+            setParams(prevState => ({ ...prevState, number: params?.number }));
+        }
+
         setVisible(true)
 
     }, [])

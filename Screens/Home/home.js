@@ -11,7 +11,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import _ from 'lodash'
 import { messagesActions } from '../../redux/actions';
 import { useRoute } from '@react-navigation/native';
-import { goBack } from '../../helpers/RootNavigation';
+import { goBack, navigate } from '../../helpers/RootNavigation';
 import Metrics from '../../helpers/Metrics';
 
 const Home = (props) => {
@@ -72,7 +72,7 @@ const Home = (props) => {
 				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser, name: _contact } })
 			})
 
-			console.log(data);
+			console.log(data,'hola','contact',contact);
 
 			setContactInfo(contact);
 			setContactNumber(number);
@@ -84,12 +84,8 @@ const Home = (props) => {
 		setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
 	}, [])
 
-	const renderComposeButton = () => {
-		return (
-			<TouchableOpacity style={[styles.composeButtonWrap, globalStyles.primaryBgColor]}>
-				<Icon name="plus" color="#fff" size={25}></Icon>
-			</TouchableOpacity>
-		)
+	const onPressAddContact = (number) => {
+		navigate('Contact', { number })
 	}
 
 	const headerBody = () => {
@@ -104,8 +100,8 @@ const Home = (props) => {
 		return (
 			<View style={styles.headerContactNumberContainer}>
 				<Text style={styles.headerBodyText}>{contactNumber}</Text>
-				<TouchableOpacity style={styles.headerContactNumberAddBtn}>
-					<Feather size={22} name="plus" />
+				<TouchableOpacity style={[styles.composeButtonWrap, globalStyles.primaryBgColor]} onPress={() => onPressAddContact(contactNumber)}>
+					<Icon name="plus" color="#fff" size={25}></Icon>
 				</TouchableOpacity>
 			</View>
 		)
@@ -131,21 +127,20 @@ const Home = (props) => {
 				renderInputToolbar={MessageInput}
 				messagesContainerStyle={globalStyles.themeBg}
 			/>
-			{/* {renderComposeButton()} */}
 		</View>
 	)
 }
 
 const styles = StyleSheet.create({
 	composeButtonWrap: {
-		width: 50,
-		height: 50,
-		borderRadius: 50,
+		width: 30,
+		height: 30,
+		borderRadius: 30,
 		alignItems: 'center',
 		justifyContent: 'center',
-		position: 'absolute',
-		bottom: 100,
-		right: 10
+		// position: 'absolute',
+		// bottom: 100,
+		left: 10
 	},
 	headerContainer: {
 	},
