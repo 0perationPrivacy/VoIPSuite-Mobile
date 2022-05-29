@@ -6,7 +6,7 @@ import styles from './style';
 import PropTypes from 'prop-types'
 
 const data = [
-    { label: 'Item 1', value: '1' },
+    // { label: 'Item 1', value: '1' },
 ];
 
 const CustomSelect = ({ containerStyle, ...rest }) => {
@@ -37,7 +37,7 @@ const CustomSelect = ({ containerStyle, ...rest }) => {
             }}
             renderItem={renderItem}
             maxHeight={120}
-        // {...rest}
+            {...rest}
         />
     );
 };

@@ -2,23 +2,46 @@ import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, Dimensions } from 'react-native';
 import globalStyles from '../../style';
 import { useForm } from 'react-hook-form'
-import { Input } from '../../components';
+import { Input, Select } from '../../components';
 import Wrapper from '../../components/Wrapper';
 import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
 import { getColorByTheme } from '../../helpers/utils';
+import { useDispatch, useSelector } from 'react-redux';
 const windowWidth = Dimensions.get('window').width;
+import _ from 'lodash';
+import { settingsActions } from '../../redux/actions';
 
 const ProfileSettings = () => {
     const [profileName, setProfileName] = useState(null);
     const [activeTab, setActiveTab] = useState(1);
-    const [tiwlioSid, setTiwlioSid] = useState(1);
-    const [tiwlioToken, setTiwlioToken] = useState(1);
-    const [telnyxKey, setTelnyxKey] = useState(1);
+    const [tiwlioSid, setTiwlioSid] = useState(null);
+    const [tiwlioToken, setTiwlioToken] = useState(null);
+    const [telnyxKey, setTelnyxKey] = useState(null);
     const { control, handleSubmit } = useForm();
 
-    useEffect(() => { }, [])
+    const isLoading = useSelector(state => state.settings.isLoading);
+    const profileSettings = useSelector(state => state.settings.profileSettings);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log(profileSettings, '<=========== profileSettings')
+        if (profileSettings && !_.isEmpty(profileSettings)) {
+            const { profile, type } = profileSettings;
+            setProfileName(profile)
+
+            if (type === 'telnyx') {
+                const { api_key } = profileSettings;
+                setTelnyxKey(api_key)
+            } else {
+                const { twilio_sid, twilio_token } = profileSettings;
+                setTiwlioSid(twilio_sid);
+                setTiwlioToken(twilio_token);
+            }
+        }
+    }, [])
 
     const onPressSave = () => {
         alert('save press')
@@ -26,6 +49,12 @@ const ProfileSettings = () => {
 
     const onPressTabChange = (tabVal) => {
         setActiveTab(tabVal)
+    }
+
+    const onPressGetNumber = () => {
+        if (profileSettings && !_.isEmpty(profileSettings)) {
+            dispatch(settingsActions.getNumbersListByProfileAction(profileSettings))
+        }
     }
 
     const renderHeader = () => {
@@ -55,12 +84,12 @@ const ProfileSettings = () => {
                     onChangeText={(text) => setProfileName(text)}
                     customStyle={styles.profileInput}
                     placeholder="Profile"
+                    defaultValue={profileName}
                 />
                 <Feather name="trash" size={20} color="red" />
             </View>
         )
     }
-
 
     const renderTwilioInputs = () => {
         return (
@@ -74,6 +103,7 @@ const ProfileSettings = () => {
                         onChangeText={(text) => setTiwlioSid(text)}
                         customStyle={styles.profileInput}
                         placeholder="Enter Twilio SID"
+                        defaultValue={tiwlioSid}
                     />
                 </View>
                 <View style={[styles.profileSettingsInputWrapper, styles.providersInputWrapper]}>
@@ -84,6 +114,7 @@ const ProfileSettings = () => {
                         onChangeText={(text) => setTiwlioToken(text)}
                         customStyle={styles.profileInput}
                         placeholder="Enter Twilio Token"
+                        defaultValue={tiwlioToken}
                     />
                 </View>
             </>
@@ -102,9 +133,26 @@ const ProfileSettings = () => {
                         onChangeText={(text) => setTelnyxKey(text)}
                         customStyle={styles.profileInput}
                         placeholder="Enter Telnyx API Key"
+                        defaultValue={telnyxKey}
                     />
                 </View>
             </>
+        )
+    }
+
+    const renderNumberList = () => {
+        return (
+            <View style={styles.getNumberContainer}>
+                <View style={styles.getNumberContainer}>
+                    <Button buttonStyle={styles.getNumberBtn} title={'Get Number'} onPress={onPressGetNumber} />
+                    <View style={{ flex: 0.9 }}>
+                        <Select placeholder="Select Number" containerStyle={{ height: 40 }} />
+                    </View>
+                </View>
+                <TouchableOpacity>
+                    <Feather name='trash' size={22} />
+                </TouchableOpacity>
+            </View>
         )
     }
 
@@ -116,7 +164,8 @@ const ProfileSettings = () => {
                 <View style={styles.providersContainer}>
                     {activeTab === 1 ? renderTelnyxInputs() : renderTwilioInputs()}
                 </View>
-                <Button title="Save" onPress={onPressSave} />
+                {renderNumberList()}
+                <Button title="Save" onPress={onPressSave} loading={isLoading} />
             </View>
         </Wrapper>
     )
@@ -166,6 +215,15 @@ const styles = StyleSheet.create({
     providersInputTitle: {
         fontSize: Metrics.ratio(20),
         color: getColorByTheme('#000', '#fff')
+    },
+    getNumberContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    getNumberBtn: {
+        backgroundColor: '#6c757d',
+        borderColor: '#6c757d',
+        marginRight: Metrics.ratio(10)
     }
 });
 

@@ -16,8 +16,8 @@ module.exports = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 0.9,
         elevation: 2,
-        borderWidth : 1,
-        borderColor : getColorByTheme('#ececec', '#fff'),
+        borderWidth: 1,
+        borderColor: getColorByTheme('#ececec', '#fff'),
     },
     icon: {
         marginRight: 5,
