@@ -10,14 +10,17 @@ export function profile(state = initialState, action) {
 
     case profileConstants.CREATE_PROFILE_REQUEST:
       return {
+        ...state,
         isLoading: true
       };
     case profileConstants.CREATE_PROFILE_SUCCESS:
       return {
+        ...state,
         isLoading: false
       };
     case profileConstants.CREATE_PROFILE_FAILURE:
       return {
+        ...state,
         isLoading: false
       };
 

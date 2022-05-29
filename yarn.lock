@@ -6031,6 +6031,11 @@
   dependencies:
     "prop-types" "^15.7.x"
 
+"react-native-popup-confirm-toast@^2.1.1":
+  "integrity" "sha512-5/bvMGUYKoCYhYvitRDnsPXJHpDFJ0IRtNZd0oTDCLnpJVw+4IJM0OBRxf4lekcqkei8xWQszVca6esm0JgzXg=="
+  "resolved" "https://registry.npmjs.org/react-native-popup-confirm-toast/-/react-native-popup-confirm-toast-2.1.1.tgz"
+  "version" "2.1.1"
+
 "react-native-ratings@8.0.4":
   "integrity" "sha512-Xczu5lskIIRD6BEdz9A0jDRpEck/SFxRqiglkXi0u67yAtI1/pcJC76P4MukCbT8K4BPVl+42w83YqXBoBRl7A=="
   "resolved" "https://registry.npmjs.org/react-native-ratings/-/react-native-ratings-8.0.4.tgz"
@@ -6065,6 +6070,11 @@
   "integrity" "sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw=="
   "resolved" "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz"
   "version" "0.3.1"
+
+"react-native-status-bar-height@^2.6.0":
+  "integrity" "sha512-z3SGLF0mHT+OlJDq7B7h/jXPjWcdBT3V14Le5L2PjntjjWM3+EJzq2BcXDwV+v67KFNJic5pgA26cCmseYek6w=="
+  "resolved" "https://registry.npmjs.org/react-native-status-bar-height/-/react-native-status-bar-height-2.6.0.tgz"
+  "version" "2.6.0"
 
 "react-native-swipe-list-view@^3.2.9":
   "integrity" "sha512-SjAEuHc/D6ovp+RjDUhfNmw6NYOntdT7+GFhfMGfP/BSLMuMWynpzJy9GKQeyB8sI78T6Lzip21TVbongOg1Mw=="

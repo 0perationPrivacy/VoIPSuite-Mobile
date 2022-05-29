@@ -11,40 +11,150 @@ import { getColorByTheme } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux';
 const windowWidth = Dimensions.get('window').width;
 import _ from 'lodash';
-import { settingsActions } from '../../redux/actions';
+import { profileActions, settingsActions } from '../../redux/actions';
+import { Root, Popup } from 'react-native-popup-confirm-toast'
+import Confirmation from '../../components/Confirmation';
+import { navigateAndReset } from '../../helpers/RootNavigation';
 
 const ProfileSettings = () => {
     const [profileName, setProfileName] = useState(null);
-    const [activeTab, setActiveTab] = useState(1);
+    const [activeTab, setActiveTab] = useState("twilio");
     const [tiwlioSid, setTiwlioSid] = useState(null);
     const [tiwlioToken, setTiwlioToken] = useState(null);
     const [telnyxKey, setTelnyxKey] = useState(null);
+    const [profileId, setProfileId] = useState(null);
+    const [isDeleteBtn, setIsDeleteBtn] = useState(false);
+    const [numbersList, setNumberList] = useState([]);
+    const [telnyxNumbersList, setTelnyxNumberList] = useState([]);
+    const [phoneNumber, setPhoneNumber] = useState(null);
+    const [__SID, setSID] = useState(null);
+
+    //modal
+    const [isModalVisible, setIsVisibleModal] = useState(false);
+    const [isModalDeleteVisible, setIsVisibleDeleteModal] = useState(false);
+
     const { control, handleSubmit } = useForm();
 
     const isLoading = useSelector(state => state.settings.isLoading);
     const profileSettings = useSelector(state => state.settings.profileSettings);
+    const numbers = useSelector(state => state.settings.numbers);
+    const user = useSelector(state => state.authentication.user);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         console.log(profileSettings, '<=========== profileSettings')
         if (profileSettings && !_.isEmpty(profileSettings)) {
-            const { profile, type } = profileSettings;
+            const { profile, type, id, sid, number } = profileSettings;
             setProfileName(profile)
+            setProfileId(id);
+            console.log('tyo', type)
+            setActiveTab(type);
 
             if (type === 'telnyx') {
                 const { api_key } = profileSettings;
-                setTelnyxKey(api_key)
+                setTelnyxKey(api_key);
+                if (api_key) {
+                    setIsDeleteBtn(true)
+                }
             } else {
                 const { twilio_sid, twilio_token } = profileSettings;
                 setTiwlioSid(twilio_sid);
                 setTiwlioToken(twilio_token);
+
+                if (twilio_token) {
+                    setIsDeleteBtn(true)
+                }
             }
+
+            setPhoneNumber(number);
+            setSID(sid);
+
+            setTimeout(() => {
+                console.log('haan ==============>', tiwlioSid, type, number, sid, 'no ==============>')
+                onPressGetNumber()
+            }, 2000);
         }
     }, [])
 
+    useEffect(() => {
+        if (numbers && _.isArray(numbers)) {
+            let data = [];
+            numbers.map((item) => {
+                const { phoneNumber, phone_number, sid, id } = item;
+                let number = activeTab === 'twilio' ? phoneNumber : phone_number;
+                let _sid = activeTab === 'twilio' ? sid : id;
+
+                data.push({ label: number, value: { number, _sid } })
+            });
+
+            if (activeTab === 'twilio') {
+                setNumberList(data);
+            } else {
+                setTelnyxNumberList(data);
+            }
+        }
+    }, [numbers])
+
+    const returnData = () => {
+        let data = {}
+        let __phone = phoneNumber;
+        console.log(profileSettings, 'profile')
+        if (activeTab === 'twilio') {
+            data = {
+                ...profileSettings,
+                type: activeTab, twilio_sid: tiwlioSid, twilio_token: tiwlioToken,
+                sid: __SID, twilio_number: phoneNumber
+            }
+        } else {
+            data = {
+                ...profileSettings, type: activeTab, api_key: telnyxKey,
+                sid: __SID, number: phoneNumber
+            }
+        }
+
+        const { _id } = user.data
+        Object.assign(data, { setting: profileId, user: _id });
+
+        return data;
+    }
+
     const onPressSave = () => {
-        alert('save press')
+        let data = returnData();
+
+        console.log(data, 'check setting  ===========', telnyxKey)
+
+        dispatch(settingsActions.checkProfileSettingsAction(data, checkProfileSuccess))
+    }
+
+    const checkProfileSuccess = () => {
+        setIsVisibleModal(true)
+    }
+
+    const onCancelConfirmCheckModal = () => {
+        setIsVisibleModal(false)
+    }
+
+    const onOkConfirmCheckModal = () => {
+        setIsVisibleModal(false);
+
+        let data = returnData();
+        Object.assign(data, { override: "true" });
+        console.log(data)
+
+        dispatch(settingsActions.createProfileSettingsAction(data))
+    }
+
+    const onPressDeleteProfile = () => {
+        if (user && user?.token) {
+            const { _id } = user.data
+            let data = { user: _id, profile_id: profileId }
+            dispatch(profileActions.deleteProfileAction(data, onDeleteSuccess));
+        }
+    }
+
+    const onDeleteSuccess = () => {
+        navigateAndReset('Messages')
     }
 
     const onPressTabChange = (tabVal) => {
@@ -53,7 +163,23 @@ const ProfileSettings = () => {
 
     const onPressGetNumber = () => {
         if (profileSettings && !_.isEmpty(profileSettings)) {
-            dispatch(settingsActions.getNumbersListByProfileAction(profileSettings))
+            let data = returnData();
+            console.log('bhrwa', data)
+            dispatch(settingsActions.getNumbersListByProfileAction(data, activeTab))
+        }
+    }
+
+    const onChangePhone = (obj) => {
+        console.log('obj', obj);
+        setPhoneNumber(obj.number);
+        setSID(obj._sid);
+    }
+
+    const getProfileSettings = () => {
+        if (user && user?.token) {
+            const { _id } = user.data
+            let data = { user: _id, setting: profileId }
+            dispatch(settingsActions.getProfileSettings(data));
         }
     }
 
@@ -64,10 +190,10 @@ const ProfileSettings = () => {
     const renderTabs = () => {
         return (
             <View style={styles.tabsWrapper}>
-                <TouchableOpacity style={[styles.tabItemButton, activeTab === 1 && styles.activeTabItemButton]} onPress={() => onPressTabChange(1)}>
+                <TouchableOpacity style={[styles.tabItemButton, activeTab === "telnyx" && styles.activeTabItemButton]} onPress={() => onPressTabChange("telnyx")}>
                     <Text style={[activeTab === 1 && styles.activeTabItemButtonText, styles.tabItemButtonText]}>Telnyx</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.tabItemButton, activeTab === 2 && styles.activeTabItemButton]} onPress={() => onPressTabChange(2)}>
+                <TouchableOpacity style={[styles.tabItemButton, activeTab === "twilio" && styles.activeTabItemButton]} onPress={() => onPressTabChange("twilio")}>
                     <Text style={[activeTab === 2 && styles.activeTabItemButtonText, styles.tabItemButtonText]}>Twilio</Text>
                 </TouchableOpacity>
             </View>
@@ -86,7 +212,9 @@ const ProfileSettings = () => {
                     placeholder="Profile"
                     defaultValue={profileName}
                 />
-                <Feather name="trash" size={20} color="red" />
+                <TouchableOpacity onPress={() => setIsVisibleDeleteModal(true)}>
+                    <Feather name="trash" size={20} color="red" />
+                </TouchableOpacity>
             </View>
         )
     }
@@ -100,7 +228,7 @@ const ProfileSettings = () => {
                     <Input
                         name="tiwlioSid"
                         control={control}
-                        onChangeText={(text) => setTiwlioSid(text)}
+                        onChangeInput={(name, text) => setTiwlioSid(text)}
                         customStyle={styles.profileInput}
                         placeholder="Enter Twilio SID"
                         defaultValue={tiwlioSid}
@@ -111,7 +239,7 @@ const ProfileSettings = () => {
                     <Input
                         name="tiwlioToken"
                         control={control}
-                        onChangeText={(text) => setTiwlioToken(text)}
+                        onChangeInput={(name, text) => setTiwlioToken(text)}
                         customStyle={styles.profileInput}
                         placeholder="Enter Twilio Token"
                         defaultValue={tiwlioToken}
@@ -130,7 +258,7 @@ const ProfileSettings = () => {
                     <Input
                         name="telnyxKey"
                         control={control}
-                        onChangeText={(text) => setTelnyxKey(text)}
+                        onChangeInput={(name, text) => setTelnyxKey(text)}
                         customStyle={styles.profileInput}
                         placeholder="Enter Telnyx API Key"
                         defaultValue={telnyxKey}
@@ -146,12 +274,14 @@ const ProfileSettings = () => {
                 <View style={styles.getNumberContainer}>
                     <Button buttonStyle={styles.getNumberBtn} title={'Get Number'} onPress={onPressGetNumber} />
                     <View style={{ flex: 0.9 }}>
-                        <Select placeholder="Select Number" containerStyle={{ height: 40 }} />
+                        <Select placeholder="Select Number" containerStyle={{ height: 40 }} items={activeTab === 'twilio' ? numbersList : telnyxNumbersList} onChange={onChangePhone} />
                     </View>
                 </View>
-                <TouchableOpacity>
-                    <Feather name='trash' size={22} />
-                </TouchableOpacity>
+                {
+                    isDeleteBtn && <TouchableOpacity>
+                        <Feather name='trash' size={22} />
+                    </TouchableOpacity>
+                }
             </View>
         )
     }
@@ -162,10 +292,20 @@ const ProfileSettings = () => {
                 {renderTabs()}
                 {renderProfileSettingInput()}
                 <View style={styles.providersContainer}>
-                    {activeTab === 1 ? renderTelnyxInputs() : renderTwilioInputs()}
+                    {activeTab === 'telnyx' ? renderTelnyxInputs() : renderTwilioInputs()}
                 </View>
                 {renderNumberList()}
                 <Button title="Save" onPress={onPressSave} loading={isLoading} />
+                <Confirmation isVisible={isModalVisible} onPressCancel={onCancelConfirmCheckModal} onPressOk={onOkConfirmCheckModal} />
+                <Confirmation
+                    isVisible={isModalDeleteVisible}
+                    onPressCancel={() => setIsVisibleDeleteModal(false)}
+                    onPressOk={onPressDeleteProfile}
+                    title=""
+                    description='Do you want to delete this Profile?'
+                    okText='Yes, Delete'
+                    cancelText='No'
+                />
             </View>
         </Wrapper>
     )
@@ -197,10 +337,10 @@ const styles = StyleSheet.create({
         marginTop: Metrics.ratio(20),
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-around'
         // marginBottom: Metrics.doubleBaseMargin
     },
     profileInput: {
-        flex: 1,
         height: Metrics.ratio(30),
         fontSize: 14,
         marginHorizontal: Metrics.baseMargin,

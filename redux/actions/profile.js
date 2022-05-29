@@ -6,7 +6,8 @@ export const profileActions = {
     createProfileAction,
     getProfileAction,
     setProfileName,
-    setProfileList
+    setProfileList,
+    deleteProfileAction,
 };
 
 function createProfileAction(data, cb, errorMessagesCb) {
@@ -75,4 +76,28 @@ function setProfileList(profiles) {
     };
 
     function request(data) { return { type: profileConstants.GET_PROFILE_SUCCESS, data } }
+}
+
+function deleteProfileAction(data, cb) {
+    return dispatch => {
+        dispatch(request());
+
+        profileService.deleteProfile(data)
+            .then(
+                response => {
+                    dispatch(success());
+                    dispatch(alertActions.success(response?.message));
+
+                    cb();
+                },
+                ([error, valdidationErrors]) => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request() { return { type: profileConstants.CREATE_PROFILE_REQUEST, } }
+    function success() { return { type: profileConstants.CREATE_PROFILE_SUCCESS } }
+    function failure(error) { return { type: profileConstants.CREATE_PROFILE_FAILURE, error } }
 }

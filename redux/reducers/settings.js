@@ -39,6 +39,24 @@ export function settings(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+        numbers: [],
+      };
+
+    case settingsConstants.CHECK_PROFILE_SETTINGS_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case settingsConstants.CHECK_PROFILE_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        // profileSettings: action.data,
+      };
+    case settingsConstants.CHECK_PROFILE_SETTINGS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state

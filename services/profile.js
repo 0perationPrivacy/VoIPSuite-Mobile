@@ -5,13 +5,14 @@ import { handleResponse } from './handle';
 
 export const profileService = {
   createProfileName,
-  getProfileList
+  getProfileList,
+  deleteProfile
 };
 
 function createProfileName(data) {
   const requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' , ...authHeader()},
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
     body: JSON.stringify(data)
   };
 
@@ -21,8 +22,18 @@ function createProfileName(data) {
 function getProfileList() {
   const requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' , ...authHeader()},
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
   };
 
   return fetch(`${API_URL}/profile/getdata`, requestOptions).then(handleResponse);
+}
+
+function deleteProfile(data) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify(data)
+  };
+
+  return fetch(`${API_URL}/profile/delete-profile`, requestOptions).then(handleResponse);
 }

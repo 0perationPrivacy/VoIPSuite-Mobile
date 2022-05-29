@@ -28,6 +28,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	const profile = useSelector(state => state.profile.items);
 
 	useEffect(() => {
+		getProfileList()
 	}, [])
 
 	useEffect(() => {
@@ -64,6 +65,10 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 		onPressProfile(id);
 		setProfileName(id)
+	}
+
+	const getProfileList = () => {
+		dispatch(profileActions.getProfileAction())
 	}
 
 	const onPressSideMenu = () => {
@@ -115,7 +120,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 				<TouchableOpacity onPress={() => onPressCompose('Compose')}>
 					<Icon name={"plus-circle"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
 				</TouchableOpacity>
-				<Icon name={"settings"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
+				{/* <Icon name={"settings"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} /> */}
 				<TouchableOpacity onPress={() => onPressCompose('Dialer')} >
 					<Icon name={"phone"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
 				</TouchableOpacity>

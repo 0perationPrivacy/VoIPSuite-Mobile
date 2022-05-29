@@ -9,8 +9,17 @@ const data = [
     // { label: 'Item 1', value: '1' },
 ];
 
-const CustomSelect = ({ containerStyle, ...rest }) => {
+const CustomSelect = ({ containerStyle, items = [], onChange = () => { }, ...rest }) => {
     const [value, setValue] = useState(null);
+
+    const __onChange = (item) => {
+        const { value } = item;
+        setValue(value);
+
+        if (onChange) {
+            onChange(value)
+        }
+    }
 
     const renderItem = (item) => {
         return (
@@ -28,13 +37,11 @@ const CustomSelect = ({ containerStyle, ...rest }) => {
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
             containerStyle={styles.itemContainerStyle}
-            data={data}
+            data={items}
             labelField="label"
             valueField="value"
             value={value}
-            onChange={item => {
-                setValue(item.value);
-            }}
+            onChange={__onChange}
             renderItem={renderItem}
             maxHeight={120}
             {...rest}

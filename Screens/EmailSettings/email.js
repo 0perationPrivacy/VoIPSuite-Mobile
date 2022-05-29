@@ -62,7 +62,9 @@ const EmailSettings = (props) => {
 		// 	return false;
 		// }
 
-		dispatch(emailActions.createEmailCredAction(data, onSetErrorMessageFromServer))
+		console.log(params)
+
+		dispatch(emailActions.createEmailCredAction(params, onSetErrorMessageFromServer))
 	}
 
 	const onPressChangeProfileEmailSettings = (id, isChecked) => {
@@ -87,6 +89,10 @@ const EmailSettings = (props) => {
 
 	const onSetErrorMessageFromServer = (_errors) => {
 		setErrors(_errors);
+	}
+
+	const onChangeInputs = (name, val) => {
+		setParams(prevState => ({ ...prevState, [name]: val }));
 	}
 
 	const onSuccessProfleSettingsSave = (profile) => {
@@ -147,7 +153,7 @@ const EmailSettings = (props) => {
 					placeholder="Enter Username"
 					keyboardType="url"
 					defaultValue={params.email}
-					onChangeText={(text) => setServerUrl(text)}
+					onChangeInput={onChangeInputs}
 					control={control}
 					onInputLeave={onInputLeave}
 					isError={errors?.email}
@@ -157,7 +163,7 @@ const EmailSettings = (props) => {
 					placeholder="Enter Password"
 					keyboardType="url"
 					defaultValue={params.password}
-					onChangeText={(text) => setServerUrl(text)}
+					onChangeInput={onChangeInputs}
 					control={control}
 					onInputLeave={onInputLeave}
 					secureTextEntry
@@ -169,7 +175,7 @@ const EmailSettings = (props) => {
 					placeholder="Enter FROM"
 					keyboardType={"email-address"}
 					defaultValue={params.sender_email}
-					onChangeText={(text) => setServerUrl(text)}
+					onChangeInput={onChangeInputs}
 					control={control}
 					onInputLeave={onInputLeave}
 					isError={errors?.sender_email}
@@ -179,7 +185,7 @@ const EmailSettings = (props) => {
 					placeholder="Enter TO"
 					keyboardType={"email-address"}
 					defaultValue={params.to_email}
-					onChangeText={(text) => setServerUrl(text)}
+					onChangeInput={onChangeInputs}
 					control={control}
 					onInputLeave={onInputLeave}
 					isError={errors?.to_email}
@@ -189,7 +195,7 @@ const EmailSettings = (props) => {
 					placeholder="Enter Host (smtp.domain.com)"
 					keyboardType="url"
 					defaultValue={params.host}
-					onChangeText={(text) => setServerUrl(text)}
+					onChangeInput={onChangeInputs}
 					control={control}
 					onInputLeave={onInputLeave}
 					isError={errors?.host}
@@ -199,7 +205,7 @@ const EmailSettings = (props) => {
 					placeholder="Enter Port (465 or 587)"
 					keyboardType="url"
 					defaultValue={params.port}
-					onChangeText={(text) => setServerUrl(text)}
+					onChangeInput={onChangeInputs}
 					control={control}
 					onInputLeave={onInputLeave}
 					isError={errors?.port}
