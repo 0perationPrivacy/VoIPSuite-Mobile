@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Image, Platform, ActivityIndicator } from 'react-native';
 import globalStyles from '../../style';
 import { useForm } from 'react-hook-form'
 import { Header, Input } from '../../components';
@@ -7,16 +7,22 @@ import Wrapper from '../../components/Wrapper';
 import { Button, Select } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { uploadsActions } from '../../redux/actions';
+import RNFetchBlob from 'rn-fetch-blob';
+import _ from 'lodash';
+import axios from 'axios';
+import { authHeader } from '../../helpers/auth-header';
+import Loader from '../../components/Loader';
 
 const Compose = () => {
     const [phone, setPhone] = useState(null);
     const [message, setMessage] = useState(null);
-    const [file, setFile] = useState([]);
+    const [files, setFiles] = useState([]);
     const { control, handleSubmit } = useForm();
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const imageLoading = useSelector(state => state.uploads.isLoading);
 
     const fileOptions = {};
 
@@ -33,32 +39,26 @@ const Compose = () => {
             const file = result.assets[0]
             console.log(file)
 
-            // const formData = new FormData()
-            // // data.append('filename', file.fileName);
-            // formData.append('file', file);
-            // console.log(formData, 'formData')
-            let formdata = new FormData();
-            // image from CameraRoll.getPhotos(
-            formdata.append('file', file);
-            console.log(formdata.entries())
-            let xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://voip-node.herokuapp.com/api/media/upload-files');
-           
+            const data = new FormData();
+            data.append('file', {
+                name: file.fileName,
+                type: file.type,
+                uri: Platform.OS === 'ios' ?
+                    file.uri.replace('file://', '')
+                    : file.uri,
+            });
 
-            xhr.send(formdata);
-
-
-            // dispatch(uploadsActions.uploadMediaAction(formData, onFileUploadSuccess))
+            dispatch(uploadsActions.uploadMediaAction(data, onFileUploadSuccess))
         }
 
-        // const fileArray = [...file]
-        // // fileArray.push(result.assets[0].uri);
-
-        // setFile(fileArray)
     }
 
     const onFileUploadSuccess = (data) => {
-        console.log(data)
+        console.log('succcess data', data);
+        const fileArray = [...files]
+        fileArray.push(data.media);
+
+        setFiles(fileArray)
     }
 
     const renderSelectField = () => {
@@ -104,7 +104,7 @@ const Compose = () => {
         )
     }
     const renderImageItems = (uri, index) => {
-        console.log(uri)
+        console.log(uri,'< ==========')
         return (
             <Image source={uri} width={50} height={50} key={index} />
         )
@@ -119,11 +119,11 @@ const Compose = () => {
             <View style={globalStyles.flexOne}>
                 {renderSelectField()}
                 {renderInputs()}
-                {renderFileUploadButton()}
+                {imageLoading ? <ActivityIndicator size={'large'} color="#3770e4" /> : renderFileUploadButton()}
                 {renderButton()}
                 <View style={styles.uploadButtonWrap}>
                     {
-                        file && file.map((item, index) => {
+                        files && files.map((item, index) => {
                             return renderImageItems(item, index)
                         })
                     }

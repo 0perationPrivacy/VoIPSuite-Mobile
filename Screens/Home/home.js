@@ -75,7 +75,7 @@ const Home = (props) => {
 
 				// console.log(_contact, _contactUser)
 
-				let images = JSON.parse(media);
+				let images = media ? JSON.parse(media) : [];
 
 				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser, name: _contact }, image: images && images.length > 0 ? images[0] : null })
 			})

@@ -12,11 +12,11 @@ var prefix = 'media';
 function uploadMedia(data) {
   const requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'multipart/form-data; ', ...authHeader() },
+    headers: { 'Content-Type': 'multipart/form-data; ', Accept: "application/json", ...authHeader() },
     body: data
   };
 
-  console.log('hello',data)
+  console.log('hello', data)
 
   return fetch(`${API_URL}/${prefix}/upload-files`, requestOptions).then(handleResponse);
 }
