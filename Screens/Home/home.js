@@ -11,7 +11,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import _ from 'lodash'
 import { messagesActions } from '../../redux/actions';
 import { useRoute } from '@react-navigation/native';
-import { goBack, navigate } from '../../helpers/RootNavigation';
+import { goBack, navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import Metrics from '../../helpers/Metrics';
 
 const Home = (props) => {
@@ -26,31 +26,16 @@ const Home = (props) => {
 	const messages = useSelector(state => state.messages.messages);
 
 	useEffect(() => {
-		// setMessages([
-		// 	{
-		// 		_id: 1,
-		// 		text: 'Hello developer',
-		// 		createdAt: new Date(),
-		// 		user: {
-		// 			_id: 2,
-		// 			name: 'React Native',
-		// 			// avatar: 'https://placeimg.com/140/140/any',
-		// 		},
-		// 	},
-		// ])
-		console.log(__messages, '__messages')
-	}, [__messages])
-
-
-	useEffect(() => {
 		const { data } = route.params;
 		const { number } = data;
-		const { contact,_id } = number
-		if(contact){
+		const { contact, _id } = number
+
+		if (contact) {
 			setContactInfo(contact)
-		} else{
-			setContactNumber(_id)
 		}
+
+		console.log(contact)
+		setContactNumber(_id)
 
 		if (data) {
 			onPressMessageList(data);
@@ -94,6 +79,12 @@ const Home = (props) => {
 		navigate('Contact', { number })
 	}
 
+	const onPressDeleteIcon = () => {
+		dispatch(messagesActions.deleteMessageAction(contactNumber, function () {
+			navigateAndReset('Messages')
+		}))
+	}
+
 	const headerBody = () => {
 		if (contactInfo && _.isObject(contactInfo)) {
 			return (
@@ -115,7 +106,7 @@ const Home = (props) => {
 
 	const headerRight = () => {
 		return (
-			<TouchableOpacity>
+			<TouchableOpacity onPress={onPressDeleteIcon}>
 				<Feather size={22} name="trash" color="#ff5821" />
 			</TouchableOpacity>
 		)

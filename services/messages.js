@@ -30,6 +30,8 @@ function deleteMessage(number) {
     body: JSON.stringify({ user, number })
   };
 
+  console.log({ user, number })
+
   return fetch(`${API_URL}/${prefix}/message-list-delete`, requestOptions).then(handleResponse);
 }
 

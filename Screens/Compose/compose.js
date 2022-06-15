@@ -118,7 +118,6 @@ const Compose = () => {
     const onSendMessage = () => {
         const { _id } = user.data
         let data = { media: files, message: message, numbers: selectedContact, profile: profileID, user: _id }
-        console.log(data);
         dispatch(messagesActions.sendMessageDetailsAction(data, onSuccessSendMessage))
     }
 
