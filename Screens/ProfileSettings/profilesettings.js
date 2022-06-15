@@ -162,11 +162,11 @@ const ProfileSettings = () => {
     }
 
     const onPressGetNumber = () => {
-        if (profileSettings && !_.isEmpty(profileSettings)) {
+        // if (profileSettings && !_.isEmpty(profileSettings)) {
             let data = returnData();
             console.log('bhrwa', data)
             dispatch(settingsActions.getNumbersListByProfileAction(data, activeTab))
-        }
+        // }
     }
 
     const onChangePhone = (obj) => {

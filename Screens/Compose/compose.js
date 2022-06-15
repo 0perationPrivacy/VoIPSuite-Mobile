@@ -8,29 +8,54 @@ import { Button, Select } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadsActions } from '../../redux/actions';
-import RNFetchBlob from 'rn-fetch-blob';
+import { contactActions, messagesActions, uploadsActions } from '../../redux/actions';
 import _ from 'lodash';
-import axios from 'axios';
-import { authHeader } from '../../helpers/auth-header';
-import Loader from '../../components/Loader';
+import Tags from "react-native-tags";
+import { goBack, navigate, navigateAndReset } from '../../helpers/RootNavigation';
 
 const Compose = () => {
     const [phone, setPhone] = useState(null);
     const [message, setMessage] = useState(null);
     const [files, setFiles] = useState([]);
     const { control, handleSubmit } = useForm();
+    const [selectedContact, setSelectedContact] = useState([]);
+    const [contactList, setContactList] = useState([]);
+    const [profileID, setProfileId] = useState(null);
 
     const dispatch = useDispatch();
     const imageLoading = useSelector(state => state.uploads.isLoading);
+    const contacts = useSelector(state => state.contact.items);
+    const profileSettings = useSelector(state => state.settings.profileSettings);
+    const user = useSelector(state => state.authentication.user);
+    const messageLoading = useSelector(state => state.messages.isLoading);
 
     const fileOptions = {};
 
-    useEffect(() => { }, [])
+    useEffect(() => {
+        getAllContacts();
+    }, [])
 
-    const onPressSendMessage = (data) => {
-        alert(JSON.stringify(data))
+    useEffect(() => {
+        if (profileSettings && !_.isEmpty(profileSettings)) {
+            const { id } = profileSettings;
+            setProfileId(profileSettings);
+        }
+    }, [profileSettings])
+
+    const getAllContacts = () => {
+        dispatch(contactActions.getAllContactsAction())
     }
+
+    useEffect(() => {
+        if (_.isArray(contacts)) {
+            let data = [];
+            contacts.map((item) => {
+                const { number, _id } = item;
+                data.push({ label: number, value: number })
+            })
+            setContactList(data)
+        }
+    }, [contacts])
 
     const onPressFileUpload = async () => {
         const result = await launchImageLibrary(fileOptions);
@@ -57,12 +82,52 @@ const Compose = () => {
         console.log('succcess data', data);
         const fileArray = [...files]
         fileArray.push(data.media);
+        console.log(fileArray, '<============ fileArray')
 
         setFiles(fileArray)
     }
 
+    const onChangeContactList = (value) => {
+        let data = [...selectedContact];
+
+        if (!data.includes(value)) {
+            data.push(value)
+            console.log(data)
+
+            setSelectedContact(data)
+        }
+    }
+
+    const onPressRemoveTag = (index) => {
+        let data = [...selectedContact];
+        if (index > -1) {
+            data.splice(index, 1);
+        }
+        setSelectedContact(data)
+    }
+
+    const onSubmitPhone = () => {
+        if (phone) {
+            onChangeContactList(phone)
+            setTimeout(() => {
+                setPhone(null)
+            }, 500);
+        }
+    }
+
+    const onSendMessage = () => {
+        const { _id } = user.data
+        let data = { media: files, message: message, numbers: selectedContact, profile: profileID, user: _id }
+        console.log(data);
+        dispatch(messagesActions.sendMessageDetailsAction(data, onSuccessSendMessage))
+    }
+
+    const onSuccessSendMessage = () => {
+        navigateAndReset('Messages')
+    }
+
     const renderSelectField = () => {
-        return <Select placeholder="Select Contact" />
+        return <Select placeholder="Select Contact" items={contactList} onChange={onChangeContactList} />
     }
 
     const renderInputs = () => {
@@ -73,15 +138,31 @@ const Compose = () => {
                     autoFocus
                     keyboardType={'numeric'}
                     value={phone}
-                    onChangeText={(text) => setPhone(text)}
+                    onChangeInput={(name, text) => setPhone(text)}
                     control={control}
                     name="phone"
+                    onSubmitEditing={onSubmitPhone}
+                    onInputLeave={onSubmitPhone}
                 />
+                {
+                    selectedContact.length > 0 &&
+                    <View style={styles.tagsContainer}>
+                        {
+                            selectedContact.map((item, index) => {
+                                return (
+                                    <TouchableOpacity key={index} style={styles.tagItem} onPress={() => onPressRemoveTag(index)}>
+                                        <Text>{item}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+                    </View>
+                }
                 <Input
                     placeholder="Type Message Here"
                     autoFocus
                     value={message}
-                    onChangeText={(text) => setMessage(text)}
+                    onChangeInput={(name, text) => setMessage(text)}
                     control={control}
                     name="message"
                     multiline={true}
@@ -92,7 +173,7 @@ const Compose = () => {
     }
 
     const renderButton = () => {
-        return <Button title="Send Message" onPress={handleSubmit(onPressSendMessage)} />
+        return <Button title="Send Message" onPress={onSendMessage} loading={messageLoading} />
     }
 
     const renderFileUploadButton = () => {
@@ -103,10 +184,11 @@ const Compose = () => {
             </TouchableOpacity>
         )
     }
+
     const renderImageItems = (uri, index) => {
-        console.log(uri,'< ==========')
+        console.log(uri, '< ==========')
         return (
-            <Image source={uri} width={50} height={50} key={index} />
+            <Image source={{ uri }} width={50} height={50} key={index} />
         )
     }
 
@@ -138,6 +220,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 10
+    },
+    tagsContainer: {
+        borderWidth: 1,
+        borderColor: '#ececec',
+        // justifyContent: "space-between",
+        marginBottom: '5%',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexWrap: 'wrap'
+    },
+    tagItem: {
+        borderWidth: 1,
+        borderColor: '#ececec',
+        borderRadius: 50,
+        padding: 5,
+        alignItems: 'center',
+        width: '33%',
+        backgroundColor: '#e2e2e2',
+        marginBottom: '5%',
     }
 });
 

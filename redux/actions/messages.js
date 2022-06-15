@@ -6,7 +6,8 @@ import { navigate } from '../../helpers/RootNavigation';
 export const messagesActions = {
   getMessagesByProfileIdAction,
   deleteMessageAction,
-  getMessageDetailsAction
+  getMessageDetailsAction,
+  sendMessageDetailsAction
 };
 
 function getMessagesByProfileIdAction(profileId) {
@@ -70,11 +71,11 @@ function getMessageDetailsAction(data) {
     messagesService.viewMessage(data)
       .then(
         response => {
-          console.log('response',response)
+          console.log('response', response)
 
           if (response) {
             dispatch(success(response));
-            console.log('response',response)
+            console.log('response', response)
             return;
           }
 
@@ -91,4 +92,31 @@ function getMessageDetailsAction(data) {
   function request() { return { type: messagesConstants.VIEW_MESSAGES_REQUEST, } }
   function success(messages) { return { type: messagesConstants.VIEW_MESSAGES_SUCCESS, messages } }
   function failure(error) { return { type: messagesConstants.VIEW_MESSAGES_FAILURE, error } }
+}
+
+function sendMessageDetailsAction(data, cb) {
+  return dispatch => {
+    dispatch(request());
+
+    messagesService.sendMessageService(data)
+      .then(
+        response => {
+          console.log('response', response)
+          dispatch(success());
+          dispatch(alertActions.success(response.message));
+
+          if (cb) {
+            cb();
+          }
+        },
+        ([error]) => {
+          dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
+        }
+      );
+  };
+
+  function request() { return { type: messagesConstants.SEND_MESSAGES_REQUEST, } }
+  function success() { return { type: messagesConstants.SEND_MESSAGES_SUCCESS, } }
+  function failure(error) { return { type: messagesConstants.SEND_MESSAGES_FAILURE, error } }
 }

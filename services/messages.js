@@ -6,7 +6,8 @@ import { handleResponse } from './handle';
 export const messagesService = {
   getMessageByProfileId,
   deleteMessage,
-  viewMessage
+  viewMessage,
+  sendMessageService
 };
 
 var prefix = 'setting';
@@ -34,7 +35,6 @@ function deleteMessage(number) {
 
 function viewMessage(postData) {
   let data = { ...postData, user: user }
-  console.log(data);
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -42,4 +42,15 @@ function viewMessage(postData) {
   };
 
   return fetch(`${API_URL}/${prefix}/message-list`, requestOptions).then(handleResponse);
+}
+
+function sendMessageService(postData) {
+  let data = { ...postData, user: user }
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify(data)
+  };
+
+  return fetch(`${API_URL}/${prefix}/send-sms`, requestOptions).then(handleResponse);
 }

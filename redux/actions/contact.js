@@ -47,13 +47,17 @@ function getAllContactsAction(cb) {
       .then(
         response => {
           dispatch(success(response.data));
-          cb();
+          if (cb) {
+            cb();
+          }
           // dispatch(alertActions.success(response?.message));
         },
         ([error]) => {
           dispatch(failure(error.toString()));
           dispatch(alertActions.error(error.toString()));
-          cb();
+          if (cb) {
+            cb();
+          }
         }
       );
   };

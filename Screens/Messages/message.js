@@ -16,7 +16,7 @@ import { navigate } from '../../helpers/RootNavigation';
 //     .fill("")
 //     .map((_, i) => ({ key: `${i}`, text: `item #${i}` }));
 
-const Messages = () => {
+const Messages = ({ navigation }) => {
     const [__messages, setMessages] = useState([]);
     const [activeProfile, setActiveProfile] = useState(null);
 
@@ -30,6 +30,9 @@ const Messages = () => {
 
     useEffect(() => {
         getMessagesByProfileId()
+        navigation.addListener('focus', () => {
+            getMessagesByProfileId();
+        });
     }, [])
 
     useEffect(() => {

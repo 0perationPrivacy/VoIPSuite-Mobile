@@ -56,7 +56,23 @@ export function messages(state = initialState, action) {
         ...state,
         isLoading: false,
       };
-      
+
+    case messagesConstants.SEND_MESSAGES_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case messagesConstants.SEND_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case messagesConstants.SEND_MESSAGES_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     default:
       return state
   }
