@@ -68,10 +68,10 @@
     </array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<false/>
-	<key>NSCameraUsageDescription</key>
-	<false/>
+<key>NSCameraUsageDescription</key>
+<string>Camera permission description</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Microphone permission description</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<false/>
 </dict>

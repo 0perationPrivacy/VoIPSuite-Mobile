@@ -47,7 +47,8 @@ const CustomInput = ({
 				style={[styles.inputContainer, customStyle, isError || errors?.[name] ? styles.error : '', icon ? styles.noLeftBorderInput : styles.fullflex]}
 				underlineColorAndroid={'transparent'}
 				onChangeText={onChangeInputText}
-				onBlur={_onInputLeave}
+				// onBlur={_onInputLeave}
+				onEndEditing={_onInputLeave}
 				placeholderTextColor={getColorByTheme('#000', '#fff')}
 				defaultValue={defaultValue}
 			/>

@@ -6,12 +6,12 @@ import PropTypes from 'prop-types'
 
 const Wrapper = ({ children, header }) => {
 	return (
-		<KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+		<View behavior="padding" style={{ flex: 1 }}>
 			{header}
 			<ScrollView contentContainerStyle={styles.container}>
 				{children}
 			</ScrollView>
-		</KeyboardAvoidingView>
+		</View>
 	)
 }
 

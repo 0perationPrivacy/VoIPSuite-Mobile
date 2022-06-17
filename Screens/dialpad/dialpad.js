@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, FlatList, TextInput } from 'react-native';
 import globalStyles from '../../style';
 import Wrapper from '../../components/Wrapper';
-import { Header, Select, Input } from '../../components';
+import { Header, Select, Input, Button } from '../../components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { getColorByTheme } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
 import { callActions } from '../../redux/actions';
+import { mediaDevices, RTCView } from 'react-native-webrtc';
 
 const data = [
     { value: 1 },
@@ -27,6 +28,30 @@ const data = [
 ];
 
 const DialPad = () => {
+
+    const [stream, setStream] = useState(null);
+    const start = async () => {
+        console.log('start',stream);
+        if (!stream) {
+            let s;
+            try {
+                console.log('start',stream);
+                s = await mediaDevices.getUserMedia({ video: true });
+                setStream(s);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    };
+    const stop = () => {
+        console.log('stop');
+        if (stream) {
+            stream.release();
+            setStream(null);
+        }
+    };
+
+    ///
     const [number, setNumber] = useState('0');
     const { control } = useForm();
 
@@ -111,7 +136,7 @@ const DialPad = () => {
 
     return (
         <Wrapper header={renderHeader()}>
-            {renderSelectField()}
+            {/* {renderSelectField()}
             {renderDialInput()}
             <View style={styles.numberListContainer}>
                 <FlatList
@@ -126,6 +151,21 @@ const DialPad = () => {
             <View style={styles.dialPadActionContainer}>
                 {renderCallIcon()}
                 {renderCleanIcon()}
+            </View> */}
+            {
+                stream &&
+                <RTCView
+                    streamURL={stream.toURL()}
+                    style={styles.stream} />
+            }
+            <View
+                style={styles.footer}>
+                <Button
+                    title="Start"
+                    onPress={start} />
+                <Button
+                    title="Stop"
+                    onPress={stop} />
             </View>
         </Wrapper>
     )

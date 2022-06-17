@@ -10,9 +10,8 @@ module.exports = StyleSheet.create({
 		alignItems: 'center',
 		padding: 10,
 		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
-		// flex: 1,
-		height: '100%',
-		paddingHorizontal: Metrics.ratio(10),
+		// height: Metrics.heightPercentageToDP(100),
+		paddingTop: Metrics.ratio(25)
 
 	},
 	flexOne: {

@@ -7,12 +7,18 @@ import styles from '../../style';
 
 const AuthWrapper = ({ children }) => {
 	return (
-		<KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-			<ScrollView contentContainerStyle={styles.authContainer}>
+		// <KeyboardAvoidingView behavior="padding" style={styles.authContainer}>
+		// 	{/* <ScrollView contentContainerStyle={styles.authContainer}> */}
+		// 	{children}
+		// 	<View style={{ height: 100 }} />
+		// 	{/* </ScrollView> */}
+		// </KeyboardAvoidingView>
+
+		<View behavior="padding" style={{ flex: 1 }}>
+			<ScrollView contentContainerStyle={styles.container}>
 				{children}
-				<View style={{ height: 100 }} />
 			</ScrollView>
-		</KeyboardAvoidingView>
+		</View>
 	)
 }
 
