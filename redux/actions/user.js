@@ -13,12 +13,16 @@ export const userActions = {
 };
 
 function login(data, errorMessagesCb) {
+    let { server_url = null } = data;
+
     return dispatch => {
         dispatch(request());
 
         userService.login(data)
             .then(
                 user => {
+                    Object.assign(user, { server_url })
+
                     dispatch(success(user));
                     showMessage({
                         message: user?.message,

@@ -1,5 +1,5 @@
 
-import { API_URL } from '../helpers/config';
+import { getServerUrl } from '../helpers/config';
 import { authHeader, getUserId } from '../helpers/auth-header';
 import { handleResponse } from './handle';
 
@@ -10,6 +10,7 @@ export const contactService = {
   createImportedContact
 };
 
+var API_URL = getServerUrl();
 var prefix = 'contact';
 
 function createContact(params, isEditRquest = false) {

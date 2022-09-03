@@ -1,5 +1,5 @@
 
-import { API_URL } from '../helpers/config';
+import { getServerUrl } from '../helpers/config';
 import { authHeader } from '../helpers/auth-header';
 import { handleResponse } from './handle';
 
@@ -7,6 +7,7 @@ export const callService = {
   getProviderToken
 };
 
+var API_URL = getServerUrl();
 var prefix = 'call';
 
 function getProviderToken(data) {

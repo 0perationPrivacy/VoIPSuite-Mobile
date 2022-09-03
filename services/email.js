@@ -1,5 +1,5 @@
 
-import { API_URL } from '../helpers/config';
+import { getServerUrl } from '../helpers/config';
 import { authHeader } from '../helpers/auth-header';
 import { handleResponse } from './handle';
 
@@ -9,6 +9,7 @@ export const emailService = {
   saveProfileEmailSettings
 };
 
+var API_URL = getServerUrl();
 var prefix = 'email';
 
 function setEmailCredentials(data) {

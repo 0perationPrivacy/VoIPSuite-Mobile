@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import Metrics from '../../helpers/Metrics';
 
 const Login = (props) => {
-	const [params, setParams] = useState({ email: "", password: "", server_url: "" });
+	const [params, setParams] = useState({ email: "huzaifa_test1", password: "admin123", server_url: null });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
@@ -35,7 +35,7 @@ const Login = (props) => {
 	}
 
 	const onPressSignIn = (data) => {
-		const { email, password } = data;
+		const { email, password} = data;
 
 		console.log(data);
 
@@ -107,8 +107,9 @@ const Login = (props) => {
 					<Input
 						placeholder="Enter Server Url (Optional)"
 						keyboardType="url"
-						defaultValue={params.password}
+						defaultValue={params.server_url}
 						control={control}
+						name="server_url"
 						onInputLeave={onInputLeave}
 					/>
 				</View>

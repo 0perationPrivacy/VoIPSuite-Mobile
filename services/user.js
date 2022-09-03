@@ -1,5 +1,5 @@
 
-import { API_URL } from '../helpers/config';
+import { getServerUrl } from '../helpers/config';
 import { authHeader } from '../helpers/auth-header';
 import { store } from '../redux/store';
 import { userActions } from '../redux/actions';
@@ -12,14 +12,20 @@ export const userService = {
     changePassword
 };
 
+var API_URL = getServerUrl();
+
 function login(data) {
+    let { server_url, ...rest } = data;
+    server_url = server_url ? server_url : API_URL;
+
+    console.log('server_url ====>', server_url)
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(rest)
     };
 
-    return fetch(`${API_URL}/auth/login`, requestOptions)
+    return fetch(`${server_url}/auth/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             return user;
@@ -31,13 +37,16 @@ function logout() {
 }
 
 function register(user) {
+    let { server_url, ...rest } = user;
+    server_url = server_url ? server_url : API_URL;
+
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        body: JSON.stringify(rest)
     };
 
-    return fetch(`${API_URL}/auth/register`, requestOptions).then(handleResponse);
+    return fetch(`${server_url}/auth/register`, requestOptions).then(handleResponse);
 }
 
 function changeUsername(user) {
