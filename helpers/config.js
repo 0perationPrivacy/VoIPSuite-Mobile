@@ -1,6 +1,6 @@
 import { store } from "../redux/store";
 
-var API_URL = 'https://voip-node.herokuapp.com/api';
+var API_URL = 'http://voip-node.herokuapp.com/api';
 
 const state = store.getState();
 export function getServerUrl() {

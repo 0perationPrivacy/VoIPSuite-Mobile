@@ -9,9 +9,9 @@ export function authHeader() {
     console.log(user, '<====  user object in token')
 
     if (user && user.token) {
-        return { 'token': user?.data?.token };
+        return { 'token': user?.data?.token, 'Cache-Control': 'no-cache' };
     } else {
-        return {};
+        return { 'Cache-Control': 'no-cache' };
     }
 }
 

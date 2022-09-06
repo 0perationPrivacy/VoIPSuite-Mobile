@@ -2,13 +2,11 @@ import { userService } from ".";
 
 export const handleResponse = (response) => {
 
-  console.log('ssss',response)
-
   return response.text().then(text => {
-    console.log('ssss',text)
-
     const data = text && JSON.parse(text);
-    console.log(response,data,text);
+
+    console.log('data ===>', data);
+
     if (!response.ok) {
       if (response.status === 401) {
         userService.logout()

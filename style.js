@@ -38,15 +38,14 @@ module.exports = StyleSheet.create({
 	},
 	homeHeaderLeftContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center'
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	homeHeaderAppTitle: {
 		marginLeft: '5%',
 		fontSize: 16,
 		color: '#000',
-		// fontWeight : 'bold'
-		fontFamily: Metrics.fontRegular
+		fontFamily: Metrics.fontMedium,
 	},
 	homeHeaderPhone: {
 		marginLeft: 5,

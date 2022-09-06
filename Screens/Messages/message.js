@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
@@ -11,15 +11,38 @@ import { messagesActions, settingsActions } from '../../redux/actions';
 import _ from 'lodash'
 import Loader from '../../components/Loader';
 import { navigate } from '../../helpers/RootNavigation';
-import Icon from 'react-native-vector-icons/Feather';
 import HomeFloating from '../../components/HomeFloating';
 
-// const data = Array(20)
-//     .fill("")
-//     .map((_, i) => ({ key: `${i}`, text: `item #${i}` }));
-
 const Messages = ({ navigation }) => {
-    const [__messages, setMessages] = useState([]);
+    const [__messages, setMessages] = useState([
+        // {
+        //     _id: 1,
+        //     contact: {
+        //         first_name: 'Muhammahd',
+        //         last_name: 'Huzaifa'
+        //     },
+        //     created_at: new Date(),
+        //     message: 'hola'
+        // },
+        // {
+        //     _id: 2,
+        //     contact: {
+        //         first_name: 'Muhammahd',
+        //         last_name: 'Huzaifa'
+        //     },
+        //     created_at: new Date(),
+        //     message: 'hola'
+        // },
+        // {
+        //     _id: 3,
+        //     contact: {
+        //         first_name: 'Muhammahd',
+        //         last_name: 'Huzaifa'
+        //     },
+        //     created_at: new Date(),
+        //     message: 'hola'
+        // }
+    ]);
     const [activeProfile, setActiveProfile] = useState(null);
 
     let row = [];
@@ -89,9 +112,9 @@ const Messages = ({ navigation }) => {
                 style={styles.messagesListItemWrap}
                 key={`swipe-item-${index}`}
                 onPress={() => onPressMessageList(item)}>
-                {/* <View style={styles.messagesListItemAvatar}>
+                <View style={styles.messagesListItemAvatar}>
                     <Text style={styles.messagesListItemAvatarText}>A</Text>
-                </View> */}
+                </View>
                 <View style={styles.messagesListItemDetailWrap}>
                     <View style={styles.messagesListItemTitleWrap}>
                         <Text style={styles.messagesListItemTitle}>{_contact}</Text>
@@ -130,7 +153,7 @@ const Messages = ({ navigation }) => {
     const emptyList = () => {
         return (
             <View style={styles.emptyContainer}>
-                <Text style={styles.emptyMessage}>{'Message Not Found.'}</Text>
+                <Text style={styles.emptyMessage}>{'No messages found.'}</Text>
             </View>
         );
     };
@@ -141,6 +164,7 @@ const Messages = ({ navigation }) => {
             {isLoading && <Loader />}
             <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
                 <FlatList
+                    contentContainerStyle={{ flexGrow: 1 }}
                     data={__messages}
                     renderItem={(params) => renderItem(params)}
                     keyExtractor={(item) => item._id}
@@ -162,27 +186,26 @@ const styles = StyleSheet.create({
     },
     messagesListItemWrap: {
         flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: '#ececec',
+        // borderWidth: 1,
+        // borderColor: '#ececec',
         paddingVertical: Metrics.ratio(10),
         paddingHorizontal: 5,
-        borderRadius: 10,
-        marginBottom: 10,
-        backgroundColor: getColorByTheme('#fff', '#2e2e2e')
+        // borderRadius: 10,
+        marginBottom: 5,
+        backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
+        alignItems: 'center'
     },
     messagesListItemAvatar: {
-        borderRadius: 50,
-        width: 50,
-        height: 50,
+        borderRadius: 40,
+        width: 40,
+        height: 40,
         backgroundColor: getColorByTheme('#f6f6f6', '#2e2e2e'),
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
         borderColor: getColorByTheme('#2e2e2e', '#fff'),
-        // flex : 0.1
     },
     messagesListItemAvatarText: {
-        fontSize: 22,
+        fontSize: 14,
         color: getColorByTheme('#000', '#fff'),
     },
     messagesListItemDetailWrap: {
@@ -195,13 +218,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     messagesListItemTitle: {
-        fontSize: 20,
+        fontSize: 14,
         color: getColorByTheme('#000', '#fff'),
+        fontFamily: Metrics.fontRegular
     },
     messagesListItemDate: {
-        fontSize: 12,
+        fontSize: 10,
         alignSelf: 'center',
         color: getColorByTheme('#000', '#fff'),
+        fontFamily: Metrics.fontRegular
     },
     messagesListItemTime: {
         // marginTop : Metrics.ratio(20)
@@ -213,6 +238,7 @@ const styles = StyleSheet.create({
     messagesListItemDescription: {
         fontSize: 14,
         color: getColorByTheme('#212529', '#fff'),
+        fontFamily: Metrics.fontRegular
     },
     messageListButtonWrap: {
         justifyContent: 'center',
@@ -227,6 +253,7 @@ const styles = StyleSheet.create({
     emptyMessage: {
         fontSize: 18,
         color: getColorByTheme('#000', '#fff'),
+        fontFamily: Metrics.fontMedium
     },
     emptyContainer: {
         flex: 1,

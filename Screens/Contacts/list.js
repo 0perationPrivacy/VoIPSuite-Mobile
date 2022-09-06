@@ -108,6 +108,7 @@ const ContactList = () => {
       {isLoading || refreshing && <Loader />}
       <View style={[globalStyles.flexOne, styles.mainContainerWrap]}>
         <FlatList
+          contentContainerStyle={{ flexGrow: 1 }}
           data={__messages}
           renderItem={(params) => renderItem(params)}
           keyExtractor={(item) => item._id}
@@ -165,7 +166,8 @@ const styles = StyleSheet.create({
     marginHorizontal: Metrics.ratio(2)
   },
   emptyMessage: {
-    fontSize: 18
+    fontSize: 18,
+    fontFamily: Metrics.fontMedium
   },
   emptyContainer: {
     flex: 1,
