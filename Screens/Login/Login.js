@@ -16,7 +16,7 @@ import Metrics from '../../helpers/Metrics';
 import Version from '../../components/Version';
 
 const Login = (props) => {
-	const [params, setParams] = useState({ email: "huzaifa_test1", password: "admin123", server_url: null });
+	const [params, setParams] = useState({ email: "", password: "", server_url: null });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
