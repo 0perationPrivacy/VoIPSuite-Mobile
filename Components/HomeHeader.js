@@ -113,17 +113,15 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 	return (
 		<View style={[styles.fullFlex, styles.homeHeaderWrapper]}>
-			<TouchableOpacity onPress={onPressSideMenu}>
-				<Icon name={"menu"} size={21} style={styles.defaultIconColor} />
-			</TouchableOpacity>
+			<View style={styles.homeHeaderLeftContainer}>
+				<TouchableOpacity onPress={onPressSideMenu}>
+					<Icon name={"menu"} size={21} style={styles.defaultIconColor} />
+				</TouchableOpacity>
+				<Text style={styles.homeHeaderAppTitle}>
+					Voip Suit
+				</Text>
+			</View>
 			<View style={styles.fullFlex}>
-				<TouchableOpacity onPress={() => onPressCompose('Compose')}>
-					<Icon name={"plus-circle"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
-				</TouchableOpacity>
-				{/* <Icon name={"settings"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} /> */}
-				<TouchableOpacity onPress={() => onPressCompose('Dialer')} >
-					<Icon name={"phone"} size={19} style={[styles.homeHeaderPhone, styles.defaultIconColor]} />
-				</TouchableOpacity>
 				<View style={{ marginLeft: 10 }}>
 					<TouchableOpacity onPress={showProfileDropDown} style={styles.fullFlex}>
 						<ModalDropdown

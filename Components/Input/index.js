@@ -10,7 +10,9 @@ const CustomInput = ({
 	control, name,
 	onChangeInput, onInputLeave,
 	defaultValue,
-	isError, errors, icon = null, ...rest
+	isError, errors,
+	customIconWrap = {},
+	icon = null, ...rest
 }) => {
 
 	const { field } = useController({
@@ -23,7 +25,7 @@ const CustomInput = ({
 		const { onChange } = field;
 		onChange(text);
 		// console.log('afzffzfzf',text,name,onChangeInput)
-		
+
 		if (onChangeInput) {
 			onChangeInput(name, text)
 		}
@@ -38,7 +40,7 @@ const CustomInput = ({
 	return (
 		<View style={styles.mainWrap}>
 			{
-				icon && <View style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '',]}>
+				icon && <View style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '', customIconWrap]}>
 					<Icon name={icon} size={20} />
 				</View>
 			}

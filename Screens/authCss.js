@@ -17,6 +17,7 @@ module.exports = StyleSheet.create({
         width: '100%',
         paddingHorizontal: Metrics.ratio(10),
         paddingVertical: Metrics.ratio(20),
+        // shadow
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -24,15 +25,16 @@ module.exports = StyleSheet.create({
         },
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
-
-        elevation: 3,
+        elevation: 4,
+        // shadow
+        borderRadius: 10
     },
     button: {
         width: '100%',
         marginTop: 5,
     },
     createAccountWrap: {
-        marginTop: 10,
+        marginTop: Metrics.baseMargin,
         flexDirection: 'row',
         alignSelf: 'flex-start',
     },
@@ -42,7 +44,8 @@ module.exports = StyleSheet.create({
         marginLeft: 5,
     },
     signInButton: {
-        backgroundColor: '#198754'
+        backgroundColor: '#198754',
+        borderRadius: 10
     },
     socialLinksWrap: {
         flexDirection: 'row',

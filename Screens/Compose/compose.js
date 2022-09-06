@@ -134,7 +134,6 @@ const Compose = () => {
             <>
                 <Input
                     placeholder="Enter Phone Number"
-                    autoFocus
                     keyboardType={'numeric'}
                     value={phone}
                     onChangeInput={(name, text) => setPhone(text)}
@@ -159,7 +158,6 @@ const Compose = () => {
                 }
                 <Input
                     placeholder="Type Message Here"
-                    autoFocus
                     value={message}
                     onChangeInput={(name, text) => setMessage(text)}
                     control={control}

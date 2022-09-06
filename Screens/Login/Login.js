@@ -13,6 +13,7 @@ import { userActions } from '../../redux/actions'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather'
 import Metrics from '../../helpers/Metrics';
+import Version from '../../components/Version';
 
 const Login = (props) => {
 	const [params, setParams] = useState({ email: "huzaifa_test1", password: "admin123", server_url: null });
@@ -35,7 +36,7 @@ const Login = (props) => {
 	}
 
 	const onPressSignIn = (data) => {
-		const { email, password} = data;
+		const { email, password } = data;
 
 		console.log(data);
 
@@ -82,7 +83,7 @@ const Login = (props) => {
 				<View style={styles.inputContainer}>
 					<Input
 						placeholder="Enter Username"
-						autoFocus
+						// autoFocus
 						defaultValue={params.email}
 						style={styles.inputWrap}
 						control={control}
@@ -91,6 +92,8 @@ const Login = (props) => {
 						errors={errorMessages}
 						name="email"
 						icon={'user'}
+						customStyle={globalStyle.authInputContainer}
+						customIconWrap={globalStyle.authInputIconContainer}
 					/>
 					<Input
 						placeholder="Enter Password"
@@ -103,6 +106,9 @@ const Login = (props) => {
 						errors={errorMessages}
 						name="password"
 						icon={'shield'}
+						customStyle={globalStyle.authInputContainer}
+						customIconWrap={globalStyle.authInputIconContainer}
+					// customStyle={}
 					/>
 					<Input
 						placeholder="Enter Server Url (Optional)"
@@ -111,6 +117,8 @@ const Login = (props) => {
 						control={control}
 						name="server_url"
 						onInputLeave={onInputLeave}
+						customStyle={{ borderRadius: 10 }}
+						customIconWrap={globalStyle.authInputIconContainer}
 					/>
 				</View>
 				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
@@ -132,6 +140,7 @@ const Login = (props) => {
 					</TouchableOpacity>
 				</View>
 			</View>
+			<Version />
 		</AuthWrapper>
 	)
 }

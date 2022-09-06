@@ -6,9 +6,10 @@ const { ratio } = Metrics;
 
 module.exports = StyleSheet.create({
 	modalViewContainer: {
-		height: '30%',
+		// height: '30%',
 		backgroundColor: '#fff',
 		paddingHorizontal: ratio(15),
+		paddingBottom: Metrics.ratio(15)
 	},
 	modalTitle: {
 		paddingVertical: ratio(15),

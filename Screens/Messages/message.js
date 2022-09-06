@@ -11,6 +11,8 @@ import { messagesActions, settingsActions } from '../../redux/actions';
 import _ from 'lodash'
 import Loader from '../../components/Loader';
 import { navigate } from '../../helpers/RootNavigation';
+import Icon from 'react-native-vector-icons/Feather';
+import HomeFloating from '../../components/HomeFloating';
 
 // const data = Array(20)
 //     .fill("")
@@ -147,6 +149,7 @@ const Messages = ({ navigation }) => {
                 >
                 </FlatList>
             </View>
+            <HomeFloating />
         </>
     )
 }

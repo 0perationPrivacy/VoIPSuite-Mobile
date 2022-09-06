@@ -48,6 +48,10 @@ const heightPercentageToDP = heightPercent => {
     return PixelRatio.roundToNearestPixel(height * elemHeight / 100);
 };
 
+const fontRegular = 'Poppins-Regular';
+const fontSemiBold = 'Poppins-SemiBold';
+const fontMedium = 'Poppins-Medium';
+
 export default {
     ratio,
     screenWidth,
@@ -110,5 +114,8 @@ export default {
     },
     widthPercentageToDP,
     heightPercentageToDP,
-    uploadImage: screenWidth / 5
+    uploadImage: screenWidth / 5,
+    fontRegular,
+    fontSemiBold,
+    fontMedium
 };

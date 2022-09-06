@@ -21,7 +21,7 @@ module.exports = StyleSheet.create({
 	container: {
 		padding: 10,
 		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
-		// height: Metrics.heightPercentageToDP(100),
+		height: Metrics.heightPercentageToDP(100),
 		paddingTop: Metrics.ratio(25)
 	},
 
@@ -35,8 +35,18 @@ module.exports = StyleSheet.create({
 		paddingVertical: 10,
 		paddingHorizontal: 10,
 		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
-		borderBottomWidth: 0.5,
-		borderBottomColor: getColorByTheme('#2e2e2e', '#fff'),
+	},
+	homeHeaderLeftContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center'
+	},
+	homeHeaderAppTitle: {
+		marginLeft: '5%',
+		fontSize: 16,
+		color: '#000',
+		// fontWeight : 'bold'
+		fontFamily: Metrics.fontRegular
 	},
 	homeHeaderPhone: {
 		marginLeft: 5,
@@ -114,4 +124,12 @@ module.exports = StyleSheet.create({
 	themeBg: {
 		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
 	},
+	authInputContainer: {
+		borderTopRightRadius: 10,
+		borderBottomRightRadius: 10,
+	},
+	authInputIconContainer: {
+		borderTopLeftRadius: 10,
+		borderBottomLeftRadius: 10,
+	}
 });

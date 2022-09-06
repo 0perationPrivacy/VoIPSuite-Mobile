@@ -92,7 +92,7 @@ const SignUp = (props) => {
 				<View style={styles.inputContainer}>
 					<Input
 						placeholder="Enter Username"
-						autoFocus
+						// autoFocus
 						defaultValue={params.email}
 						control={control}
 						name="email"
@@ -101,6 +101,8 @@ const SignUp = (props) => {
 						isError={errors?.email}
 						errors={errorMessages}
 						icon={'user'}
+						customStyle={globalStyle.authInputContainer}
+						customIconWrap={globalStyle.authInputIconContainer}
 					/>
 					<Input
 						placeholder="Enter Password"
@@ -114,6 +116,8 @@ const SignUp = (props) => {
 						isError={errors?.password}
 						errors={errorMessages}
 						icon={'shield'}
+						customStyle={globalStyle.authInputContainer}
+						customIconWrap={globalStyle.authInputIconContainer}
 					/>
 					<Input
 						placeholder="Confirm Password"
@@ -127,6 +131,8 @@ const SignUp = (props) => {
 						isError={errors?.confirm_password}
 						errors={errorMessages}
 						icon={'shield'}
+						customStyle={globalStyle.authInputContainer}
+						customIconWrap={globalStyle.authInputIconContainer}
 					/>
 					<Input
 						placeholder="Enter Server Url (Optional)"
@@ -138,10 +144,12 @@ const SignUp = (props) => {
 						name="server_url"
 						onChangeInput={onChangeInput}
 						onInputLeave={onInputLeave}
+						customStyle={{ borderRadius: 10 }}
+						customIconWrap={globalStyle.authInputIconContainer}
 					/>
 				</View>
 
-				<Button containerStyle={styles.button} title="Sign Up" onPress={handleSubmit(onPressSignup)} loading={isLoading} />
+				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Sign Up" onPress={handleSubmit(onPressSignup)} loading={isLoading} />
 				<View style={styles.createAccountWrap}>
 					<Text style={globalStyle.defaultTextColor}>Already have an account? </Text>
 					<TouchableOpacity onPress={onPressLogin}>

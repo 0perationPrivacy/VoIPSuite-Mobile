@@ -4,12 +4,12 @@ import { getColorByTheme } from '../../helpers/utils';
 
 module.exports = StyleSheet.create({
 	mainWrap: {
-		flexDirection: 'row'
+		flexDirection: 'row',
 	},
 	inputContainer: {
 		borderWidth: 1,
 		borderColor: '#ececec',
-		fontSize: 16,
+		fontSize: 14,
 		padding: 5,
 		marginBottom: 15,
 		height: 45,
@@ -18,11 +18,8 @@ module.exports = StyleSheet.create({
 	},
 	iconWrap: {
 		justifyContent: 'center',
-		borderWidth: 1,
-		borderColor: '#ececec',
 		height: 45,
 		padding: 5,
-		borderRightWidth: 0,
 		flex: 0.1,
 		alignItems: 'center',
 		backgroundColor: '#cacaca'
