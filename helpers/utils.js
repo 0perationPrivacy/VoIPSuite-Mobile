@@ -20,7 +20,7 @@ const getReadableDate = (date) => {
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
 
-    return months[currentMonth] + currentDayOfMonth + ", " + currentYear
+    return `${months[currentMonth]} ${currentDayOfMonth}, ${currentYear} `
 }
 
 const getReadableTime = (date) => {

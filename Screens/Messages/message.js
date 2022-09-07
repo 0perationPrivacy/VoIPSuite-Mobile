@@ -113,7 +113,8 @@ const Messages = ({ navigation }) => {
                 key={`swipe-item-${index}`}
                 onPress={() => onPressMessageList(item)}>
                 <View style={styles.messagesListItemAvatar}>
-                    <Text style={styles.messagesListItemAvatarText}>A</Text>
+                    {/* <Text style={styles.messagesListItemAvatarText}>A</Text> */}
+                    <Feather name={'user'} size={18} />
                 </View>
                 <View style={styles.messagesListItemDetailWrap}>
                     <View style={styles.messagesListItemTitleWrap}>
