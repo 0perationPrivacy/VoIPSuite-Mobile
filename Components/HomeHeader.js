@@ -4,6 +4,7 @@ import { Text, View } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
 import styles from '../style'
+import dropdownStyle from '../components/Select/style'
 import { navigate, openDrawer } from '../helpers/RootNavigation'
 import { CustomModal } from '.'
 import { useDispatch, useSelector } from 'react-redux'
@@ -61,7 +62,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 		if (id === null) {
 			setProfileModalVisibility(true);
-			return true;;
+			return true;
 		}
 
 		onPressProfile(id);
@@ -102,8 +103,8 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 		return (
 			<View style={styles.profileDropDownItemContainer}>
-				<Text style={styles.textItem}>{profile}</Text>
-				{number && <Text style={[styles.textItem, { color: '#ff5821' }]}>{number}</Text>}
+				<Text style={dropdownStyle.textItem}>{profile}</Text>
+				{number && <Text style={[dropdownStyle.textItem, { color: '#ff5821' }]}>{number}</Text>}
 			</View>
 		)
 	}
@@ -115,7 +116,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 					<Icon name={"menu"} size={21} style={styles.defaultIconColor} />
 				</TouchableOpacity>
 				<Text style={styles.homeHeaderAppTitle}>
-					Voip Suit
+					Voip Suite
 				</Text>
 			</View>
 			<View style={styles.fullFlex}>

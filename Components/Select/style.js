@@ -30,11 +30,10 @@ module.exports = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-
     },
     textItem: {
         flex: 1,
-        fontSize: 16,
+        fontSize: 14,
         color: getColorByTheme('#000', '#fff'),
     },
     placeholderStyle: {
