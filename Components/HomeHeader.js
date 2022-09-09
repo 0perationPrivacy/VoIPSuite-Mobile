@@ -60,7 +60,8 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		const { id } = item;
 
 		if (id === null) {
-			setProfileModalVisibility(true)
+			setProfileModalVisibility(true);
+			return true;;
 		}
 
 		onPressProfile(id);
@@ -73,10 +74,6 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 	const onPressSideMenu = () => {
 		openDrawer()
-	}
-
-	const onPressCompose = (param) => {
-		navigate(param)
 	}
 
 	const onModalClose = () => {

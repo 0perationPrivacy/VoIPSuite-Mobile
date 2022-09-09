@@ -62,9 +62,13 @@ function getProfileAction(cb) {
     function failure(error) { return { type: profileConstants.GET_PROFILE_FAILURE, error } }
 }
 
-function setProfileName(profile) {
+function setProfileName(profile, cb) {
     return dispatch => {
         dispatch(request(profile));
+        if (cb) {
+            cb();
+        }
+
     };
 
     function request(profile) { return { type: profileConstants.SET_PROFILE_NAME, profile } }

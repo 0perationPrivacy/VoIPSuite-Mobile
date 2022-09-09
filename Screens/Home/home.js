@@ -18,14 +18,21 @@ const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
 	const [contactInfo, setContactInfo] = useState(null);
 	const [contactNumber, setContactNumber] = useState(null);
+	const [profileID, setProfileId] = useState(null);
 
 	const dispatch = useDispatch();
 	const route = useRoute();
 
 	const isLoading = useSelector(state => state.messages.isLoading);
 	const messages = useSelector(state => state.messages.messages);
+	const profileSettings = useSelector(state => state.settings.profileSettings);
+	const user = useSelector(state => state.authentication.user);
 
 	useEffect(() => {
+		init();
+	}, [])
+
+	const init = () => {
 		const { data } = route.params;
 		const { number } = data;
 		const { contact, _id } = number
@@ -43,7 +50,13 @@ const Home = (props) => {
 		}
 
 		goBack();
-	}, [])
+	}
+
+	useEffect(() => {
+		if (profileSettings && !_.isEmpty(profileSettings)) {
+			setProfileId(profileSettings);
+		}
+	}, [profileSettings])
 
 	const onPressMessageList = (data) => {
 		dispatch(messagesActions.getMessageDetailsAction(data))
@@ -71,9 +84,24 @@ const Home = (props) => {
 		}
 	}, [messages])
 
-	const onSend = useCallback((messages = []) => {
+	const onSend = (messages = []) => {
+		onSendMessage(messages)
+	}
+
+	const onSendMessage = (messages = []) => {
+		// console.log('contactInfo data ===>', contactInfo)
+		const { _id } = user.data
+		const { number } = contactInfo
+		const { text } = messages[0]
+
+		let data = { media: [], message: text, numbers: [number], profile: profileID, user: _id }
+		dispatch(messagesActions.sendMessageDetailsAction(data, () => onSuccessSendMessage(messages), false))
+	}
+
+	const onSuccessSendMessage = (messages = []) => {
+		// init();
 		setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-	}, [])
+	}
 
 	const onPressAddContact = (number) => {
 		navigate('Contact', { number })

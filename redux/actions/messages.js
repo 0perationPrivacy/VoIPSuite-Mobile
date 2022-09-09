@@ -10,7 +10,7 @@ export const messagesActions = {
   sendMessageDetailsAction
 };
 
-function getMessagesByProfileIdAction(profileId) {
+function getMessagesByProfileIdAction(profileId, successCb) {
   return dispatch => {
     dispatch(request());
 
@@ -20,6 +20,11 @@ function getMessagesByProfileIdAction(profileId) {
           if (data) {
             dispatch(success(data));
             return;
+          }
+
+          if (successCb) {
+            console.log('get successCb')
+            successCb()
           }
 
           dispatch(failure('No Messages Found'));
@@ -94,7 +99,7 @@ function getMessageDetailsAction(data) {
   function failure(error) { return { type: messagesConstants.VIEW_MESSAGES_FAILURE, error } }
 }
 
-function sendMessageDetailsAction(data, cb) {
+function sendMessageDetailsAction(data, cb, isSuccessMessage = true) {
   return dispatch => {
     dispatch(request());
 
@@ -103,7 +108,10 @@ function sendMessageDetailsAction(data, cb) {
         response => {
           console.log('response', response)
           dispatch(success());
-          dispatch(alertActions.success(response.message));
+
+          if (isSuccessMessage) {
+            dispatch(alertActions.success(response.message));
+          }
 
           if (cb) {
             cb();

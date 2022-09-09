@@ -13,6 +13,7 @@ const CustomModal = ({ isVisible = false, isLoading = false, onBackdropPress = (
 	const { control, handleSubmit } = useForm();
 
 	const onPress = (data) => {
+		console.log(data)
 		onPressSave(data, onSetErrorMessageFromServer);
 	}
 
