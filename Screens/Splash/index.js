@@ -13,10 +13,9 @@ const Splash = () => {
     useEffect(() => {
         setTimeout(() => {
             const { loggedIn, user } = _user;
-            console.log(loggedIn && user,'loggedIn && user',loggedIn)
+            console.log(loggedIn && user, 'loggedIn && user', loggedIn)
             if (loggedIn && user) {
                 getProfileList()
-                navigateAndReset('Login')
                 return true;
             } else {
                 store.dispatch(userActions.logout())

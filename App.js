@@ -52,7 +52,7 @@ const App = () => {
               <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
             </Drawer.Navigator>
           </NavigationContainer>
-          <FlashMessage position="top" />
+          <FlashMessage position="bottom" />
         </SafeAreaView>
       </PersistGate>
     </Provider>
