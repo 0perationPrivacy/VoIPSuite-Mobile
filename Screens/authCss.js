@@ -54,5 +54,12 @@ module.exports = StyleSheet.create({
     },
     socialLinksItem: {
         marginHorizontal: Metrics.ratio(10)
+    },
+    serverUrlWrapper : {
+
+    },
+    serverUrlHintText : {
+        fontSize : 10,
+        marginLeft : Metrics.ratio('2%')
     }
 });

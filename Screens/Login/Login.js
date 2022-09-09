@@ -16,7 +16,7 @@ import Metrics from '../../helpers/Metrics';
 import Version from '../../components/Version';
 
 const Login = (props) => {
-	const [params, setParams] = useState({ email: "", password: "", server_url: null });
+	const [params, setParams] = useState({ email: "", password: "", server_url: "https://devvoip.operationprivacy.com/api" });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
@@ -110,16 +110,19 @@ const Login = (props) => {
 						customIconWrap={globalStyle.authInputIconContainer}
 					// customStyle={}
 					/>
-					<Input
-						placeholder="Enter Server Url (Optional)"
-						keyboardType="url"
-						defaultValue={params.server_url}
-						control={control}
-						name="server_url"
-						onInputLeave={onInputLeave}
-						customStyle={{ borderRadius: 10 }}
-						customIconWrap={globalStyle.authInputIconContainer}
-					/>
+					<View style={styles.serverUrlWrapper}>
+						<Input
+							placeholder="Enter Server Url (Optional)"
+							keyboardType="url"
+							defaultValue={params.server_url}
+							control={control}
+							name="server_url"
+							onInputLeave={onInputLeave}
+							customStyle={{ borderRadius: 10, marginBottom : 0 }}
+							customIconWrap={globalStyle.authInputIconContainer}
+						/>
+						<Text style={styles.serverUrlHintText}>Pattern : https://www.example.com/api</Text>
+					</View>
 				</View>
 				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
 				<View style={styles.createAccountWrap}>

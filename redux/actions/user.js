@@ -95,7 +95,7 @@ function register(user, errorMessagesCb) {
 
 function changeUsernameAction(user, cb, errorMessagesCb) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request());
 
         userService.changeUsername(user)
             .then(
@@ -127,7 +127,7 @@ function changeUsernameAction(user, cb, errorMessagesCb) {
 
 function changePasswordAction(user, errorMessagesCb) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request());
 
         userService.changePassword(user)
             .then(
