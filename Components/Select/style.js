@@ -34,7 +34,7 @@ module.exports = StyleSheet.create({
     textItem: {
         flex: 1,
         fontSize: 14,
-        color: getColorByTheme('#000', '#fff'),
+        color: getColorByTheme('#000', '#000'),
     },
     placeholderStyle: {
         fontSize: 16,

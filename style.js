@@ -52,7 +52,7 @@ module.exports = StyleSheet.create({
 		// marginRight: 10
 	},
 	homeHeaderProfileDropDown: {
-		// height: Metrics.ratio(50),
+		height: '50%',
 		marginTop: 10,
 		// backgroundColor: '#000'
 	},
@@ -120,7 +120,7 @@ module.exports = StyleSheet.create({
 	},
 	defaultTextColor: {
 		color: getColorByTheme('#000', '#fff'),
-		fontFamily : Metrics.fontRegular
+		fontFamily: Metrics.fontRegular
 	},
 	themeBg: {
 		backgroundColor: getColorByTheme('#fff', '#121212'),

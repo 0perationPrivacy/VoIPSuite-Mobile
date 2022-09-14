@@ -99,8 +99,8 @@ const Home = (props) => {
 	}
 
 	const onSuccessSendMessage = (messages = []) => {
-		// init();
-		setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+		init();
+		// setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
 	}
 
 	const onPressAddContact = (number) => {
