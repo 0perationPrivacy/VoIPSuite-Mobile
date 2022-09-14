@@ -20,7 +20,7 @@ const CustomHeader = ({ isTitle, onBackProp, headerBody, headerRight, title }) =
                 <Feather name={'arrow-left'} size={24} style={styles.defaultIconColor} />
             </TouchableOpacity>}
             {headerBody ? headerBody : isTitle && <Text style={styles.headerTitle}>{title ? title : route.name}</Text>}
-            {headerRight && headerRight}
+            {headerRight && headerRight()}
         </Header>
     )
 }

@@ -99,6 +99,10 @@ const Messages = ({ navigation }) => {
         navigate('Home', { data })
     }
 
+    const onPressCompose = () => {
+        navigate('Compose')
+    }
+
     const renderMessagesList = (item, index) => {
         const { contact, message, created_at, _id } = item;
 
@@ -159,6 +163,8 @@ const Messages = ({ navigation }) => {
         );
     };
 
+
+
     return (
         <>
             {renderHeader()}
@@ -174,7 +180,7 @@ const Messages = ({ navigation }) => {
                 >
                 </FlatList>
             </View>
-            <HomeFloating />
+            <HomeFloating onPressCompose={onPressCompose} />
         </>
     )
 }

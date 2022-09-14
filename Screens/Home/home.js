@@ -113,36 +113,72 @@ const Home = (props) => {
 		}))
 	}
 
+	const onPressCall = () => {
+		// dispatch(messagesActions.deleteMessageAction(contactNumber, function () {
+		// 	navigateAndReset('Messages')
+		// }))
+	}
+
+
 	const headerBody = () => {
 		if (contactInfo && _.isObject(contactInfo)) {
 			return (
-				<View>
+				<View style={styles.headerBodyTextContainer}>
+					<Feather name={'user'} size={24} color={getColorByTheme('#000', '#fff')} />
 					<Text style={styles.headerBodyText}>{contactInfo?.first_name} {contactInfo?.last_name}</Text>
-					<Text style={styles.headerBodyTextSecondary}>{contactInfo?.number}</Text>
+					{/* <Text style={styles.headerBodyTextSecondary}>{contactInfo?.number}</Text> */}
 				</View>
 			)
 		}
+
 		return (
 			<View style={styles.headerContactNumberContainer}>
 				<Text style={styles.headerBodyText}>{contactNumber}</Text>
 				<TouchableOpacity style={[styles.composeButtonWrap, globalStyles.primaryBgColor]} onPress={() => onPressAddContact(contactNumber)}>
-					<Icon name="plus" color="#fff" size={25}></Icon>
+					<Icon name="plus" color="#fff" size={20}></Icon>
 				</TouchableOpacity>
 			</View>
 		)
 	}
 
+	const headerLeft = () => {
+		return (
+			<TouchableOpacity onPress={() => goBack()}>
+				<Feather name={'arrow-left'} size={25} style={globalStyles.defaultIconColor} />
+			</TouchableOpacity>
+		)
+	}
+
 	const headerRight = () => {
 		return (
-			<TouchableOpacity onPress={onPressDeleteIcon}>
-				<Feather size={22} name="trash" color="#ff5821" />
-			</TouchableOpacity>
+			<View style={styles.headerRightContainer}>
+				<TouchableOpacity onPress={onPressCall}>
+					<Feather size={22} name="phone" style={globalStyles.defaultIconColor} />
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.headerDeleteIcon} onPress={onPressDeleteIcon}>
+					<Feather size={22} name="trash" color={getColorByTheme('#2e2e2e', '#fff')} />
+				</TouchableOpacity>
+			</View>
+		)
+	}
+
+
+	const customHeader = () => {
+		return (
+			<View style={styles.customHeaderContainer}>
+				<View style={styles.customHeaderLeftContainer}>
+					{headerLeft()}
+					{headerBody()}
+				</View>
+				{headerRight()}
+			</View>
 		)
 	}
 
 	return (
 		<View style={globalStyles.flexOne}>
-			<Header headerBody={headerBody} headerRight={headerRight} />
+			{/* <Header headerBody={headerBody} headerRight={headerRight} /> */}
+			{customHeader()}
 			<GiftedChat
 				messages={__messages}
 				onSend={messages => onSend(messages)}
@@ -151,17 +187,28 @@ const Home = (props) => {
 				}}
 				renderInputToolbar={MessageInput}
 				messagesContainerStyle={globalStyles.themeBg}
+				// renderSend={customSystemMessage}
 				isAnimated
 			/>
 		</View>
 	)
 }
 
+const customSystemMessage = props => {
+	console.log(props, '<<< props')
+	return (
+		<View style={styles.ChatMessageSytemMessageContainer}>
+			<Icon name="lock" color="#9d9d9d" size={16} />
+
+		</View>
+	);
+};
+
 const styles = StyleSheet.create({
 	composeButtonWrap: {
-		width: 30,
-		height: 30,
-		borderRadius: 30,
+		width: 20,
+		height: 20,
+		borderRadius: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
 		// position: 'absolute',
@@ -174,18 +221,45 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		textAlign: 'center',
 		color: getColorByTheme('#000', '#fff'),
+		fontFamily: Metrics.fontMedium,
+		marginLeft: Metrics.ratio(3),
+		// borderWidth : 1
 	},
 	headerBodyTextSecondary: {
-		fontSize: 16,
-		// color: '#ff5821',
-		textAlign: 'center',
+		fontSize: 14,
+		textAlign: 'justify',
 		color: getColorByTheme('#000', '#fff'),
+		fontFamily: Metrics.fontRegular
 	},
 	headerContactNumberContainer: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		marginLeft: Metrics.smallMargin,
+
 	},
 	headerContactNumberAddBtn: {
 		marginLeft: Metrics.ratio(5),
+	},
+	customHeaderContainer: {
+		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingHorizontal: Metrics.smallMargin,
+		paddingVertical: Metrics.baseMargin,
+	},
+	customHeaderLeftContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	headerBodyTextContainer: {
+		marginLeft: Metrics.smallMargin,
+		flexDirection: 'row'
+	},
+	headerRightContainer: {
+		flexDirection: 'row',
+	},
+	headerDeleteIcon: {
+		marginLeft: Metrics.smallMargin
 	}
 });
 

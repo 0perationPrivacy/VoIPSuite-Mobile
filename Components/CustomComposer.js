@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { InputToolbar } from 'react-native-gifted-chat';
 import Metrics from '../helpers/Metrics';
 import { getColorByTheme } from '../helpers/utils';
+import CustomInput from './Input';
 
 const styles = StyleSheet.create({
   inputToolbarBackground: {
@@ -11,9 +12,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MessageInput = props => (
-  <InputToolbar 
-  containerStyle={styles.inputToolbarBackground}
-   {...props}  
-   />
-);
+export default CustomComposer = props => {
+  return (
+    <CustomInput />
+  )
+};

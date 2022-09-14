@@ -123,7 +123,7 @@ module.exports = StyleSheet.create({
 		fontFamily : Metrics.fontRegular
 	},
 	themeBg: {
-		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
+		backgroundColor: getColorByTheme('#fff', '#121212'),
 	},
 	authInputContainer: {
 		borderTopRightRadius: 10,
