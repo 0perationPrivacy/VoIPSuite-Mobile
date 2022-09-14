@@ -45,7 +45,8 @@ module.exports = StyleSheet.create({
     },
     signInButton: {
         backgroundColor: '#198754',
-        borderRadius: 10
+        borderRadius: 10,
+        fontFamily : Metrics.fontSemiBold
     },
     socialLinksWrap: {
         flexDirection: 'row',
@@ -55,11 +56,14 @@ module.exports = StyleSheet.create({
     socialLinksItem: {
         marginHorizontal: Metrics.ratio(10)
     },
-    serverUrlWrapper : {
+    serverUrlWrapper: {
 
     },
-    serverUrlHintText : {
-        fontSize : 10,
-        marginLeft : Metrics.ratio('2%')
+    serverUrlHintText: {
+        fontSize: 10,
+        marginLeft: Metrics.ratio(5),
+        marginTop: Metrics.smallMargin,
+        color : getColorByTheme('#000', '#fff'),
+        fontFamily : Metrics.fontRegular
     }
 });

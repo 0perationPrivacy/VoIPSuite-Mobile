@@ -113,12 +113,14 @@ module.exports = StyleSheet.create({
 		fontSize: Metrics.ratio(21),
 		textAlign: 'center',
 		color: getColorByTheme('#000', '#fff'),
+		fontFamily: Metrics.fontMedium
 	},
 	defaultIconColor: {
-		color: getColorByTheme('#000', '#fff'),
+		color: getColorByTheme('#000', '#6c757d'),
 	},
 	defaultTextColor: {
 		color: getColorByTheme('#000', '#fff'),
+		fontFamily : Metrics.fontRegular
 	},
 	themeBg: {
 		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),

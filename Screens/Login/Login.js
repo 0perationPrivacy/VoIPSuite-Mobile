@@ -14,9 +14,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather'
 import Metrics from '../../helpers/Metrics';
 import Version from '../../components/Version';
+import { DEFAUL_URL } from '../../helpers/config';
 
 const Login = (props) => {
-	const [params, setParams] = useState({ email: "", password: "", server_url: "https://devvoip.operationprivacy.com/api" });
+	const [params, setParams] = useState({ email: "", password: "", server_url: DEFAUL_URL });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
@@ -121,7 +122,7 @@ const Login = (props) => {
 							customStyle={{ borderRadius: 10, marginBottom : 0 }}
 							customIconWrap={globalStyle.authInputIconContainer}
 						/>
-						<Text style={styles.serverUrlHintText}>Pattern : https://www.example.com/api</Text>
+						<Text style={styles.serverUrlHintText}>{"Pattern : https://www.example.com/api"}</Text>
 					</View>
 				</View>
 				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />

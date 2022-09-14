@@ -51,6 +51,7 @@ const heightPercentageToDP = heightPercent => {
 const fontRegular = 'Poppins-Regular';
 const fontSemiBold = 'Poppins-SemiBold';
 const fontMedium = 'Poppins-Medium';
+const fontBold = 'Poppins-Bold';
 
 export default {
     ratio,
@@ -115,7 +116,9 @@ export default {
     widthPercentageToDP,
     heightPercentageToDP,
     uploadImage: screenWidth / 5,
+
     fontRegular,
     fontSemiBold,
-    fontMedium
+    fontMedium,
+    fontBold
 };
