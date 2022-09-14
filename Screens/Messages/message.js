@@ -114,7 +114,7 @@ const Messages = ({ navigation }) => {
                 onPress={() => onPressMessageList(item)}>
                 <View style={styles.messagesListItemAvatar}>
                     {/* <Text style={styles.messagesListItemAvatarText}>A</Text> */}
-                    <Feather name={'user'} size={18} />
+                    <Feather name={'user'} size={18} color={getColorByTheme('#000', '#fff')} />
                 </View>
                 <View style={styles.messagesListItemDetailWrap}>
                     <View style={styles.messagesListItemTitleWrap}>
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderColor: getColorByTheme('#2e2e2e', '#fff'),
+        borderWidth: 1
     },
     messagesListItemAvatarText: {
         fontSize: 14,
@@ -216,7 +217,8 @@ const styles = StyleSheet.create({
     },
     messagesListItemTitleWrap: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom : Metrics.ratio(5)
     },
     messagesListItemTitle: {
         fontSize: 14,

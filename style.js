@@ -38,13 +38,13 @@ module.exports = StyleSheet.create({
 	},
 	homeHeaderLeftContainer: {
 		flexDirection: 'row',
-		justifyContent: 'center',
+		// justifyContent: 'center',
 		alignItems: 'center',
 	},
 	homeHeaderAppTitle: {
-		marginLeft: '5%',
+		marginLeft: '10%',
 		fontSize: 16,
-		color: '#000',
+		color: getColorByTheme('#000', '#fff'),
 		fontFamily: Metrics.fontMedium,
 	},
 	homeHeaderPhone: {

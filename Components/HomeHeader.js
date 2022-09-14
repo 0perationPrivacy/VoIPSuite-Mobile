@@ -113,7 +113,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		<View style={[styles.fullFlex, styles.homeHeaderWrapper]}>
 			<View style={styles.homeHeaderLeftContainer}>
 				<TouchableOpacity onPress={onPressSideMenu}>
-					<Icon name={"menu"} size={21} style={styles.defaultIconColor} />
+					<Icon name={"menu"} size={25} style={styles.defaultIconColor} />
 				</TouchableOpacity>
 				<Text style={styles.homeHeaderAppTitle}>
 					Voip Suite
