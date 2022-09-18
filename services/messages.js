@@ -21,6 +21,8 @@ function getMessageByProfileId(setting) {
     body: JSON.stringify({ user, setting })
   };
 
+  console.log(API_URL)
+
   return fetch(`${API_URL}/${prefix}/sms-number-list`, requestOptions).then(handleResponse);
 }
 
@@ -30,8 +32,6 @@ function deleteMessage(number) {
     headers: { 'Content-Type': 'application/json', ...authHeader() },
     body: JSON.stringify({ user, number })
   };
-
-  console.log({ user, number })
 
   return fetch(`${API_URL}/${prefix}/message-list-delete`, requestOptions).then(handleResponse);
 }

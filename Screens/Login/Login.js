@@ -17,7 +17,7 @@ import Version from '../../components/Version';
 import { DEFAUL_URL } from '../../helpers/config';
 
 const Login = (props) => {
-	const [params, setParams] = useState({ email: "", password: "", server_url: DEFAUL_URL });
+	const [params, setParams] = useState({ email: "huzaifa_test1", password: "admin12345", server_url: DEFAUL_URL });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
@@ -119,7 +119,7 @@ const Login = (props) => {
 							control={control}
 							name="server_url"
 							onInputLeave={onInputLeave}
-							customStyle={{ borderRadius: 10, marginBottom : 0 }}
+							customStyle={{ borderRadius: 10, marginBottom: 0 }}
 							customIconWrap={globalStyle.authInputIconContainer}
 						/>
 						<Text style={styles.serverUrlHintText}>{"Pattern : https://www.example.com/api"}</Text>

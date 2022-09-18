@@ -1,11 +1,12 @@
 import { userService } from ".";
 
 export const handleResponse = (response) => {
-
+ 
   return response.text().then(text => {
+    console.log('response ===>', response);
+    console.log('response text ===>', text);
+    
     const data = text && JSON.parse(text);
-
-    console.log('data ===>', data);
 
     if (!response.ok) {
       if (response.status === 401) {

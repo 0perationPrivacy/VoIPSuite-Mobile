@@ -18,7 +18,6 @@ function login(data) {
     let { server_url, ...rest } = data;
     server_url = server_url ? server_url : API_URL;
 
-    console.log('server_url ====>', server_url)
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -26,9 +25,11 @@ function login(data) {
     };
 
     return fetch(`${server_url}/auth/login`, requestOptions)
-        .then(handleResponse)
+        .then(response => handleResponse(response, false))
         .then(user => {
             return user;
+        }).catch(error => {
+            return Promise.reject([error])
         });
 }
 
@@ -46,7 +47,7 @@ function register(user) {
         body: JSON.stringify(rest)
     };
 
-    return fetch(`${server_url}/auth/register`, requestOptions).then(handleResponse);
+    return fetch(`${server_url}/auth/register`, requestOptions).then(response => handleResponse(response, false));
 }
 
 function changeUsername(user) {
@@ -70,12 +71,14 @@ function changePassword(user) {
 }
 
 
-function handleResponse(response) {
+function handleResponse(response, isRedirect = true) {
     return response.text().then(text => {
+        console.log('response ===>', response);
+        console.log('response text ===>', text);
+
         const data = text && JSON.parse(text);
-        console.log(data, response.status);
         if (!response.ok) {
-            if (response.status === 401) {
+            if (response.status === 401 && isRedirect) {
                 store.dispatch(userActions.logout())
                 logout();
             }
