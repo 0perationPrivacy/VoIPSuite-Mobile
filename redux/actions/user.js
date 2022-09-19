@@ -3,6 +3,7 @@ import { userService } from '../../services';
 import { closeDrawer, navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import { alertActions } from './alert';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import RNRestart from 'react-native-restart'; // Import package from node modules
 
 export const userActions = {
     login,
@@ -28,7 +29,9 @@ function login(data, errorMessagesCb) {
                         message: user?.message,
                         type: "success",
                     });
-                    navigateAndReset('Splash')
+
+                    RNRestart.Restart();
+                    // navigateAndReset('Splash')
                 },
                 ([error, valdidationErrors]) => {
 

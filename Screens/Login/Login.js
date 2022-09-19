@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import Metrics from '../../helpers/Metrics';
 import Version from '../../components/Version';
 import { DEFAUL_URL } from '../../helpers/config';
+import { store } from '../../redux/store';
 
 const Login = (props) => {
 	const [params, setParams] = useState({ email: "huzaifa_test1", password: "admin12345", server_url: DEFAUL_URL });
@@ -31,6 +32,11 @@ const Login = (props) => {
 
 	const dispatch = useDispatch();
 	const isLoading = useSelector(state => state.authentication.isLoading);
+
+	// useEffect(() => {
+	// 	const state = store.getState();
+	// 	const { user } = state?.authentication;
+	// }, [])
 
 	const onPressSignUp = () => {
 		navigate('Signup');

@@ -21,8 +21,6 @@ function getMessageByProfileId(setting) {
     body: JSON.stringify({ user, setting })
   };
 
-  console.log(API_URL)
-
   return fetch(`${API_URL}/${prefix}/sms-number-list`, requestOptions).then(handleResponse);
 }
 

@@ -58,7 +58,7 @@ const ContactList = () => {
   }
 
   const renderHeader = () => {
-    return <Header headerRight={renderHeaderRight()} title={'Contacts'} />
+    return <Header headerRight={renderHeaderRight} title={'Contacts'} />
   }
 
   const renderHeaderRight = () => {

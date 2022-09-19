@@ -53,6 +53,10 @@ function getProfileAction(cb) {
                 ([error]) => {
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
+
+                    if (cb) {
+                        cb();
+                    }
                 }
             );
     };

@@ -2,6 +2,7 @@
 import { getServerUrl } from '../helpers/config';
 import { authHeader } from '../helpers/auth-header';
 import { handleResponse } from './handle';
+import { store } from '../redux/store';
 
 export const settingsService = {
   getProfileSettings,

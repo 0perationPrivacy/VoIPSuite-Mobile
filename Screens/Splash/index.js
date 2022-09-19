@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, View, StyleSheet } from 'react-native'
 import { navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash';
@@ -13,7 +13,6 @@ const Splash = () => {
     useEffect(() => {
         setTimeout(() => {
             const { loggedIn, user } = _user;
-            console.log(loggedIn && user, 'loggedIn && user', loggedIn)
             if (loggedIn && user) {
                 getProfileList()
                 return true;
@@ -32,10 +31,18 @@ const Splash = () => {
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.container}>
             <ActivityIndicator size={"large"} color="#3770e4" />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+});
 
 export default Splash;

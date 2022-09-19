@@ -121,9 +121,6 @@ const ProfileSettings = () => {
 
     const onPressSave = () => {
         let data = returnData();
-
-        console.log(data, 'check setting  ===========', telnyxKey)
-
         dispatch(settingsActions.checkProfileSettingsAction(data, checkProfileSuccess))
     }
 
@@ -140,7 +137,6 @@ const ProfileSettings = () => {
 
         let data = returnData();
         Object.assign(data, { override: "true" });
-        console.log(data)
 
         dispatch(settingsActions.createProfileSettingsAction(data))
     }
@@ -164,7 +160,6 @@ const ProfileSettings = () => {
     const onPressGetNumber = () => {
         // if (profileSettings && !_.isEmpty(profileSettings)) {
             let data = returnData();
-            console.log('bhrwa', data)
             dispatch(settingsActions.getNumbersListByProfileAction(data, activeTab))
         // }
     }

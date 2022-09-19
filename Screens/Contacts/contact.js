@@ -75,12 +75,13 @@ const Contact = () => {
     }
 
     const onPressContactImport = async () => {
-        let importedContacts = await Contacts.getAll()
+        let importedContacts = [];
+        importedContacts = await Contacts.getAll()
         let data = [];
 
         if (importedContacts && _.isArray(importedContacts)) {
             console.log(importedContacts, '=<<<<<, contacts')
-            importedContacts.map((item) => {
+            importedContacts.map(item => {
                 const { familyName, givenName, phoneNumbers } = item;
                 data.push({ first_name: familyName, last_name: givenName, number: phoneNumbers?.[0]?.number, note: "notes go here" })
             })
@@ -116,7 +117,7 @@ const Contact = () => {
     }, [errors])
 
     const renderHeader = () => {
-        return <Header title={'Add Contact'} headerRight={renderHeaderRight()} />
+        return <Header title={'Add Contact'} headerRight={renderHeaderRight} />
     }
 
     const renderSearchField = () => {
