@@ -10,11 +10,12 @@ export const messagesService = {
   sendMessageService
 };
 
-var API_URL = getServerUrl();
 var prefix = 'setting';
 var user = getUserId();
 
 function getMessageByProfileId(setting) {
+  let API_URL = getServerUrl();
+
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -25,6 +26,7 @@ function getMessageByProfileId(setting) {
 }
 
 function deleteMessage(number) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -35,6 +37,7 @@ function deleteMessage(number) {
 }
 
 function viewMessage(postData) {
+  let API_URL = getServerUrl();
   let data = { ...postData, user: user }
   const requestOptions = {
     method: 'POST',
@@ -46,6 +49,7 @@ function viewMessage(postData) {
 }
 
 function sendMessageService(postData) {
+  let API_URL = getServerUrl();
   let data = { ...postData, user: user }
   const requestOptions = {
     method: 'POST',

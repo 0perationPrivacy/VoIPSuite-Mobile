@@ -9,8 +9,8 @@ export const profileService = {
   deleteProfile
 };
 
-let API_URL = getServerUrl();
 function createProfileName(data) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -21,7 +21,7 @@ function createProfileName(data) {
 }
 
 function getProfileList() {
-  console.log('...authHeader() ===>', authHeader())
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -31,6 +31,8 @@ function getProfileList() {
 }
 
 function deleteProfile(data) {
+  let API_URL = getServerUrl();
+
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },

@@ -7,10 +7,10 @@ export const callService = {
   getProviderToken
 };
 
-var API_URL = getServerUrl();
 var prefix = 'call';
 
 function getProviderToken(data) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },

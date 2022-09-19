@@ -10,10 +10,10 @@ export const contactService = {
   createImportedContact
 };
 
-var API_URL = getServerUrl();
 var prefix = 'contact';
 
 function createContact(params, isEditRquest = false) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -28,6 +28,7 @@ function createContact(params, isEditRquest = false) {
 }
 
 function getAllContacts() {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -37,6 +38,7 @@ function getAllContacts() {
 }
 
 function deleteContact(params) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -47,7 +49,7 @@ function deleteContact(params) {
 }
 
 function createImportedContact(data) {
-  console.log(data,'data')
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },

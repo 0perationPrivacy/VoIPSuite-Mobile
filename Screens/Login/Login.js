@@ -18,7 +18,7 @@ import { DEFAUL_URL } from '../../helpers/config';
 import { store } from '../../redux/store';
 
 const Login = (props) => {
-	const [params, setParams] = useState({ email: "huzaifa_test1", password: "admin12345", server_url: DEFAUL_URL });
+	const [params, setParams] = useState({ email: "huzaifa_test1", password: "admin123", server_url: DEFAUL_URL });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});

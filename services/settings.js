@@ -11,10 +11,10 @@ export const settingsService = {
   createOrOverrideProfile
 };
 
-var API_URL = getServerUrl();
 var prefix = 'setting';
 
 function getProfileSettings(data) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -25,6 +25,8 @@ function getProfileSettings(data) {
 }
 
 function getNumberListByProfile(data) {
+  let API_URL = getServerUrl();
+
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -35,6 +37,8 @@ function getNumberListByProfile(data) {
 }
 
 function checkProfileSettings(data) {
+  let API_URL = getServerUrl();
+
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -45,6 +49,8 @@ function checkProfileSettings(data) {
 }
 
 function createOrOverrideProfile(data) {
+  let API_URL = getServerUrl();
+
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },

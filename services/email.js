@@ -9,10 +9,10 @@ export const emailService = {
   saveProfileEmailSettings
 };
 
-var API_URL = getServerUrl();
 var prefix = 'email';
 
 function setEmailCredentials(data) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -23,6 +23,7 @@ function setEmailCredentials(data) {
 }
 
 function getUserEmailData() {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
@@ -32,6 +33,7 @@ function getUserEmailData() {
 }
 
 function saveProfileEmailSettings(data) {
+  let API_URL = getServerUrl();
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },
