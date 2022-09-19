@@ -21,6 +21,7 @@ function createProfileName(data) {
 }
 
 function getProfileList() {
+  console.log('...authHeader() ===>', authHeader())
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeader() },

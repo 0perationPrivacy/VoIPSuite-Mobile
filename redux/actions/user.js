@@ -30,8 +30,7 @@ function login(data, errorMessagesCb) {
                         type: "success",
                     });
 
-                    RNRestart.Restart();
-                    // navigateAndReset('Splash')
+                    navigateAndReset('Messages')
                 },
                 ([error, valdidationErrors]) => {
 

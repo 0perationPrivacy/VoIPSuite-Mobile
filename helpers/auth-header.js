@@ -7,8 +7,6 @@ export function authHeader() {
     const { user } = state?.authentication;
 
     if (user && user.token) {
-        console.log(user?.data?.token, '<====  user?.data?.token');
-        console.log(user, '<====  user');
         return { 'token': user?.data?.token, 'Cache-Control': 'no-cache' };
     } else {
         return { 'Cache-Control': 'no-cache' };
