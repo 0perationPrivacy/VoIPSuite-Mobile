@@ -3,6 +3,7 @@ import { getServerUrl } from '../helpers/config';
 import { authHeader } from '../helpers/auth-header';
 import { handleResponse } from './handle';
 import { store } from '../redux/store';
+import { ApiService } from './Api';
 
 export const settingsService = {
   getProfileSettings,
@@ -14,48 +15,17 @@ export const settingsService = {
 var prefix = 'setting';
 
 function getProfileSettings(data) {
-  let API_URL = getServerUrl();
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
-  };
-
-  return fetch(`${API_URL}/${prefix}/get-setting`, requestOptions).then(handleResponse);
+  return ApiService.initApi(`${prefix}/get-setting`, 'POST', data);
 }
 
 function getNumberListByProfile(data) {
-  let API_URL = getServerUrl();
-
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
-  };
-
-  return fetch(`${API_URL}/${prefix}/get-number`, requestOptions).then(handleResponse);
+  return ApiService.initApi(`${prefix}/get-number`, 'POST', data);
 }
 
 function checkProfileSettings(data) {
-  let API_URL = getServerUrl();
-
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
-  };
-
-  return fetch(`${API_URL}/${prefix}/check-setting`, requestOptions).then(handleResponse);
+  return ApiService.initApi(`${prefix}/check-setting`, 'POST', data);
 }
 
 function createOrOverrideProfile(data) {
-  let API_URL = getServerUrl();
-
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
-  };
-
-  return fetch(`${API_URL}/${prefix}/create`, requestOptions).then(handleResponse);
+  return ApiService.initApi(`${prefix}/create`, 'POST', data);
 }
