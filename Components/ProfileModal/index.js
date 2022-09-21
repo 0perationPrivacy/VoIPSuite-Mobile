@@ -5,6 +5,7 @@ import styles from './style';
 import { useForm } from 'react-hook-form'
 import CustomInput from '../Input';
 import CustomButton from '../Button';
+import globalStyle from '../../style';
 
 const CustomModal = ({ isVisible = false, isLoading = false, onBackdropPress = () => { }, onPressSave = () => { }, ...rest }) => {
 	const [profileName, setProfileName] = useState(null);
@@ -28,7 +29,7 @@ const CustomModal = ({ isVisible = false, isLoading = false, onBackdropPress = (
 	return (
 		<Modal
 			isVisible={isVisible}
-			animationType="slide"
+			// animationType="slide"
 			transparent={true}
 			onBackdropPress={onBackdropPress}
 		>
@@ -40,6 +41,7 @@ const CustomModal = ({ isVisible = false, isLoading = false, onBackdropPress = (
 					control={control}
 					name="profile"
 					isError={errors?.profile}
+					customStyle={[globalStyle.authInputContainer, styles.inputContainer]}
 				/>
 				<CustomButton loading={isLoading} title={'Save'} onPress={handleSubmit(onPress)} />
 			</View>

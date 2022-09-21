@@ -14,6 +14,7 @@ import _ from 'lodash'
 import RBSheet from "react-native-raw-bottom-sheet";
 import { Button } from 'react-native-elements'
 import Metrics from '../helpers/Metrics'
+import { getColorByTheme } from '../helpers/utils'
 
 const HomeHeader = ({ onPressProfile = () => { } }) => {
 
@@ -62,11 +63,12 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	}
 
 	const onSelectProfile = (item) => {
-		const { id, number } = item;
+		const { id, number, profile } = item;
 
 		onPressProfile(id);
-		setProfileName(id);
+		setProfileName(profile);
 		setActiveProfileNumber(number)
+		refRBSheet.current.close()
 	}
 
 	const getProfileList = () => {
@@ -75,6 +77,14 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 	const onPressSideMenu = () => {
 		openDrawer()
+	}
+
+	const onModalOpen = () => {
+		refRBSheet.current.close()
+		setTimeout(() => {
+			setProfileModalVisibility(true)
+
+		}, 500);
 	}
 
 	const onModalClose = () => {
@@ -98,12 +108,25 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		return `${profile}`;
 	};
 
+	const getProfileListItemHeight = () => {
+		let height = Dimensions.get('window').height / 2 + 100;
+		let length = profiles.length;
+
+		if (length > 4) {
+			return height;
+		}
+
+		return length * Metrics.doubleBaseMargin + 200;
+	}
+
 	const renderProfileItem = ({ item }) => {
-		console.log('huzaifa ===>', item)
 		const { profile, number } = item;
 
 		return (
-			<Text style={{ borderWidth: 1, color: '#000' }}>{profile}</Text>
+			<TouchableOpacity style={innerStyle.profileItemContainer} onPress={() => onSelectProfile(item)}>
+				<Text style={innerStyle.profileItemText}>{profile}</Text>
+				{number && <Text style={[innerStyle.profileItemText, { color: '#ff5821' }]}>{number}</Text>}
+			</TouchableOpacity>
 		)
 	}
 
@@ -116,29 +139,23 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	}
 
 	const renderBottomSheet = () => {
-		const height = Dimensions.get('window').height / 2 + 100;
+		const height = getProfileListItemHeight();
 
 		return (
 			<RBSheet
 				ref={refRBSheet}
 				closeOnDragDown={true}
 				closeOnPressMask={true}
+				dragFromTopOnly={true}
 				height={height}
 				customStyles={{
-					draggableIcon: {
-						backgroundColor: "#000",
-					},
-					container: {
-						borderWidth: 0.5,
-						borderRadius: 20,
-						marginBottom: Metrics.baseMargin
-					}
+					container: innerStyle.sheetContainer
 				}}
 			>
 				<View style={innerStyle.profileListContainer}>
 					{renderProfileList()}
 				</View>
-				<Button title={'Add new profile'}></Button>
+				<Button title={'Add new profile'} onPress={onModalOpen}></Button>
 			</RBSheet>
 		)
 	}
@@ -149,6 +166,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 				data={profiles}
 				renderItem={renderProfileItem}
 				keyExtractor={(item) => item.id}
+				showsVerticalScrollIndicator={true}
 			/>
 		)
 	}
@@ -170,26 +188,43 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 				</View>
 			</View>
 			{renderBottomSheet()}
-			{/* <CustomModal
+			<CustomModal
 				isVisible={isProfileModalVisible}
 				onBackdropPress={onModalClose}
 				onPressSave={onPressSaveProfileName}
 				isLoading={isLoading}
-			/> */}
+			/>
 		</View>
 	)
 }
 
 const innerStyle = StyleSheet.create({
+	sheetContainer: {
+		borderWidth: 0.5,
+		borderRadius: 20,
+		marginBottom: Metrics.baseMargin
+	},
 	profileText: {
 		fontSize: 14,
-		fontFamily: Metrics.fontRegular
+		fontFamily: Metrics.fontRegular,
+		color: getColorByTheme('#000', '#fff'),
 	},
 	profileListContainer: {
 		flex: 1,
-		paddingHorizontal: Metrics.smallMargin,
+		paddingHorizontal: Metrics.baseMargin,
 		marginTop: Metrics.baseMargin,
-	}
+	},
+	profileItemContainer: {
+		paddingVertical: Metrics.baseMargin,
+		borderBottomWidth: 1,
+		borderBottomColor: '#ececec'
+	},
+	profileItemText: {
+		fontSize: 16,
+		color: getColorByTheme('#000', '#000'),
+		fontFamily: Metrics.fontRegular
+	},
+	profileItemNumberText: {}
 });
 
 
