@@ -1,6 +1,6 @@
 import Icon from 'react-native-vector-icons/Feather'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Text, View } from 'react-native'
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
 import styles from '../style'
@@ -11,20 +11,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { profileActions } from '../redux/actions/profile'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import _ from 'lodash'
-import {
-	BottomSheetModal,
-	BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet';
+import RBSheet from "react-native-raw-bottom-sheet";
 import { Button } from 'react-native-elements'
+import Metrics from '../helpers/Metrics'
 
 const HomeHeader = ({ onPressProfile = () => { } }) => {
-
-	const defaultProfileObj = { 'id': null, 'profile': 'Add new profile' };
 
 	const [profileDropDown, setProfileDropDown] = useState(null);
 	const [isProfileModalVisible, setProfileModalVisibility] = useState(false);
 	const [profileList, setProfileList] = useState([]);
-	const [profiles, setProfiles] = useState([defaultProfileObj]);
+	const [profiles, setProfiles] = useState([]);
+	const [activeProfileNumber, setActiveProfileNumber] = useState(null);
 	const [profileName, setProfileName] = useState('Choose Profile Name');
 
 	const navigation = useNavigation();
@@ -33,9 +30,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	const isLoading = useSelector(state => state.profile.isLoading);
 	const profile = useSelector(state => state.profile.items);
 
-	const bottomSheetRef = useRef(null);
-	const snapPoints = useMemo(() => ['25%', '50%'], []);
-
+	const refRBSheet = useRef();
 
 	useEffect(() => {
 		getProfileList()
@@ -49,24 +44,16 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 				data.push({ id, profile, number })
 			})
 
-			data.push(defaultProfileObj);
 			setProfiles(data);
 			onSetProfileNameRedux({ profile: data[0]?.profile, id: data[0]?.id })
 			onPressProfile(data[0]?.id);
+			setActiveProfileNumber(data[0]?.number)
 		}
 	}, [profile])
 
-	const handlePresentModalPress = useCallback(() => {
-		bottomSheetRef.current?.present();
-	}, []);
-
-	const handleSheetChanges = useCallback((index) => {
-		console.log('handleSheetChanges', index);
-	}, []);
-
 
 	const showProfileDropDown = () => {
-		profileDropDown && profileDropDown.show();
+		refRBSheet.current.open()
 	}
 
 	const onSetProfileNameRedux = (name) => {
@@ -74,16 +61,12 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		dispatch(profileActions.setProfileName(name))
 	}
 
-	const onSelectProfile = (i, item) => {
-		const { id } = item;
-
-		if (id === null) {
-			handlePresentModalPress();
-			return true;
-		}
+	const onSelectProfile = (item) => {
+		const { id, number } = item;
 
 		onPressProfile(id);
-		setProfileName(id)
+		setProfileName(id);
+		setActiveProfileNumber(number)
 	}
 
 	const getProfileList = () => {
@@ -115,14 +98,58 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		return `${profile}`;
 	};
 
-	const renderProfileItem = (item, index) => {
+	const renderProfileItem = ({ item }) => {
+		console.log('huzaifa ===>', item)
 		const { profile, number } = item;
 
 		return (
-			<View style={styles.profileDropDownItemContainer}>
-				<Text style={dropdownStyle.textItem}>{profile}</Text>
-				{number && <Text style={[dropdownStyle.textItem, { color: '#ff5821' }]}>{number}</Text>}
-			</View>
+			<Text style={{ borderWidth: 1, color: '#000' }}>{profile}</Text>
+		)
+	}
+
+	const renderTitleNumber = () => {
+		return (
+			<Text style={styles.homeHeaderAppTitle}>
+				{activeProfileNumber}
+			</Text>
+		)
+	}
+
+	const renderBottomSheet = () => {
+		const height = Dimensions.get('window').height / 2 + 100;
+
+		return (
+			<RBSheet
+				ref={refRBSheet}
+				closeOnDragDown={true}
+				closeOnPressMask={true}
+				height={height}
+				customStyles={{
+					draggableIcon: {
+						backgroundColor: "#000",
+					},
+					container: {
+						borderWidth: 0.5,
+						borderRadius: 20,
+						marginBottom: Metrics.baseMargin
+					}
+				}}
+			>
+				<View style={innerStyle.profileListContainer}>
+					{renderProfileList()}
+				</View>
+				<Button title={'Add new profile'}></Button>
+			</RBSheet>
+		)
+	}
+
+	const renderProfileList = () => {
+		return (
+			<FlatList
+				data={profiles}
+				renderItem={renderProfileItem}
+				keyExtractor={(item) => item.id}
+			/>
 		)
 	}
 
@@ -132,54 +159,38 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 				<TouchableOpacity onPress={onPressSideMenu}>
 					<Icon name={"menu"} size={25} style={styles.defaultIconColor} />
 				</TouchableOpacity>
-				<Text style={styles.homeHeaderAppTitle}>
-					Voip Suite
-				</Text>
+				{activeProfileNumber && renderTitleNumber()}
 			</View>
 			<View style={styles.fullFlex}>
 				<View style={{ marginLeft: 10 }}>
 					<TouchableOpacity onPress={showProfileDropDown} style={styles.fullFlex}>
-						<ModalDropdown
-							renderRow={renderProfileItem}
-							textStyle={styles.defaultTextColor}
-							ref={e => setProfileDropDown(e)}
-							options={profiles}
-							defaultValue={profileName}
-							dropdownStyle={styles.homeHeaderProfileDropDown}
-							renderButtonText={(rowData) => renderButtonText(rowData)}
-							onSelect={onSelectProfile}
-							scrollEnabled={true}
-							showsVerticalScrollIndicator={true}
-						/>
+						<Text style={innerStyle.profileText}>{profileName}</Text>
 						<Icon name={"arrow-down"} size={19} style={styles.defaultIconColor} />
 					</TouchableOpacity>
 				</View>
 			</View>
+			{renderBottomSheet()}
 			{/* <CustomModal
 				isVisible={isProfileModalVisible}
 				onBackdropPress={onModalClose}
 				onPressSave={onPressSaveProfileName}
 				isLoading={isLoading}
 			/> */}
-			<BottomSheetModalProvider>
-			<Button
-          onPress={handlePresentModalPress}
-          title="Present Modal"
-          color="black"
-        />
-				<BottomSheetModal
-					ref={bottomSheetRef}
-					index={1}
-					snapPoints={snapPoints}
-					onChange={handleSheetChanges}
-				>
-					<View style={styles.contentContainer}>
-						<Text>Awesome 🎉</Text>
-					</View>
-				</BottomSheetModal>
-			</BottomSheetModalProvider>
 		</View>
 	)
 }
+
+const innerStyle = StyleSheet.create({
+	profileText: {
+		fontSize: 14,
+		fontFamily: Metrics.fontRegular
+	},
+	profileListContainer: {
+		flex: 1,
+		paddingHorizontal: Metrics.smallMargin,
+		marginTop: Metrics.baseMargin,
+	}
+});
+
 
 export default HomeHeader;

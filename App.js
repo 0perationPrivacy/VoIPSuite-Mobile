@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -19,6 +19,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
+import io from "socket.io-client";
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
 //   global.originalXMLHttpRequest :
@@ -41,6 +42,14 @@ const App = () => {
 
   const colorScheme = Appearance.getColorScheme();
   const Drawer = createDrawerNavigator();
+
+  useEffect(() => {
+    // let socket = io("https://voip-node.herokuapp.com/",{ transports: ["websocket"] });
+    // socket.on('connection', () => {
+    //   console.log(`I'm connected with the back-end`);
+    // });
+
+  }, [])
 
   return (
     <Provider store={store}>

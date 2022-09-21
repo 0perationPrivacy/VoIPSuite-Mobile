@@ -218,7 +218,7 @@ const EmailSettings = (props) => {
 					checked={params.is_secure}
 					checkedColor={getColorByTheme("#000", "#fff")} />
 			</View>
-			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Update" onPress={handleSubmit(onPressSaveEmail)} loading={isLoading} />
+			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Save" onPress={handleSubmit(onPressSaveEmail)} loading={isLoading} />
 			{isEmailInfo && renderProfileList()}
 		</Wrapper>
 	)
