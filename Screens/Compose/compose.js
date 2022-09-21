@@ -10,8 +10,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactActions, messagesActions, uploadsActions } from '../../redux/actions';
 import _ from 'lodash';
-import Tags from "react-native-tags";
-import { goBack, navigate, navigateAndReset } from '../../helpers/RootNavigation';
+import { navigateAndReset } from '../../helpers/RootNavigation';
 
 const Compose = () => {
     const [phone, setPhone] = useState(null);

@@ -1,5 +1,5 @@
 import Icon from 'react-native-vector-icons/Feather'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Text, View } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
@@ -11,6 +11,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { profileActions } from '../redux/actions/profile'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import _ from 'lodash'
+import {
+	BottomSheetModal,
+	BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
+import { Button } from 'react-native-elements'
 
 const HomeHeader = ({ onPressProfile = () => { } }) => {
 
@@ -27,6 +32,10 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 	const isLoading = useSelector(state => state.profile.isLoading);
 	const profile = useSelector(state => state.profile.items);
+
+	const bottomSheetRef = useRef(null);
+	const snapPoints = useMemo(() => ['25%', '50%'], []);
+
 
 	useEffect(() => {
 		getProfileList()
@@ -47,6 +56,14 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		}
 	}, [profile])
 
+	const handlePresentModalPress = useCallback(() => {
+		bottomSheetRef.current?.present();
+	}, []);
+
+	const handleSheetChanges = useCallback((index) => {
+		console.log('handleSheetChanges', index);
+	}, []);
+
 
 	const showProfileDropDown = () => {
 		profileDropDown && profileDropDown.show();
@@ -61,7 +78,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		const { id } = item;
 
 		if (id === null) {
-			setProfileModalVisibility(true);
+			handlePresentModalPress();
 			return true;
 		}
 
@@ -138,12 +155,29 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 					</TouchableOpacity>
 				</View>
 			</View>
-			<CustomModal
+			{/* <CustomModal
 				isVisible={isProfileModalVisible}
 				onBackdropPress={onModalClose}
 				onPressSave={onPressSaveProfileName}
 				isLoading={isLoading}
-			/>
+			/> */}
+			<BottomSheetModalProvider>
+			<Button
+          onPress={handlePresentModalPress}
+          title="Present Modal"
+          color="black"
+        />
+				<BottomSheetModal
+					ref={bottomSheetRef}
+					index={1}
+					snapPoints={snapPoints}
+					onChange={handleSheetChanges}
+				>
+					<View style={styles.contentContainer}>
+						<Text>Awesome 🎉</Text>
+					</View>
+				</BottomSheetModal>
+			</BottomSheetModalProvider>
 		</View>
 	)
 }
