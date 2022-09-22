@@ -16,7 +16,7 @@ function createContact(params, isEditRquest = false) {
 }
 
 function getAllContacts() {
-  return ApiService.initApi(`${prefix}/get-all`, 'POST');
+  return ApiService.initApi(`${prefix}/get-all`);
 }
 
 function deleteContact(params) {
