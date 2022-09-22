@@ -9,7 +9,7 @@ export const settingsActions = {
   createProfileSettingsAction
 };
 
-function getProfileSettings(data) {
+function getProfileSettings(data, cb = () => { }) {
   return dispatch => {
     dispatch(request());
 
@@ -17,10 +17,13 @@ function getProfileSettings(data) {
       .then(
         response => {
           dispatch(success(response.data));
+          cb();
         },
         ([error]) => {
           dispatch(failure(error.toString()));
           dispatch(alertActions.error(error.toString()));
+
+          cb();
         }
       );
   };

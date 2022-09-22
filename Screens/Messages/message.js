@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react'
+import { View, StyleSheet, TouchableOpacity, Text, FlatList, RefreshControl } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
@@ -43,7 +43,9 @@ const Messages = ({ navigation }) => {
         //     message: 'hola'
         // }
     ]);
+
     const [activeProfile, setActiveProfile] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
 
     let row = [];
     let prevOpenedRow;
@@ -81,6 +83,12 @@ const Messages = ({ navigation }) => {
         dispatch(messagesActions.deleteMessageAction(item, getMessagesByProfileId()))
     }
 
+    const onRefresh = () => {
+        console.log('active profile ====>', activeProfile)
+        setRefreshing(true);
+        getMessagesByProfileId(activeProfile)
+    };
+
     const getMessagesByProfileId = (profileId) => {
         if (profileId === undefined) return;
 
@@ -90,8 +98,12 @@ const Messages = ({ navigation }) => {
         if (user && user?.token) {
             const { _id } = user.data
             let data = { user: _id, setting: profileId }
-            dispatch(settingsActions.getProfileSettings(data));
+            dispatch(settingsActions.getProfileSettings(data, onGetMessageEnd));
         }
+    }
+
+    const onGetMessageEnd = () => {
+        setRefreshing(false);
     }
 
     const onPressMessageList = (contact) => {
@@ -177,6 +189,12 @@ const Messages = ({ navigation }) => {
                     keyExtractor={(item) => item._id}
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={emptyList}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                 >
                 </FlatList>
             </View>
@@ -224,7 +242,7 @@ const styles = StyleSheet.create({
     messagesListItemTitleWrap: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom : Metrics.ratio(5)
+        marginBottom: Metrics.ratio(5)
     },
     messagesListItemTitle: {
         fontSize: 14,
