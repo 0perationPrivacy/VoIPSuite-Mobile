@@ -1,6 +1,6 @@
 import Icon from 'react-native-vector-icons/Feather'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, FlatList, StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
 import styles from '../style'
@@ -9,7 +9,6 @@ import { navigate, openDrawer } from '../helpers/RootNavigation'
 import { CustomModal } from '.'
 import { useDispatch, useSelector } from 'react-redux'
 import { profileActions } from '../redux/actions/profile'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import _ from 'lodash'
 import RBSheet from "react-native-raw-bottom-sheet";
 import { Button } from 'react-native-elements'
@@ -83,7 +82,6 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		refRBSheet.current.close()
 		setTimeout(() => {
 			setProfileModalVisibility(true)
-
 		}, 500);
 	}
 
@@ -200,9 +198,10 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 
 const innerStyle = StyleSheet.create({
 	sheetContainer: {
-		borderWidth: 0.5,
-		borderRadius: 20,
-		marginBottom: Metrics.baseMargin
+		// borderWidth: 0.5,
+		borderTopRightRadius: 20,
+		borderTopLeftRadius: 20,
+		// marginBottom: Metrics.baseMargin
 	},
 	profileText: {
 		fontSize: 14,
