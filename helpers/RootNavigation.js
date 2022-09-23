@@ -27,11 +27,11 @@ export function navigateAndReset(route) {
     })
 }
 
-export function openDrawer(routeName, params) {
+export function openDrawer() {
     navigationRef.dispatch(DrawerActions.openDrawer());
 }
 
-export function closeDrawer(routeName, params) {
+export function closeDrawer() {
     navigationRef.dispatch(DrawerActions.closeDrawer());
 }
 

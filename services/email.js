@@ -1,7 +1,5 @@
 
-import { getServerUrl } from '../helpers/config';
-import { authHeader } from '../helpers/auth-header';
-import { handleResponse } from './handle';
+import { ApiService } from './Api';
 
 export const emailService = {
   setEmailCredentials,
@@ -12,33 +10,13 @@ export const emailService = {
 var prefix = 'email';
 
 function setEmailCredentials(data) {
-  let API_URL = getServerUrl();
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
-  };
-
-  return fetch(`${API_URL}/${prefix}/create`, requestOptions).then(handleResponse);
+  return ApiService.initApi(`${prefix}/create`, 'POST', data);
 }
 
 function getUserEmailData() {
-  let API_URL = getServerUrl();
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-  };
-
-  return fetch(`${API_URL}/${prefix}/setting-get`, requestOptions).then(handleResponse);
+  return ApiService.initApi(`${prefix}/setting-get`, 'GET');
 }
 
 function saveProfileEmailSettings(data) {
-  let API_URL = getServerUrl();
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
-  };
-
-  return fetch(`${API_URL}/${prefix}/save/setting`, requestOptions).then(handleResponse);
+  return ApiService.initApi(`${prefix}/save/setting`, 'POST', data);
 }
