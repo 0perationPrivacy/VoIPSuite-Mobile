@@ -19,7 +19,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
-import io from "socket.io-client";
+import SocketIO from "socket.io-client";
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
 //   global.originalXMLHttpRequest :
@@ -44,10 +44,27 @@ const App = () => {
   const Drawer = createDrawerNavigator();
 
   useEffect(() => {
-    // let socket = io("https://voip-node.herokuapp.com/",{ transports: ["websocket"] });
-    // socket.on('connection', () => {
-    //   console.log(`I'm connected with the back-end`);
+    let io = SocketIO("http://192.168.2.104:3000/", {
+      // jsonp: false,
+      transports: ['websocket'],
+    });
+
+    io.emit("join_profile_channel", 'channe test id from voip app');
+    
+    io.on('join_profile_channel', (channel) => {
+      console.log(`${channel} join_profile_channel`);
+      // io.join(channel);
+    });
+
+    // io.on('connect', socket => {
+    //   console.log(`socket on connectionsss ===> ${socket}`);
+
+     
     // });
+
+    io.on('connect_error', socket => {
+      console.log(`socket connect error ===> ${socket}`);
+    });
 
   }, [])
 
@@ -56,12 +73,12 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaView style={styles.flexOne}>
           {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
-          <NavigationContainer ref={navigationRef} >
+          {/* <NavigationContainer ref={navigationRef} >
             <Drawer.Navigator screenOptions={{ drawerStyle: styles.drawerStyle }} drawerContent={(props) => <DrawerContent {...props} />} >
               <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
             </Drawer.Navigator>
           </NavigationContainer>
-          <FlashMessage position="bottom" />
+          <FlashMessage position="bottom" /> */}
         </SafeAreaView>
       </PersistGate>
     </Provider>
