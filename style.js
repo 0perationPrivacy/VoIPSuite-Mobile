@@ -1,8 +1,10 @@
 'use strict';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import Metrics from './helpers/Metrics';
 import { getColorByTheme } from './helpers/utils';
 let ScreenHeight = Dimensions.get("window").height;
+let isIOS = Platform.OS === 'ios';
+let forDrawer = isIOS ? 200 : 100;
 
 module.exports = StyleSheet.create({
 	authContainer: {
@@ -75,7 +77,7 @@ module.exports = StyleSheet.create({
 	drawerContainer: {
 		// flex: 1,
 		// backgroundColor  :'red',
-		height: ScreenHeight - 200
+		height: ScreenHeight - forDrawer
 	},
 	drawerInnerHeading: {
 		fontSize: 14,
