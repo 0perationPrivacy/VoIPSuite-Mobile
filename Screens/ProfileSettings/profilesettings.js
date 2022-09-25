@@ -15,6 +15,7 @@ import { profileActions, settingsActions } from '../../redux/actions';
 import { Root, Popup } from 'react-native-popup-confirm-toast'
 import Confirmation from '../../components/Confirmation';
 import { navigateAndReset } from '../../helpers/RootNavigation';
+import authCss from '../../screens/authCss';
 
 const ProfileSettings = () => {
     const [profileName, setProfileName] = useState(null);
@@ -159,8 +160,8 @@ const ProfileSettings = () => {
 
     const onPressGetNumber = () => {
         // if (profileSettings && !_.isEmpty(profileSettings)) {
-            let data = returnData();
-            dispatch(settingsActions.getNumbersListByProfileAction(data, activeTab))
+        let data = returnData();
+        dispatch(settingsActions.getNumbersListByProfileAction(data, activeTab))
         // }
     }
 
@@ -186,10 +187,10 @@ const ProfileSettings = () => {
         return (
             <View style={styles.tabsWrapper}>
                 <TouchableOpacity style={[styles.tabItemButton, activeTab === "telnyx" && styles.activeTabItemButton]} onPress={() => onPressTabChange("telnyx")}>
-                    <Text style={[activeTab === 1 && styles.activeTabItemButtonText, styles.tabItemButtonText]}>Telnyx</Text>
+                    <Text style={[styles.tabItemButtonText, activeTab === "telnyx" && styles.activeTabItemButtonText]}>Telnyx</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.tabItemButton, activeTab === "twilio" && styles.activeTabItemButton]} onPress={() => onPressTabChange("twilio")}>
-                    <Text style={[activeTab === 2 && styles.activeTabItemButtonText, styles.tabItemButtonText]}>Twilio</Text>
+                    <Text style={[styles.tabItemButtonText, activeTab === "twilio" && styles.activeTabItemButtonText]}>Twilio</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -283,14 +284,19 @@ const ProfileSettings = () => {
 
     return (
         <Wrapper header={renderHeader()}>
-            <View style={globalStyles.flexOne}>
+            <View style={[globalStyles.flexOne, styles.container]}>
                 {renderTabs()}
                 {renderProfileSettingInput()}
                 <View style={styles.providersContainer}>
                     {activeTab === 'telnyx' ? renderTelnyxInputs() : renderTwilioInputs()}
                 </View>
                 {renderNumberList()}
-                <Button title="Save" onPress={onPressSave} loading={isLoading} />
+                <Button
+                    title="Save"
+                    onPress={onPressSave}
+                    loading={isLoading}
+                    buttonStyle={authCss.signInButton}
+                />
                 <Confirmation isVisible={isModalVisible} onPressCancel={onCancelConfirmCheckModal} onPressOk={onOkConfirmCheckModal} />
                 <Confirmation
                     isVisible={isModalDeleteVisible}
@@ -307,17 +313,22 @@ const ProfileSettings = () => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: Metrics.smallMargin
+    },
     tabsWrapper: {
         flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     tabItemButton: {
         borderWidth: 1,
         borderColor: '#0d6efd',
-        flex: 1,
+        // flex: 0.4,
+        width: '49%',
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 5,
-        borderRadius: 5
+        borderRadius: 5,
     },
     activeTabItemButton: {
         backgroundColor: '#0d6efd'
@@ -336,10 +347,11 @@ const styles = StyleSheet.create({
         // marginBottom: Metrics.doubleBaseMargin
     },
     profileInput: {
-        height: Metrics.ratio(30),
+        // height: Metrics.ratio(30),
         fontSize: 14,
         marginHorizontal: Metrics.baseMargin,
-        marginBottom: 0
+        marginBottom: 0,
+        borderRadius: 10
     },
     providersContainer: {
         marginVertical: Metrics.doubleBaseMargin
