@@ -14,6 +14,7 @@ import { navigateAndReset } from '../../helpers/RootNavigation';
 import { useRoute } from '@react-navigation/native';
 import Contacts from 'react-native-contacts';
 import _ from 'lodash';
+import Metrics from '../../helpers/Metrics';
 
 const Contact = () => {
     const [params, setParams] = useState({ first_name: "", last_name: "", note: "", number: "" });
@@ -150,6 +151,7 @@ const Contact = () => {
                     name="first_name"
                     onInputLeave={onInputLeave}
                     isError={errors?.first_name}
+                    customStyle={styles.customInput}
                 />
                 <Input
                     placeholder="Last Name"
@@ -158,6 +160,7 @@ const Contact = () => {
                     name="last_name"
                     onInputLeave={onInputLeave}
                     isError={errors?.last_name}
+                    customStyle={styles.customInput}
                 />
                 <Input
                     placeholder="Phone"
@@ -167,6 +170,7 @@ const Contact = () => {
                     name="number"
                     onInputLeave={onInputLeave}
                     isError={errors?.number}
+                    customStyle={styles.customInput}
                 />
                 <Input
                     placeholder="Note"
@@ -208,6 +212,10 @@ const Contact = () => {
 }
 
 const styles = StyleSheet.create({
+    customInput: {
+        fontSize: 14,
+        borderRadius: 10
+    },
     uploadButtonWrap: {
         flexDirection: 'row',
         alignItems: 'center',

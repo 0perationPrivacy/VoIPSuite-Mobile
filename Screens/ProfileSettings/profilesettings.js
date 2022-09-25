@@ -295,7 +295,7 @@ const ProfileSettings = () => {
                     title="Save"
                     onPress={onPressSave}
                     loading={isLoading}
-                    buttonStyle={authCss.signInButton}
+                // buttonStyle={authCss.signInButton}
                 />
                 <Confirmation isVisible={isModalVisible} onPressCancel={onCancelConfirmCheckModal} onPressOk={onOkConfirmCheckModal} />
                 <Confirmation

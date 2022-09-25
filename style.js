@@ -107,6 +107,7 @@ module.exports = StyleSheet.create({
 	textAreaContainer: {
 		height: 200,
 		textAlignVertical: 'top',
+		borderRadius: 10
 	},
 
 	screenInnerTitle: {
