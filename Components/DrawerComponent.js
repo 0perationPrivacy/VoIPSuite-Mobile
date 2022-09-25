@@ -7,6 +7,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { navigate, navigateAndReset } from '../helpers/RootNavigation';
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../redux/actions/'
+import { getColorByTheme, getOSVersion } from '../helpers/utils';
+import Metrics from '../helpers/Metrics';
 
 export function DrawerContent(props) {
 	const width = useWindowDimensions().width * 0.3;
@@ -32,38 +34,62 @@ export function DrawerContent(props) {
 		dispatch(userActions.logout())
 	}
 
+	const getVersionText = () => {
+		return (
+			<View style={customStyle.versionTextContainer}>
+				<Text style={customStyle.versionText}>{getOSVersion()}</Text>
+			</View>
+		)
+	}
+
 	return (
-		<DrawerContentScrollView {...props}>
-			<View style={styles.drawerContainer}>
-				<Text style={styles.drawerInnerHeading}>Settings</Text>
-				<View style={styles.drawerInnerChildWrap}>
-					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('emailsettings')}>
-						<Feather name="mail" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-						<Text style={styles.drawerInnerChildText}>Email Settings</Text>
+		<DrawerContentScrollView {...props} scrollEnabled={false}>
+			<View style={styles.drawerMainContainer}>
+				<View style={styles.drawerContainer}>
+					<Text style={styles.drawerInnerHeading}>Settings</Text>
+					<View style={styles.drawerInnerChildWrap}>
+						<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('emailsettings')}>
+							<Feather name="mail" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
+							<Text style={styles.drawerInnerChildText}>Email Settings</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('ProfileSettings')}>
+							<Feather name="user" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
+							<Text style={styles.drawerInnerChildText}>Profile Settings</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('accounts')}>
+							<Feather name="settings" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
+							<Text style={styles.drawerInnerChildText}>Account Settings</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.drawerInnerChildListWrap}>
+							<Feather name="shield" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
+							<Text style={styles.drawerInnerChildText}>MFA Settings</Text>
+						</TouchableOpacity>
+					</View>
+					<TouchableOpacity style={styles.drawerMainItemWrap} onPress={() => onPressNavigation('ContactList')}>
+						<Text style={styles.drawerInnerHeading} >Contacts</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('ProfileSettings')}>
-						<Feather name="user" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-						<Text style={styles.drawerInnerChildText}>Profile Settings</Text>
+					<TouchableOpacity onPress={() => onPressNavigation('Messages')}>
+						<Text style={styles.drawerInnerHeading} >Messages</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('accounts')}>
-						<Feather name="settings" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-						<Text style={styles.drawerInnerChildText}>Account Settings</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.drawerInnerChildListWrap}>
-						<Feather name="shield" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-						<Text style={styles.drawerInnerChildText}>MFA Settings</Text>
+					<TouchableOpacity onPress={onPressLogout} style={{ marginTop: 20 }}>
+						<Text style={styles.drawerInnerHeading} >Logout</Text>
 					</TouchableOpacity>
 				</View>
-				<TouchableOpacity style={styles.drawerMainItemWrap} onPress={() => onPressNavigation('ContactList')}>
-					<Text style={styles.drawerInnerHeading} >Contacts</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => onPressNavigation('Messages')}>
-					<Text style={styles.drawerInnerHeading} >Messages</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={onPressLogout} style={{ marginTop: 20 }}>
-					<Text style={styles.drawerInnerHeading} >Logout</Text>
-				</TouchableOpacity>
+				{getVersionText()}
+
 			</View>
 		</DrawerContentScrollView>
 	);
 }
+
+const customStyle = StyleSheet.create({
+	versionTextContainer: {
+		alignItems: 'center',
+		marginTop: Metrics.baseMargin
+	},
+	versionText: {
+		color: getColorByTheme('#000', '#fff'),
+		fontSize: 14,
+		fontFamily: Metrics.fontMedium
+	},
+});

@@ -1,5 +1,6 @@
 import { Appearance } from 'react-native';
 import _ from 'lodash';
+import { getVersion } from 'react-native-device-info';
 
 const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -36,5 +37,14 @@ const getReadableTime = (date) => {
     return strTime;
 }
 
+const getOSVersion = () => {
+    return `App Version: ${getVersion()}`;
+}
 
-export { isEmpty, getColorByTheme, getReadableDate, getReadableTime }
+export {
+    isEmpty,
+    getColorByTheme,
+    getReadableDate,
+    getReadableTime,
+    getOSVersion
+}

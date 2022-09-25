@@ -67,10 +67,15 @@ module.exports = StyleSheet.create({
 	drawerStyle: {
 		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
 	},
-	drawerContainer: {
-		// flex: 1,
+	drawerMainContainer: {
 		paddingHorizontal: 10,
 		paddingTop: 20,
+
+	},
+	drawerContainer: {
+		// flex: 1,
+		// backgroundColor  :'red',
+		height: ScreenHeight - 200
 	},
 	drawerInnerHeading: {
 		fontSize: 14,

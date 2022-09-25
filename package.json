@@ -23,6 +23,7 @@
     "react-native": "0.67.2",
     "react-native-cli": "^2.0.1",
     "react-native-contacts": "^7.0.4",
+    "react-native-device-info": "^10.2.0",
     "react-native-dropdown-picker": "^5.3.0",
     "react-native-element-dropdown": "^1.6.3",
     "react-native-elements": "^3.4.2",
