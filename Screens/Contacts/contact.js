@@ -40,8 +40,6 @@ const Contact = () => {
 
     useEffect(() => {
         const { params } = route;
-        console.log(params, 'params');
-
         if (params?.item) {
             const { item } = params
             const { created_at, __v, user, ...other } = item
@@ -81,8 +79,7 @@ const Contact = () => {
         let data = [];
 
         if (importedContacts && _.isArray(importedContacts)) {
-            console.log(importedContacts, '=<<<<<, contacts')
-            importedContacts.map(item => {
+            importedContacts.forEach(item => {
                 const { familyName, givenName, phoneNumbers } = item;
                 data.push({ first_name: familyName, last_name: givenName, number: phoneNumbers?.[0]?.number, note: "notes go here" })
             })

@@ -44,9 +44,6 @@ const Login = (props) => {
 
 	const onPressSignIn = (data) => {
 		const { email, password } = data;
-
-		console.log(data);
-
 		if (!isValidate) return false;
 
 		if (isEmpty(email)) {

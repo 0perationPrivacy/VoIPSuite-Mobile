@@ -5,8 +5,6 @@ var API_URL = 'https://voip-node.herokuapp.com/api';
 // var API_URL = 'https://devvoip.operationprivacy.com/api';
 
 export function getServerUrl() {
-  console.log('agya in server url');
-
   const state = store.getState();
   const { user = {} } = state.authentication;
 

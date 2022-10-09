@@ -13,7 +13,6 @@ function uploadMediaAction(formData, cb) {
     uploadService.uploadMedia(formData)
       .then(
         response => {
-          console.log(response,'re')
           dispatch(success());
           cb(response.data)
           // dispatch(alertActions.success(response?.message));

@@ -84,7 +84,6 @@ const Messages = ({ navigation }) => {
     }
 
     const onRefresh = () => {
-        console.log('active profile ====>', activeProfile)
         setRefreshing(true);
         getMessagesByProfileId(activeProfile)
     };

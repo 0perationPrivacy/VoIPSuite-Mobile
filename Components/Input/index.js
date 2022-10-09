@@ -24,7 +24,6 @@ const CustomInput = ({
 	const onChangeInputText = (text) => {
 		const { onChange } = field;
 		onChange(text);
-		// console.log('afzffzfzf',text,name,onChangeInput)
 
 		if (onChangeInput) {
 			onChangeInput(name, text)

@@ -58,7 +58,6 @@ const SignUp = (props) => {
 	}
 
 	const onSetErrorMessageFromServer = (errors) => {
-		console.log(errors);
 		setErrorMessages(errors);
 	}
 

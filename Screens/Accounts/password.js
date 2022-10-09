@@ -32,8 +32,6 @@ const ChangePassword = (props) => {
       const { email } = user.data
       // setUserData(user.data);
       // setParams({ email: email });
-
-      console.log(user)
     }
   }, [])
 
@@ -42,7 +40,6 @@ const ChangePassword = (props) => {
   }
 
   const onPressChange = (data) => {
-    console.log(params)
     dispatch(userActions.changePasswordAction(params))
   }
 

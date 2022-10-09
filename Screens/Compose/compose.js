@@ -48,7 +48,7 @@ const Compose = () => {
     useEffect(() => {
         if (_.isArray(contacts)) {
             let data = [];
-            contacts.map((item) => {
+            contacts.forEach((item) => {
                 const { number, _id } = item;
                 data.push({ label: number, value: number })
             })
@@ -61,8 +61,7 @@ const Compose = () => {
 
         if (result?.assets) {
             const file = result.assets[0]
-            console.log(file)
-
+            
             const data = new FormData();
             data.append('file', {
                 name: file.fileName,
@@ -78,10 +77,8 @@ const Compose = () => {
     }
 
     const onFileUploadSuccess = (data) => {
-        console.log('succcess data', data);
         const fileArray = [...files]
         fileArray.push(data.media);
-        console.log(fileArray, '<============ fileArray')
 
         setFiles(fileArray)
     }
@@ -91,8 +88,6 @@ const Compose = () => {
 
         if (!data.includes(value)) {
             data.push(value)
-            console.log(data)
-
             setSelectedContact(data)
         }
     }
@@ -182,7 +177,6 @@ const Compose = () => {
     }
 
     const renderImageItems = (uri, index) => {
-        console.log(uri, '< ==========')
         return (
             <Image source={{ uri }} width={50} height={50} key={index} />
         )

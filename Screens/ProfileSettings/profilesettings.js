@@ -44,12 +44,10 @@ const ProfileSettings = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(profileSettings, '<=========== profileSettings')
         if (profileSettings && !_.isEmpty(profileSettings)) {
             const { profile, type, id, sid, number } = profileSettings;
             setProfileName(profile)
             setProfileId(id);
-            console.log('tyo', type)
             setActiveTab(type);
 
             if (type === 'telnyx') {
@@ -72,7 +70,6 @@ const ProfileSettings = () => {
             setSID(sid);
 
             setTimeout(() => {
-                console.log('haan ==============>', tiwlioSid, type, number, sid, 'no ==============>')
                 onPressGetNumber()
             }, 2000);
         }
@@ -81,7 +78,7 @@ const ProfileSettings = () => {
     useEffect(() => {
         if (numbers && _.isArray(numbers)) {
             let data = [];
-            numbers.map((item) => {
+            numbers.forEach((item) => {
                 const { phoneNumber, phone_number, sid, id } = item;
                 let number = activeTab === 'twilio' ? phoneNumber : phone_number;
                 let _sid = activeTab === 'twilio' ? sid : id;
@@ -100,7 +97,6 @@ const ProfileSettings = () => {
     const returnData = () => {
         let data = {}
         let __phone = phoneNumber;
-        console.log(profileSettings, 'profile')
         if (activeTab === 'twilio') {
             data = {
                 ...profileSettings,
@@ -166,7 +162,6 @@ const ProfileSettings = () => {
     }
 
     const onChangePhone = (obj) => {
-        console.log('obj', obj);
         setPhoneNumber(obj.number);
         setSID(obj._sid);
     }

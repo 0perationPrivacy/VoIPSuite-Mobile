@@ -37,7 +37,6 @@ const ChangeUsername = (props) => {
       setUserData(user.data);
       setParams({ email: email });
 
-      console.log(user)
     }
   }
 
@@ -46,7 +45,6 @@ const ChangeUsername = (props) => {
   }
 
   const onPressChange = (data) => {
-    console.log(data)
     dispatch(userActions.changeUsernameAction(data, initUserData, onSetErrorMessageFromServer))
   }
 

@@ -41,7 +41,6 @@ const Home = (props) => {
 			setContactInfo(contact)
 		}
 
-		console.log(contact)
 		setContactNumber(_id)
 
 		if (data) {
@@ -66,19 +65,15 @@ const Home = (props) => {
 		if (_.isArray(messages)) {
 
 			let data = [];
-			messages.map((mItem) => {
+			messages.forEach((mItem) => {
 				const { _id, message, created_at, contact, type, number, user, media } = mItem;
 				let _contact = contact ? contact?.first_name + ' ' + contact?.last_name : number;
 				let _contactUser = contact ? user : _id;
-
-				// console.log(_contact, _contactUser)
 
 				let images = media ? JSON.parse(media) : [];
 
 				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser, name: _contact }, image: images && images.length > 0 ? images[0] : null })
 			})
-
-			console.log(data, 'hola', 'contact');
 
 			setMessages(data);
 		}
@@ -196,7 +191,6 @@ const Home = (props) => {
 }
 
 const customSystemMessage = props => {
-	console.log(props, '<<< props')
 	return (
 		<View style={styles.ChatMessageSytemMessageContainer}>
 			<Icon name="lock" color="#9d9d9d" size={16} />

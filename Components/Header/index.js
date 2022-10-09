@@ -8,7 +8,6 @@ import { canGoBack, goBack } from '../../helpers/RootNavigation';
 import { getColorByTheme } from '../../helpers/utils';
 
 const CustomHeader = ({ isTitle, onBackProp, headerBody, headerRight, title }) => {
-    console.log('header right ===>', typeof headerRight)
     const route = useRoute();
 
     const onPressBack = () => {

@@ -31,11 +31,9 @@ const DialPad = () => {
 
     const [stream, setStream] = useState(null);
     const start = async () => {
-        console.log('start', stream);
         if (!stream) {
             let s;
             try {
-                console.log('start', stream);
                 s = await mediaDevices.getUserMedia({ audio: true, video: false });
                 setStream(s);
             } catch (e) {
@@ -44,7 +42,6 @@ const DialPad = () => {
         }
     };
     const stop = () => {
-        console.log('stop');
         if (stream) {
             stream.release();
             setStream(null);
@@ -78,7 +75,6 @@ const DialPad = () => {
 
     const getProviderToken = () => {
         const { id } = profile;
-        console.log(profile);
         if (id) {
             dispatch(callActions.getProviderTokenAction({ setting_id: id }))
         }

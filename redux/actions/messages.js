@@ -23,7 +23,6 @@ function getMessagesByProfileIdAction(profileId, successCb) {
           }
 
           if (successCb) {
-            console.log('get successCb')
             successCb()
           }
 
@@ -49,8 +48,7 @@ function deleteMessageAction(number, cb) {
     messagesService.deleteMessage(number)
       .then(
         response => {
-          console.log(response)
-          dispatch(success('Message has been deleted'));
+          dispatch(success());
           dispatch(alertActions.success('Message has been deleted'));
 
           if (cb) {
@@ -76,11 +74,8 @@ function getMessageDetailsAction(data) {
     messagesService.viewMessage(data)
       .then(
         response => {
-          console.log('response', response)
-
           if (response) {
             dispatch(success(response));
-            console.log('response', response)
             return;
           }
 
@@ -106,7 +101,6 @@ function sendMessageDetailsAction(data, cb, isSuccessMessage = true) {
     messagesService.sendMessageService(data)
       .then(
         response => {
-          console.log('response', response)
           dispatch(success());
 
           if (isSuccessMessage) {

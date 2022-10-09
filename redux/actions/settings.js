@@ -41,7 +41,6 @@ function getNumbersListByProfileAction(data, type) {
       .then(
         response => {
           const { data } = response;
-          console.log('lorarr ================>', data, type)
           if (type === 'telnyx') {
             dispatch(success(data.data));
           } else {

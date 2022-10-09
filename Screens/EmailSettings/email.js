@@ -61,9 +61,6 @@ const EmailSettings = (props) => {
 		// 	setErrors(prevState => ({ ...prevState, password: true }));
 		// 	return false;
 		// }
-
-		console.log(params)
-
 		dispatch(emailActions.createEmailCredAction(params, onSetErrorMessageFromServer))
 	}
 
@@ -98,16 +95,14 @@ const EmailSettings = (props) => {
 	const onSuccessProfleSettingsSave = (profile) => {
 		const { emailnotification, id } = profile;
 		let __profiles = [...profiles];
-		console.log(__profiles, 'before');
+	
 		const returnProfile = __profiles.filter((item) => {
 			if (item.id === id) {
 				item.emailnotification = emailnotification;
 				return true
 			}
 		})
-		console.log(__profiles, 'after');
-		console.log(returnProfile, 'returnProfile');
-
+	
 		dispatch(profileActions.setProfileList(__profiles))
 	}
 
