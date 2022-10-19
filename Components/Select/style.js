@@ -23,7 +23,7 @@ module.exports = StyleSheet.create({
         marginRight: 5,
     },
     itemContainerStyle: {
-        backgroundColor: getColorByTheme('#fff', '#000'),
+        backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
     },
     item: {
         padding: 17,
@@ -34,7 +34,7 @@ module.exports = StyleSheet.create({
     textItem: {
         flex: 1,
         fontSize: 14,
-        color: getColorByTheme('#000', '#000'),
+        color: getColorByTheme('#000', '#fff'),
     },
     placeholderStyle: {
         fontSize: 16,

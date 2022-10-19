@@ -270,7 +270,7 @@ const ProfileSettings = () => {
                 </View>
                 {
                     isDeleteBtn && <TouchableOpacity>
-                        <Feather name='trash' size={22} />
+                        <Feather name='trash' size={22} color="red" />
                     </TouchableOpacity>
                 }
             </View>
