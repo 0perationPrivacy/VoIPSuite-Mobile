@@ -37,6 +37,9 @@ const Home = (props) => {
 		const { number } = data;
 		const { contact, _id } = number
 
+		console.log('number ====>', number);
+		console.log('data ====>', data);
+
 		if (contact) {
 			setContactInfo(contact)
 		}
@@ -84,14 +87,13 @@ const Home = (props) => {
 	}
 
 	const onSendMessage = (messages = []) => {
-		if (contactInfo && contactInfo?.number) {
-			const { _id } = user.data
-			const { number } = contactInfo
-			const { text } = messages[0]
+		const { _id } = user.data
+		const { text } = messages[0]
+		const number = contactNumber
 
-			let data = { media: [], message: text, numbers: [number], profile: profileID, user: _id }
-			dispatch(messagesActions.sendMessageDetailsAction(data, () => onSuccessSendMessage(messages), false))
-		}
+		let data = { media: [], message: text, numbers: [number], profile: profileID, user: _id }
+		dispatch(messagesActions.sendMessageDetailsAction(data, () => onSuccessSendMessage(messages), false))
+
 	}
 
 	const onSuccessSendMessage = (messages = []) => {

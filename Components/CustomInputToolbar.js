@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
 });
 
 export default MessageInput = props => (
-  <InputToolbar 
-  containerStyle={styles.inputToolbarBackground}
-   {...props}  
-   />
+  <InputToolbar
+    containerStyle={styles.inputToolbarBackground}
+    {...props}
+  />
 );
