@@ -1,6 +1,7 @@
 import { Appearance } from 'react-native';
 import _ from 'lodash';
 import { getVersion } from 'react-native-device-info';
+import SocketIO from "socket.io-client";
 
 const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -41,10 +42,20 @@ const getOSVersion = () => {
     return `App Version: ${getVersion()}`;
 }
 
+const getSocketInstance = async () => {
+    let io = await SocketIO("https://voip-node.herokuapp.com/", {
+        // jsonp: false,
+        transports: ['websocket'],
+    });
+
+    return io;
+}
+
 export {
     isEmpty,
     getColorByTheme,
     getReadableDate,
     getReadableTime,
-    getOSVersion
+    getOSVersion,
+    getSocketInstance,
 }

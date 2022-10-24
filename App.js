@@ -19,7 +19,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
-import SocketIO from "socket.io-client";
+import { getSocketInstance } from './helpers/utils';
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
 //   global.originalXMLHttpRequest :
@@ -32,7 +32,7 @@ import SocketIO from "socket.io-client";
 //     console.log('Fetch', { request: { uri, options, ...args }, response });
 //     return response;
 //   });
-// };
+// };`
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -43,11 +43,10 @@ const App = () => {
   const colorScheme = Appearance.getColorScheme();
   const Drawer = createDrawerNavigator();
 
-  useEffect(() => {
-    // let io = SocketIO("http://192.168.2.104:3000/", {
-    //   // jsonp: false,
-    //   transports: ['websocket'],
-    // });
+  useEffect(async () => {
+    // const io = await getSocketInstance();
+
+    // io.emit("join_profile_channel", 'jjj');
 
     // io.emit("join_profile_channel", 'channe test id from voip app');
 

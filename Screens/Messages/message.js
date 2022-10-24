@@ -4,7 +4,7 @@ import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
-import { getColorByTheme, getReadableDate, getReadableTime } from '../../helpers/utils';
+import { getColorByTheme, getReadableDate, getReadableTime, getSocketInstance } from '../../helpers/utils';
 import HomeHeader from '../../components/HomeHeader';
 import { useDispatch, useSelector } from 'react-redux'
 import { messagesActions, settingsActions } from '../../redux/actions';
@@ -12,6 +12,7 @@ import _ from 'lodash'
 import Loader from '../../components/Loader';
 import { navigate } from '../../helpers/RootNavigation';
 import HomeFloating from '../../components/HomeFloating';
+import { getUserId } from '../../helpers/auth-header';
 
 const Messages = ({ navigation }) => {
     const [__messages, setMessages] = useState([
@@ -60,13 +61,22 @@ const Messages = ({ navigation }) => {
         navigation.addListener('focus', () => {
             getMessagesByProfileId();
         });
+        initSocket()
     }, [])
 
     useEffect(() => {
         if (_.isArray(messages)) {
             setMessages(messages);
         }
-    }, [messages])
+    }, [messages]);
+
+    const initSocket = async () => {
+        const io = await getSocketInstance();
+        let userId = getUserId();
+
+        console.log('in home ====>', userId);
+        io.emit("join_profile_channel", userId.toString());
+    }
 
     const renderHeader = () => {
         return <HomeHeader onPressProfile={getMessagesByProfileId} />
