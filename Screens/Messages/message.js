@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, FlatList, RefreshControl } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, FlatList, RefreshControl, NativeModules } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
@@ -15,6 +15,9 @@ import HomeFloating from '../../components/HomeFloating';
 import { getUserId } from '../../helpers/auth-header';
 
 const Messages = ({ navigation }) => {
+
+    const { NotificationModule } = NativeModules;
+
     const [__messages, setMessages] = useState([
         // {
         //     _id: 1,
@@ -61,8 +64,16 @@ const Messages = ({ navigation }) => {
         navigation.addListener('focus', () => {
             getMessagesByProfileId();
         });
-        initSocket()
+        console.log('NotificationModule ===>', NotificationModule);
+        getId();
+        // initSocket()
     }, [])
+
+
+    const getId = () => {
+        NotificationModule.testFunction();
+        NotificationModule.sendNotification();
+    };
 
     useEffect(() => {
         if (_.isArray(messages)) {
@@ -75,7 +86,7 @@ const Messages = ({ navigation }) => {
         let userId = getUserId();
 
         console.log('in home ====>', userId);
-        io.emit("join_profile_channel", userId.toString());
+        io.emit("join_profile_channel", userId);
     }
 
     const renderHeader = () => {
