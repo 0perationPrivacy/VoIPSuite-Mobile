@@ -1,6 +1,7 @@
 package com.voip;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,11 +9,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -24,7 +27,50 @@ public class NotificationModule extends ReactContextBaseJavaModule {
 
     NotificationModule(ReactApplicationContext context) {
         super(context);
+        Log.d("dd", "ddddddd");
         reactContext = context;
+    }
+
+    @ReactMethod
+    public void displayNotification() {
+        Log.i("NotificationService", "NotificationService test");
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "textMessage");
+        intent.setType("text/plain");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Uri uri = intent.getData();
+
+//        Log.i("NotificationService", "URI " + uri.toString());
+        PendingIntent pendingIntent = PendingIntent.getActivity(this.reactContext, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        String CHANNEL_ID = "notificationsChannel";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.reactContext, CHANNEL_ID);
+         builder.setSmallIcon(17301575);
+        builder.setContentTitle("Notifiks");
+        builder.setContentText("Narmal teksts");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setContentIntent(pendingIntent);
+         builder.setAutoCancel(false);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this.reactContext);
+        notificationManager.notify(123, builder.build());
+    }
+
+    @ReactMethod
+    public void createNotificationChannel() {
+        String CHANNEL_ID = "notificationsChannel";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = new StringBuffer("charsequence");
+            String description = "kkads apraksts";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = reactContext.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @NonNull
@@ -33,46 +79,4 @@ public class NotificationModule extends ReactContextBaseJavaModule {
         return "NotificationModule";
     }
 
-    @ReactMethod
-    public void getPhoneID(Promise response) {
-        try {
-            @SuppressLint("HardwareIds")
-            String id = Settings.Secure.getString(reactContext.getContentResolver(), Settings.Secure.ANDROID_ID);
-            response.resolve(id);
-        } catch (Exception e) {
-            response.reject("Error", e);
-        }
-    }
-
-    @ReactMethod
-    public void testFunction(Promise response) {
-        Log.d("MyApp", "I am here");
-    }
-
-    @ReactMethod
-    public void sendNotification() {
-        Log.d("MyApp", "In notification");
-        NotificationCompat.Builder nBuilder;
-        Uri alarmSound = RingtoneManager
-                .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        Context context = null;
-        nBuilder = new NotificationCompat.Builder(context, "voip-notification")
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Kluebook - ")
-                .setLights(Color.BLUE, 500, 500).setContentText("message")
-                .setAutoCancel(true).setTicker("Notification from kluebook")
-                .setVibrate(new long[] { 100, 250, 100, 250, 100, 250 })
-                .setSound(alarmSound);
-
-        Intent resultIntent = null;
-        resultIntent = new Intent(context, MainApplication.class);
-
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context,
-                2, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-         nBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager nNotifyMgr = (NotificationManager) context
-                .getSystemService(context.NOTIFICATION_SERVICE);
-        nNotifyMgr.notify(2, nBuilder.build());
-    }
 }

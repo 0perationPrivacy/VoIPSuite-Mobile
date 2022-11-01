@@ -65,14 +65,14 @@ const Messages = ({ navigation }) => {
             getMessagesByProfileId();
         });
         console.log('NotificationModule ===>', NotificationModule);
-        getId();
+        setNotification();
         // initSocket()
     }, [])
 
 
-    const getId = () => {
-        NotificationModule.testFunction();
-        NotificationModule.sendNotification();
+    const setNotification = () => {
+        NotificationModule.createNotificationChannel();
+        NotificationModule.displayNotification();
     };
 
     useEffect(() => {
