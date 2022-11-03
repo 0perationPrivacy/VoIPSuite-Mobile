@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -27,34 +28,34 @@ public class NotificationModule extends ReactContextBaseJavaModule {
 
     NotificationModule(ReactApplicationContext context) {
         super(context);
-        Log.d("dd", "ddddddd");
         reactContext = context;
     }
 
     @ReactMethod
     public void displayNotification() {
-        Log.i("NotificationService", "NotificationService test");
         Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
+
+//        intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, "textMessage");
         intent.setType("text/plain");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        Uri uri = intent.getData();
 
-//        Log.i("NotificationService", "URI " + uri.toString());
-        PendingIntent pendingIntent = PendingIntent.getActivity(this.reactContext, 0, intent,
+        intent.setAction(Long.toString(847878454));
+        PendingIntent pendingIntent = PendingIntent.getActivity(NotificationModule.reactContext, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         String CHANNEL_ID = "notificationsChannel";
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.reactContext, CHANNEL_ID);
-         builder.setSmallIcon(17301575);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(NotificationModule.reactContext,
+                CHANNEL_ID);
+        builder.setSmallIcon(17301575);
         builder.setContentTitle("Notifiks");
         builder.setContentText("Narmal teksts");
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setContentIntent(pendingIntent);
-         builder.setAutoCancel(false);
+        builder.setAutoCancel(false);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this.reactContext);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(NotificationModule.reactContext);
         notificationManager.notify(123, builder.build());
     }
 

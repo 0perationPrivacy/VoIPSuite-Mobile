@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">VoIP Suite</string>
-    <string name="default_notification_channel_id">voip-notification</string>
-
+    <string name="default_notification_channel_id">notificationsChannel</string>
 </resources>
