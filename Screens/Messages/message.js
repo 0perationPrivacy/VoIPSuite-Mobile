@@ -13,10 +13,11 @@ import Loader from '../../components/Loader';
 import { navigate } from '../../helpers/RootNavigation';
 import HomeFloating from '../../components/HomeFloating';
 import { getUserId } from '../../helpers/auth-header';
+import notifee from '@notifee/react-native';
 
 const Messages = ({ navigation }) => {
 
-    const { NotificationModule } = NativeModules;
+    // const { NotificationModule } = NativeModules;
 
     const [__messages, setMessages] = useState([
         // {
@@ -59,16 +60,45 @@ const Messages = ({ navigation }) => {
     const messages = useSelector(state => state.messages.items);
     const user = useSelector(state => state.authentication.user);
 
+    const initNotifee = useCallback(async () => {
+        await notifee.requestPermission()
+
+        // Create a channel (required for Android)
+        const channelId = await notifee.createChannel({
+            id: 'default',
+            name: 'Default Channel',
+        });
+
+        // Display a notification
+        await notifee.displayNotification({
+            title: 'Welcome to VoIP Suite',
+            body: 'Main body content of the notification',
+            android: {
+                channelId,
+                // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+                // pressAction is needed if you want the notification to open the app when pressed
+                pressAction: {
+                    id: 'default',
+                },
+            },
+        });
+    }, [])
+
     useEffect(() => {
         getMessagesByProfileId()
         navigation.addListener('focus', () => {
             getMessagesByProfileId();
         });
-        console.log('NotificationModule ===>', NotificationModule);
-        setNotification();
+        // console.log('NotificationModule ===>', NotificationModule);
+        // setNotification();
         // initSocket()
     }, [])
 
+    useEffect(() => {
+        setTimeout(() => {
+            initNotifee();
+        }, 2000);
+    }, [initNotifee])
 
     const setNotification = () => {
         NotificationModule.createNotificationChannel();

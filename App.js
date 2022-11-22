@@ -43,7 +43,7 @@ const App = () => {
   const colorScheme = Appearance.getColorScheme();
   const Drawer = createDrawerNavigator();
 
-  useEffect(async () => {
+  useEffect(() => {
     // const io = await getSocketInstance();
 
     // io.emit("join_profile_channel", 'jjj');
