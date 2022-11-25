@@ -85,10 +85,11 @@ module.exports = StyleSheet.create({
 		color: getColorByTheme('#000', '#fff'),
 	},
 	drawerMainItemWrap: {
-		marginBottom: 15
+		marginBottom: 15,
+		flexDirection: 'row',
 	},
 	drawerInnerChildWrap: {
-		marginLeft: 10,
+		marginLeft: Metrics.ratio(15),
 		marginTop: 15
 	},
 	drawerInnerChildListWrap: {
@@ -125,6 +126,9 @@ module.exports = StyleSheet.create({
 	},
 	defaultIconColor: {
 		color: getColorByTheme('#6c757d', '#6c757d'),
+	},
+	drawerMainIconColor: {
+		color: getColorByTheme('#000', '#6c757d'),
 	},
 	defaultTextColor: {
 		color: getColorByTheme('#000', '#fff'),
