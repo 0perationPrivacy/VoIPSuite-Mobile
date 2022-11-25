@@ -15,6 +15,7 @@ const ChangeUsername = (props) => {
   const [errors, setErrors] = useState({});
   const [errorMessages, setErrorMessages] = useState({});
   const [userData, setUserData] = useState({});
+  const [isBtnDisable, setIsBtnDisable] = useState(true);
 
   const validations = {
     email: true,
@@ -36,7 +37,7 @@ const ChangeUsername = (props) => {
       const { email } = user.data
       setUserData(user.data);
       setParams({ email: email });
-
+      setIsBtnDisable(true)
     }
   }
 
@@ -82,8 +83,8 @@ const ChangeUsername = (props) => {
           defaultValue={params.email}
           control={control}
           onInputLeave={onInputLeave}
-          autoFocus
           name={'email'}
+          onChangeInput={() => setIsBtnDisable(false)}
         />
       </View>
       <Button
@@ -91,7 +92,9 @@ const ChangeUsername = (props) => {
         buttonStyle={styles.signInButton}
         title="Change"
         onPress={handleSubmit(onPressChange)}
-        loading={isLoading} />
+        loading={isLoading}
+        disabled={isBtnDisable}
+      />
     </Wrapper>
   )
 }
