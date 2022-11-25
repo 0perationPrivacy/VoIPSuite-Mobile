@@ -12,9 +12,9 @@ const HomeFloating = ({
 }) => {
 	return (
 		<View>
-			<TouchableOpacity style={styles.iconContainer}>
+			{/* <TouchableOpacity style={styles.iconContainer}>
 				<Icon name='phone' size={20} color='#fff' />
-			</TouchableOpacity>
+			</TouchableOpacity> */}
 			<TouchableOpacity onPress={onPressCompose} style={[styles.iconContainer, styles.iconContainerContact]}>
 				<Icon name='plus-circle' size={20} color='#fff' />
 			</TouchableOpacity>
