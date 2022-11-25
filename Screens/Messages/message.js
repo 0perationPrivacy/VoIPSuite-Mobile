@@ -95,9 +95,9 @@ const Messages = ({ navigation }) => {
     }, [])
 
     useEffect(() => {
-        setTimeout(() => {
-            initNotifee();
-        }, 2000);
+        // setTimeout(() => {
+        //     initNotifee();
+        // }, 2000);
     }, [initNotifee])
 
     const setNotification = () => {

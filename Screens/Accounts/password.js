@@ -16,9 +16,10 @@ const ChangePassword = (props) => {
   const [userData, setUserData] = useState({});
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
-  const validations = {
-    email: true,
+  const isPasswordHide = {
+    old_password: true,
     password: true,
+    c_password: true
   }
 
   const { control, handleSubmit } = useForm();
@@ -56,22 +57,22 @@ const ChangePassword = (props) => {
 
   return (
     <Wrapper header={renderHeader()}>
-      <View>
-        <Input
-          placeholder="Old Password"
-          defaultValue={params.old_password}
-          control={control}
-          name={'old_password'}
-          autoFocus
-          onChangeInput={onChangeText}
-        />
-      </View>
+      <Input
+        placeholder="Old Password"
+        defaultValue={params.old_password}
+        control={control}
+        name={'old_password'}
+        autoFocus
+        onChangeInput={onChangeText}
+        secureTextEntry={isPasswordHide.old_password}
+      />
       <Input
         placeholder="New Password"
         defaultValue={params.password}
         control={control}
         name={'password'}
         onChangeInput={onChangeText}
+        secureTextEntry={isPasswordHide.old_password}
       />
       <Input
         placeholder="Confirm Password"
@@ -80,6 +81,7 @@ const ChangePassword = (props) => {
         onChangeInput={onChangeText}
         name={'c_password'}
         isError={confirmPasswordError}
+        secureTextEntry={isPasswordHide.old_password}
       />
       <Button
         containerStyle={styles.button}

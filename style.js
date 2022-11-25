@@ -124,7 +124,7 @@ module.exports = StyleSheet.create({
 		fontFamily: Metrics.fontMedium
 	},
 	defaultIconColor: {
-		color: getColorByTheme('#000', '#6c757d'),
+		color: getColorByTheme('#6c757d', '#6c757d'),
 	},
 	defaultTextColor: {
 		color: getColorByTheme('#000', '#fff'),

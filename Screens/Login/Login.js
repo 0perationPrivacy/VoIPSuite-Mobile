@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
-import { Image } from 'react-native-elements'
+import { Text, View, Linking, TouchableOpacity } from 'react-native'
 import { AuthWrapper, Input, Button } from '../../components';
 import { navigate } from '../../helpers/RootNavigation';
 const logo = require('../../assets/logo-b.svg')
@@ -10,12 +9,10 @@ import { useForm } from 'react-hook-form'
 import { isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../redux/actions'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/Feather'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Metrics from '../../helpers/Metrics';
 import Version from '../../components/Version';
 import { DEFAUL_URL } from '../../helpers/config';
-import { store } from '../../redux/store';
 
 const Login = (props) => {
 	const [params, setParams] = useState({ email: "", password: "", server_url: DEFAUL_URL });
@@ -79,6 +76,10 @@ const Login = (props) => {
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
 
+	const openUrlLink = (link) => {
+		Linking.openURL(link);
+	}
+
 	return (
 		<AuthWrapper>
 			{/* <Image source={logo} style={styles.ImageDimension} /> */}
@@ -116,7 +117,7 @@ const Login = (props) => {
 					/>
 					<View style={styles.serverUrlWrapper}>
 						<Input
-							placeholder="Enter Server Url (Optional)"
+							placeholder="https://voip.operationprivacy.com"
 							keyboardType="url"
 							defaultValue={params.server_url}
 							control={control}
@@ -125,7 +126,7 @@ const Login = (props) => {
 							customStyle={{ borderRadius: 10, marginBottom: 0 }}
 							customIconWrap={globalStyle.authInputIconContainer}
 						/>
-						<Text style={styles.serverUrlHintText}>{"Pattern : https://www.example.com/api"}</Text>
+						<Text style={styles.serverUrlHintText}>{"Pattern : https://voip.operationprivacy.com"}</Text>
 					</View>
 				</View>
 				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
@@ -136,14 +137,14 @@ const Login = (props) => {
 					</TouchableOpacity>
 				</View>
 				<View style={styles.socialLinksWrap}>
-					<TouchableOpacity style={styles.socialLinksItem}>
-						<Icon name="twitter" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
+					<TouchableOpacity style={styles.socialLinksItem} onPress={() => openUrlLink('https://www.twitter.com/0perationP')}>
+						<FontAwesome5 name="twitter" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.socialLinksItem}>
-						<Icon name="github" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
+					<TouchableOpacity style={styles.socialLinksItem} onPress={() => openUrlLink('https://github.com/0perationPrivacy/')}>
+						<FontAwesome5 name="github" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.socialLinksItem}>
-						<Icon name="credit-card" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
+					<TouchableOpacity style={styles.socialLinksItem} onPress={() => openUrlLink('https://www.operationprivacy.com/donate')}>
+						<FontAwesome5 name="credit-card" size={Metrics.ratio(30)} style={globalStyle.defaultIconColor} />
 					</TouchableOpacity>
 				</View>
 			</View>
