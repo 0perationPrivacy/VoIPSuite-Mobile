@@ -261,8 +261,8 @@ const styles = StyleSheet.create({
     },
     messagesListItemWrap: {
         flexDirection: 'row',
-        // borderWidth: 1,
-        // borderColor: '#ececec',
+        borderBottomWidth: 1,
+        borderColor: '#ececec',
         paddingVertical: Metrics.ratio(10),
         paddingHorizontal: 5,
         // borderRadius: 10,
