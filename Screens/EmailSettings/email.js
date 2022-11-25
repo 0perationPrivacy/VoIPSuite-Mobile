@@ -12,7 +12,7 @@ import { CheckBox } from 'react-native-elements/dist/checkbox/CheckBox';
 import _ from 'lodash';
 
 const EmailSettings = (props) => {
-	const [params, setParams] = useState({ email: "", password: "", sender_email: "", to_email: "", host: "", port: "", is_secure: false });
+	const [params, setParams] = useState({ email: "", password: "", sender_email: "", to_email: "", host: "", port: "", secure: false });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
@@ -40,6 +40,7 @@ const EmailSettings = (props) => {
 
 	useEffect(() => {
 		if (!_.isEmpty(settings)) {
+			console.log('settings ====>', settings);
 			setParams(settings);
 			setEmailInfo(true);
 		}
@@ -95,14 +96,14 @@ const EmailSettings = (props) => {
 	const onSuccessProfleSettingsSave = (profile) => {
 		const { emailnotification, id } = profile;
 		let __profiles = [...profiles];
-	
+
 		const returnProfile = __profiles.filter((item) => {
 			if (item.id === id) {
 				item.emailnotification = emailnotification;
 				return true
 			}
 		})
-	
+
 		dispatch(profileActions.setProfileList(__profiles))
 	}
 
@@ -111,9 +112,9 @@ const EmailSettings = (props) => {
 	}, [errors])
 
 	const onChangeSecure = (e) => {
-		let secure = params.is_secure;
+		let secure = params.secure;
 
-		setParams({ is_secure: !secure })
+		setParams(prevState => ({ ...prevState, secure: !secure }));
 	}
 
 	const renderHeader = () => {
@@ -210,7 +211,7 @@ const EmailSettings = (props) => {
 					containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
 					textStyle={{ color: getColorByTheme("#000", "#fff") }}
 					onPress={onChangeSecure}
-					checked={params.is_secure}
+					checked={params.secure}
 					checkedColor={getColorByTheme("#000", "#fff")} />
 			</View>
 			<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Save" onPress={handleSubmit(onPressSaveEmail)} loading={isLoading} />

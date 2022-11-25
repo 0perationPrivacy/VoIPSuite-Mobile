@@ -23,7 +23,7 @@ module.exports = StyleSheet.create({
 	container: {
 		padding: 10,
 		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
-		height: Metrics.heightPercentageToDP(100),
+		// height: Metrics.heightPercentageToDP(100),
 		paddingTop: Metrics.ratio(25)
 	},
 
