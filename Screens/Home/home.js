@@ -242,6 +242,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingHorizontal: Metrics.smallMargin,
 		paddingVertical: Metrics.baseMargin,
+		borderBottomWidth : 1,
+		borderBottomColor : '#ececec',
 	},
 	customHeaderLeftContainer: {
 		flexDirection: 'row',
