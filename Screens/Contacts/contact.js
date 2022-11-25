@@ -142,7 +142,6 @@ const Contact = () => {
             <>
                 <Input
                     placeholder="First Name"
-                    autoFocus
                     defaultValue={first_name}
                     control={control}
                     name="first_name"

@@ -71,11 +71,14 @@ const ContactList = () => {
 
   const renderItem = ({ item, index }) => {
     const { first_name, last_name, note, number, _id } = item;
+    let isLastItem = index + 1 === __messages.length;
 
     return (
-      <View
-        style={styles.messagesListItemWrap}
-        key={`contact-item-${index}`}>
+      <TouchableOpacity
+        style={[styles.messagesListItemWrap, isLastItem && styles.itemBorderBottom]}
+        key={`contact-item-${index}`}
+        onPress={() => onPressEditContact(item)}
+      >
         <View style={styles.messagesListItemDetailWrap}>
           <View>
             <Text style={styles.contactNameText}>{first_name} {last_name}</Text>
@@ -90,7 +93,7 @@ const ContactList = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   };
 
@@ -129,23 +132,19 @@ const ContactList = () => {
 
 const styles = StyleSheet.create({
   mainContainerWrap: {
-    paddingHorizontal: 10,
     paddingTop: Metrics.ratio(10),
     backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
   },
   messagesListItemWrap: {
     flexDirection: 'row',
-    borderWidth: 1,
+    borderTopWidth: 1,
     borderColor: '#ececec',
     paddingVertical: Metrics.ratio(10),
-    paddingHorizontal: 5,
-    borderRadius: 10,
-    marginBottom: 10,
+    paddingHorizontal: Metrics.ratio(10),
     backgroundColor: getColorByTheme('#fff', '#2e2e2e')
   },
   messagesListItemDetailWrap: {
     flexDirection: 'row',
-    // marginLeft: '5%',
     justifyContent: 'space-between',
     flex: 1,
   },
@@ -173,6 +172,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  itemBorderBottom: {
+    borderBottomWidth: 1,
   }
 });
 
