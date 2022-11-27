@@ -14,9 +14,11 @@ export const userService = {
 
 var API_URL = getServerUrl();
 
-function login(data) {
+async function login(data) {
     let { server_url, ...rest } = data;
     server_url = server_url ? server_url : API_URL;
+
+    console.log(server_url);
 
     const requestOptions = {
         method: 'POST',
@@ -24,20 +26,20 @@ function login(data) {
         body: JSON.stringify(rest)
     };
 
-    return fetch(`${server_url}/auth/login`, requestOptions)
-        .then(response => handleResponse(response, false))
-        .then(user => {
-            return user;
-        }).catch(error => {
-            return Promise.reject([error])
-        });
+    try {
+        const response = await fetch(`${server_url}/auth/login`, requestOptions);
+        const user = handleResponse(response, false);
+        return user;
+    } catch (error) {
+        return await Promise.reject([error]);
+    }
 }
 
 function logout() {
     // localStorage.removeItem('user');
 }
 
-function register(user) {
+async function register(user) {
     let { server_url, ...rest } = user;
     server_url = server_url ? server_url : API_URL;
 
@@ -47,27 +49,30 @@ function register(user) {
         body: JSON.stringify(rest)
     };
 
-    return fetch(`${server_url}/auth/register`, requestOptions).then(response => handleResponse(response, false));
+    const response = await fetch(`${server_url}/auth/register`, requestOptions);
+    return handleResponse(response, false);
 }
 
-function changeUsername(user) {
+async function changeUsername(user) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...authHeader() },
         body: JSON.stringify(user)
     };
 
-    return fetch(`${API_URL}/auth/username/update`, requestOptions).then(handleResponse);
+    const response = await fetch(`${API_URL}/auth/username/update`, requestOptions);
+    return handleResponse(response);
 }
 
-function changePassword(user) {
+async function changePassword(user) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...authHeader() },
         body: JSON.stringify(user)
     };
 
-    return fetch(`${API_URL}/auth/password/update`, requestOptions).then(handleResponse);
+    const response = await fetch(`${API_URL}/auth/password/update`, requestOptions);
+    return handleResponse(response);
 }
 
 

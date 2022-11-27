@@ -6,7 +6,7 @@ const logo = require('../../assets/logo-b.svg')
 import styles from '../authCss';
 import globalStyle from '../../style';
 import { useForm } from 'react-hook-form'
-import { isEmpty } from '../../helpers/utils';
+import { isEmpty, validURL } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../redux/actions'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -15,14 +15,15 @@ import Version from '../../components/Version';
 import { DEFAUL_URL } from '../../helpers/config';
 
 const Login = (props) => {
-	const [params, setParams] = useState({ email: "", password: "", server_url: DEFAUL_URL });
+	const [params, setParams] = useState({ email: "", password: "", server_url: "" });
 	const [isValidate, setValidate] = useState(false);
 	const [errors, setErrors] = useState({});
 	const [errorMessages, setErrorMessages] = useState({});
 
 	const validations = {
-		email: true,
-		password: true,
+		email: { validation: true },
+		password: { validation: true },
+		server_url: { validation: true, cb: validURL },
 	}
 
 	const { control, handleSubmit } = useForm();
@@ -32,7 +33,7 @@ const Login = (props) => {
 
 	// useEffect(() => {
 	// 	const state = store.getState();
-	// 	const { user } = state?.authentication;
+	// 	const { user } = state?.authentication;	
 	// }, [])
 
 	const onPressSignUp = () => {
@@ -56,12 +57,28 @@ const Login = (props) => {
 	}
 
 	const onInputLeave = (name, value) => {
-		if (validations?.[name]) {
+		let objKey = validations?.[name];
+		if (objKey?.validation == true) {
 			let _errors = { ...errors };
-			if (isEmpty(value)) {
+			let cb = objKey?.cb;
+			let isValidated = true;
+
+			if (cb && typeof cb == 'function') {
+				if (!isEmpty(value) && !cb(value)) {
+					isValidated = false;
+				}
+			}
+			else {
+				if (isEmpty(value)) {
+					isValidated = false;
+				}
+			}
+
+			if (isValidated) {
+				delete _errors[name]
+			} else {
 				Object.assign(_errors, { [name]: true })
 			}
-			else { delete _errors[name] }
 
 			setErrors(_errors);
 		}
@@ -73,11 +90,16 @@ const Login = (props) => {
 	}
 
 	useEffect(() => {
+		console.log(errors);
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
 
 	const openUrlLink = (link) => {
 		Linking.openURL(link);
+	}
+
+	const onChangeServerUrl = (name, value) => {
+		console.log(value, validURL(value));
 	}
 
 	return (
@@ -125,7 +147,11 @@ const Login = (props) => {
 							onInputLeave={onInputLeave}
 							customStyle={{ borderRadius: 10, marginBottom: 0 }}
 							customIconWrap={globalStyle.authInputIconContainer}
+							onChangeInput={onChangeServerUrl}
 						/>
+						{
+							errors?.server_url && <Text style={[styles.serverUrlHintText, styles.fieldErrorMessage]}>{"Incorrect URL"}</Text>
+						}
 						<Text style={styles.serverUrlHintText}>{"Pattern : https://voip.operationprivacy.com"}</Text>
 					</View>
 				</View>

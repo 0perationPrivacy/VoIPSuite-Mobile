@@ -46,7 +46,7 @@ module.exports = StyleSheet.create({
     signInButton: {
         backgroundColor: '#198754',
         borderRadius: 10,
-        fontFamily : Metrics.fontSemiBold
+        fontFamily: Metrics.fontSemiBold
     },
     socialLinksWrap: {
         flexDirection: 'row',
@@ -63,7 +63,11 @@ module.exports = StyleSheet.create({
         fontSize: 10,
         marginLeft: Metrics.ratio(5),
         marginTop: Metrics.smallMargin,
-        color : getColorByTheme('#000', '#fff'),
-        fontFamily : Metrics.fontRegular
+        color: getColorByTheme('#000', '#fff'),
+        fontFamily: Metrics.fontRegular
+    },
+    fieldErrorMessage: {
+        color: 'red',
+        marginTop : Metrics.ratio(2)
     }
 });
