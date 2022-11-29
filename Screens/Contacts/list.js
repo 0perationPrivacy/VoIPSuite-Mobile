@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#ececec',
     paddingVertical: Metrics.ratio(10),
-    paddingHorizontal: Metrics.ratio(10),
+    paddingHorizontal: Metrics.ratio(20),
     backgroundColor: getColorByTheme('#fff', '#2e2e2e')
   },
   messagesListItemDetailWrap: {
