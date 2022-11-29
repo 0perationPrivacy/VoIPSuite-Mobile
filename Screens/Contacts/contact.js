@@ -27,7 +27,7 @@ const Contact = () => {
 
     const validations = {
         first_name: true,
-        last_name: true,
+        // last_name: true,
         number: true,
     }
 
@@ -155,7 +155,7 @@ const Contact = () => {
                     control={control}
                     name="last_name"
                     onInputLeave={onInputLeave}
-                    isError={errors?.last_name}
+                    // isError={errors?.last_name}
                     customStyle={styles.customInput}
                 />
                 <Input
