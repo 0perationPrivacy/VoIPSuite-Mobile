@@ -238,13 +238,13 @@ const styles = StyleSheet.create({
 		marginLeft: Metrics.ratio(5),
 	},
 	customHeaderContainer: {
-		backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
+		backgroundColor: getColorByTheme('#f6f6f6', '#2e2e2e'),
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		paddingHorizontal: Metrics.smallMargin,
 		paddingVertical: Metrics.baseMargin,
-		borderBottomWidth : 1,
-		borderBottomColor : '#ececec',
+		// borderBottomWidth : 1,
+		// borderBottomColor : '#ececec',
 	},
 	customHeaderLeftContainer: {
 		flexDirection: 'row',
