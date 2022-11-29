@@ -1,6 +1,6 @@
 import { store } from "../redux/store";
 
-var API_URL = 'https://voip-node.herokuapp.com';
+var API_URL = 'https://voip.operationprivacy.com';
 var API_PREFIX = '/api';
 
 // var API_URL = 'https://voip.operationprivacy.com/api';

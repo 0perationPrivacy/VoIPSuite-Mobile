@@ -75,7 +75,7 @@ const Home = (props) => {
 
 				let images = media ? JSON.parse(media) : [];
 
-				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser, name: _contact }, image: images && images.length > 0 ? images[0] : null })
+				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser}, image: images && images.length > 0 ? images[0] : null })
 			})
 
 			setMessages(data);
@@ -187,6 +187,7 @@ const Home = (props) => {
 				messagesContainerStyle={globalStyles.themeBg}
 				// renderSend={customSystemMessage}
 				isAnimated
+				renderAvatar={() => null}
 			/>
 		</View>
 	)
