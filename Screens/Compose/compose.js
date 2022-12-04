@@ -165,7 +165,7 @@ const Compose = () => {
                             selectedContact.map((item, index) => {
                                 return (
                                     <TouchableOpacity key={index} style={styles.tagItem} onPress={() => onPressRemoveTag(index)}>
-                                        <Text>{item}</Text>
+                                        <Text style={[globalStyles.defaultTextColor, styles.tagItemText]}>{item}</Text>
                                     </TouchableOpacity>
                                 )
                             })
@@ -273,6 +273,9 @@ const styles = StyleSheet.create({
         width: '50%',
         backgroundColor: '#e2e2e2',
         marginBottom: '5%',
+    },
+    tagItemText: {
+        color: getColorByTheme('#000', '#000'),
     },
     selectContactContainer: {
         borderWidth: 1,
