@@ -54,19 +54,19 @@ export function DrawerContent(props) {
 					<View style={styles.drawerInnerChildWrap}>
 						<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('emailsettings')}>
 							<Feather name="mail" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-							<Text style={styles.drawerInnerChildText}>Email Settings</Text>
+							<Text style={styles.drawerInnerChildText}>Email</Text>
 						</TouchableOpacity>
 						<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('ProfileSettings')}>
 							<Feather name="user" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-							<Text style={styles.drawerInnerChildText}>Profile Settings</Text>
+							<Text style={styles.drawerInnerChildText}>Profile</Text>
 						</TouchableOpacity>
 						<TouchableOpacity style={styles.drawerInnerChildListWrap} onPress={() => onPressNavigation('accounts')}>
 							<Feather name="settings" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-							<Text style={styles.drawerInnerChildText}>Account Settings</Text>
+							<Text style={styles.drawerInnerChildText}>Account</Text>
 						</TouchableOpacity>
 						<TouchableOpacity style={styles.drawerInnerChildListWrap}>
 							<Feather name="shield" size={15} style={[styles.drawerInnerChildIcon, styles.defaultIconColor]} />
-							<Text style={styles.drawerInnerChildText}>MFA Settings</Text>
+							<Text style={styles.drawerInnerChildText}>MFA</Text>
 						</TouchableOpacity>
 					</View>
 					<TouchableOpacity style={styles.drawerMainItemWrap} onPress={() => onPressNavigation('ContactList')}>

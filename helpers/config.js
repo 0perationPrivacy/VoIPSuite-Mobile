@@ -3,9 +3,6 @@ import { store } from "../redux/store";
 var API_URL = 'https://voip.operationprivacy.com';
 var API_PREFIX = '/api';
 
-// var API_URL = 'https://voip.operationprivacy.com/api';
-// var API_URL = 'https://devvoip.operationprivacy.com/api';
-
 export function getServerUrl() {
   const state = store.getState();
   const { user = {} } = state.authentication;
