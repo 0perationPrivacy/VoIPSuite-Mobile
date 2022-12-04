@@ -145,5 +145,9 @@ module.exports = StyleSheet.create({
 	authInputIconContainer: {
 		borderTopLeftRadius: 10,
 		borderBottomLeftRadius: 10,
-	}
+	},
+	bottomSheetContainer: {
+		borderTopRightRadius: 20,
+		borderTopLeftRadius: 20,
+	},
 });

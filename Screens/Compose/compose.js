@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Image, Platform, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react'
+import { View, StyleSheet, TouchableOpacity, Text, Image, Platform, ActivityIndicator, Dimensions } from 'react-native';
 import globalStyles from '../../style';
 import { useForm } from 'react-hook-form'
 import { Header, Input } from '../../components';
@@ -11,6 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { contactActions, messagesActions, uploadsActions } from '../../redux/actions';
 import _ from 'lodash';
 import { navigateAndReset } from '../../helpers/RootNavigation';
+import NumberList from '../../components/NumberList';
+import RBSheet from "react-native-raw-bottom-sheet";
+import { getColorByTheme } from '../../helpers/utils';
+import Metrics from '../../helpers/Metrics';
 
 const Compose = () => {
     const [phone, setPhone] = useState(null);
@@ -27,6 +31,8 @@ const Compose = () => {
     const profileSettings = useSelector(state => state.settings.profileSettings);
     const user = useSelector(state => state.authentication.user);
     const messageLoading = useSelector(state => state.messages.isLoading);
+
+    const refRBSheet = useRef();
 
     const fileOptions = {};
 
@@ -61,7 +67,7 @@ const Compose = () => {
 
         if (result?.assets) {
             const file = result.assets[0]
-            
+
             const data = new FormData();
             data.append('file', {
                 name: file.fileName,
@@ -84,12 +90,16 @@ const Compose = () => {
     }
 
     const onChangeContactList = (value) => {
+        if (!value) return;
+
         let data = [...selectedContact];
 
         if (!data.includes(value)) {
             data.push(value)
             setSelectedContact(data)
         }
+
+        onCloseBottomSheet()
     }
 
     const onPressRemoveTag = (index) => {
@@ -119,8 +129,20 @@ const Compose = () => {
         navigateAndReset('Messages')
     }
 
+    const openBottomSheet = () => {
+        refRBSheet.current.open()
+    }
+
+    const onCloseBottomSheet = () => {
+        refRBSheet.current.close()
+    }
+
     const renderSelectField = () => {
-        return <Select placeholder="Select Contact" items={contactList} onChange={onChangeContactList} />
+        return (
+            <TouchableOpacity style={[styles.selectContactContainer]} onPress={openBottomSheet}>
+                <Text style={globalStyles.defaultTextColor}>Select Contact</Text>
+            </TouchableOpacity>
+        )
     }
 
     const renderInputs = () => {
@@ -186,6 +208,25 @@ const Compose = () => {
         return <Header />
     }
 
+    const renderBottomSheet = () => {
+        let height = Dimensions.get('window').height - 100;
+
+        return (
+            <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                dragFromTopOnly={true}
+                height={height}
+                customStyles={{
+                    container: globalStyles.bottomSheetContainer
+                }}
+            >
+                <NumberList onPressBack={onCloseBottomSheet} data={contactList} onSubmit={onChangeContactList} />
+            </RBSheet>
+        )
+    }
+
     return (
         <Wrapper header={renderHeader()}>
             <View style={globalStyles.flexOne}>
@@ -201,6 +242,7 @@ const Compose = () => {
                     }
                 </View>
             </View>
+            {renderBottomSheet()}
         </Wrapper>
     )
 }
@@ -226,11 +268,24 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ececec',
         borderRadius: 50,
-        padding: 5,
+        paddingVertical: 5,
         alignItems: 'center',
-        width: '33%',
+        width: '50%',
         backgroundColor: '#e2e2e2',
         marginBottom: '5%',
+    },
+    selectContactContainer: {
+        borderWidth: 1,
+        borderColor: getColorByTheme('#ececec', '#3f3f3f'),
+        fontSize: 14,
+        padding: 5,
+        height: 45,
+        marginBottom: 15,
+        color: getColorByTheme('#000', '#fff'),
+        fontFamily: Metrics.fontRegular,
+        justifyContent: 'center'
+    },
+    selectContactText: {
     }
 });
 
