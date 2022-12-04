@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
-import { GiftedChat, InputToolbar } from 'react-native-gifted-chat'
+import { GiftedChat, InputToolbar } from 'react-native-gifted-chat/src'
 import Icon from 'react-native-vector-icons/Feather'
 import globalStyles from '../../style';
 import MessageInput from '../../components/CustomInputToolbar';
