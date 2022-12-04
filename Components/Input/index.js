@@ -1,5 +1,5 @@
-import React from 'react'
-import { TextInput, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { TextInput, TouchableOpacity, View } from 'react-native'
 import styles from './style';
 import { useForm, useController } from 'react-hook-form'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -12,8 +12,17 @@ const CustomInput = ({
 	defaultValue,
 	isError, errors,
 	customIconWrap = {},
+	secureTextEntry = false,
 	icon = null, ...rest
 }) => {
+
+	const [isSecure, setIsSecure] = useState(false);
+
+	useEffect(() => {
+		if (secureTextEntry) {
+			setIsSecure(secureTextEntry);
+		}
+	}, [secureTextEntry])
 
 	const { field } = useController({
 		control,
@@ -52,7 +61,14 @@ const CustomInput = ({
 				onEndEditing={_onInputLeave}
 				placeholderTextColor={getColorByTheme('#000', '#fff')}
 				defaultValue={defaultValue}
+				secureTextEntry={isSecure}
 			/>
+			{
+				secureTextEntry &&
+				<TouchableOpacity style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '', customIconWrap]} onPress={() => { setIsSecure(!isSecure) }}>
+					<Icon name={isSecure ? 'eye' : 'eye-slash'} size={20} />
+				</TouchableOpacity>
+			}
 		</View>
 	)
 }

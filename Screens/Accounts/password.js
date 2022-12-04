@@ -13,12 +13,11 @@ import { isEmpty, validURL } from '../../helpers/utils';
 
 const ChangePassword = (props) => {
   const [params, setParams] = useState({ c_password: "", old_password: "", password: "" });
-  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [errors, setErrors] = useState({});
   const [errorMessages, setErrorMessages] = useState({});
   const [isValidate, setValidate] = useState(false);
 
-  const isPasswordHide = {
+  const validations = {
     old_password: true,
     password: true,
     c_password: true
@@ -29,14 +28,6 @@ const ChangePassword = (props) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.authentication.user);
   const isLoading = useSelector(state => state.authentication.isLoading);
-
-  useEffect(() => {
-    if (user && user?.token) {
-      const { email } = user.data
-      // setUserData(user.data);
-      // setParams({ email: email });
-    }
-  }, [])
 
   const onPressChange = (data) => {
     const { c_password, old_password, password } = params;
@@ -82,7 +73,7 @@ const ChangePassword = (props) => {
   }
 
   const onInputLeave = (name, value) => {
-    let objKey = isPasswordHide?.[name];
+    let objKey = validations?.[name];
     if (objKey == true) {
       let _errors = { ...errors };
       let isValidated = true;
@@ -123,7 +114,7 @@ const ChangePassword = (props) => {
         name={'old_password'}
         // autoFocus
         onChangeInput={onChangeText}
-        secureTextEntry={isPasswordHide.old_password}
+        secureTextEntry={true}
         onInputLeave={onInputLeave}
         isError={errors?.old_password}
         errors={errorMessages}
@@ -134,7 +125,7 @@ const ChangePassword = (props) => {
         control={control}
         name={'password'}
         onChangeInput={onChangeText}
-        secureTextEntry={isPasswordHide.old_password}
+        secureTextEntry={true}
         onInputLeave={onInputLeave}
         isError={errors?.password}
         errors={errorMessages}
@@ -145,7 +136,7 @@ const ChangePassword = (props) => {
         control={control}
         onChangeInput={onChangeText}
         name={'c_password'}
-        secureTextEntry={isPasswordHide.old_password}
+        secureTextEntry={true}
         onInputLeave={onInputLeave}
         isError={errors?.c_password}
         errors={errorMessages}
