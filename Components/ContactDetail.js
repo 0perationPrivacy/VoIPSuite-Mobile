@@ -14,7 +14,7 @@ const ContactDetail = ({
 }) => {
 
   const onPressEditContact = () => {
-    navigate('Contact', { contact })
+    navigate('Contact', { item: contact })
   }
 
   const renderHeader = () => {

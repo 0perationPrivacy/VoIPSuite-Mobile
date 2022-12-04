@@ -222,7 +222,6 @@ const styles = StyleSheet.create({
         borderColor: '#ececec',
         fontSize: 16,
         padding: 5,
-        // marginBottom: 15,
         width: windowWidth - 100,
         flexDirection: 'row'
     },
