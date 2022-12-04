@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useCallback, useEffect, useRef } from 'react'
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
 import { GiftedChat, InputToolbar } from 'react-native-gifted-chat'
 import Icon from 'react-native-vector-icons/Feather'
 import globalStyles from '../../style';
@@ -13,6 +13,8 @@ import { messagesActions } from '../../redux/actions';
 import { useRoute } from '@react-navigation/native';
 import { goBack, navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import Metrics from '../../helpers/Metrics';
+import RBSheet from "react-native-raw-bottom-sheet";
+import ContactDetail from '../../components/ContactDetail';
 
 const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
@@ -27,6 +29,8 @@ const Home = (props) => {
 	const messages = useSelector(state => state.messages.messages);
 	const profileSettings = useSelector(state => state.settings.profileSettings);
 	const user = useSelector(state => state.authentication.user);
+
+	const refRBSheet = useRef();
 
 	useEffect(() => {
 		init();
@@ -75,7 +79,7 @@ const Home = (props) => {
 
 				let images = media ? JSON.parse(media) : [];
 
-				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser}, image: images && images.length > 0 ? images[0] : null })
+				data.unshift({ _id, text: message, createdAt: new Date(created_at), user: { _id: type === "send" ? 1 : _contactUser }, image: images && images.length > 0 ? images[0] : null })
 			})
 
 			setMessages(data);
@@ -117,15 +121,22 @@ const Home = (props) => {
 		// }))
 	}
 
+	const onPressContactName = () => {
+		refRBSheet.current.open()
+	}
+
+	const closeContactBottomSheet = () => {
+		refRBSheet.current.close()
+	}
 
 	const headerBody = () => {
 		if (contactInfo && _.isObject(contactInfo)) {
 			return (
-				<View style={styles.headerBodyTextContainer}>
+				<TouchableOpacity style={styles.headerBodyTextContainer} onPress={onPressContactName}>
 					<Feather name={'user'} size={24} color={getColorByTheme('#000', '#fff')} />
 					<Text style={styles.headerBodyText}>{contactInfo?.first_name} {contactInfo?.last_name}</Text>
 					{/* <Text style={styles.headerBodyTextSecondary}>{contactInfo?.number}</Text> */}
-				</View>
+				</TouchableOpacity>
 			)
 		}
 
@@ -160,7 +171,6 @@ const Home = (props) => {
 		)
 	}
 
-
 	const customHeader = () => {
 		return (
 			<View style={styles.customHeaderContainer}>
@@ -170,6 +180,29 @@ const Home = (props) => {
 				</View>
 				{headerRight()}
 			</View>
+		)
+	}
+
+	const renderBottomSheet = () => {
+		let height = Dimensions.get('window').height / 2 + 100;
+
+		return (
+			<RBSheet
+				ref={refRBSheet}
+				closeOnDragDown={true}
+				closeOnPressMask={true}
+				dragFromTopOnly={true}
+				height={height}
+				customStyles={{
+					container: styles.sheetContainer
+				}}
+			>
+				<ContactDetail
+					onPressBack={closeContactBottomSheet}
+					contact={contactInfo}
+					onPressMessage={closeContactBottomSheet}
+				/>
+			</RBSheet>
 		)
 	}
 
@@ -189,6 +222,7 @@ const Home = (props) => {
 				isAnimated
 				renderAvatar={() => null}
 			/>
+			{renderBottomSheet()}
 		</View>
 	)
 }
@@ -260,7 +294,11 @@ const styles = StyleSheet.create({
 	},
 	headerDeleteIcon: {
 		marginLeft: Metrics.smallMargin
-	}
+	},
+	sheetContainer: {
+		borderTopRightRadius: 20,
+		borderTopLeftRadius: 20,
+	},
 });
 
 export default Home;

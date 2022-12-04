@@ -225,8 +225,6 @@ const Messages = ({ navigation }) => {
         );
     };
 
-
-
     return (
         <>
             {renderHeader()}

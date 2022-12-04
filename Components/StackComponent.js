@@ -22,6 +22,7 @@ import ChangeUsername from '../screens/Accounts/username';
 import _ from 'lodash';
 import ContactList from '../screens/Contacts/list';
 import ChangePassword from '../screens/Accounts/password';
+import ContactDetail from '../screens/Contacts/detail';
 
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
@@ -48,6 +49,7 @@ const StackComponent = () => {
 			<Stack.Screen name="Home" component={Home} options={headerOption} />
 			<Stack.Screen name="Compose" component={Compose} options={headerOption} />
 			<Stack.Screen name="Contact" component={Contact} options={headerOption} />
+			{/* <Stack.Screen name="ContactDetail" component={ContactDetail} options={headerOption} /> */}
 			<Stack.Screen name="ContactList" component={ContactList} options={headerOption} />
 			<Stack.Screen name="Messages" component={Messages} options={headerOption} />
 			<Stack.Screen name="Dialer" component={DialPad} options={headerOption} />
