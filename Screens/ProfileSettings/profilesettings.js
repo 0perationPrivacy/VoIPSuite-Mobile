@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, Dimensions } from 'react-native';
 import globalStyles from '../../style';
 import { useForm } from 'react-hook-form'
@@ -7,7 +7,7 @@ import Wrapper from '../../components/Wrapper';
 import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
-import { getColorByTheme } from '../../helpers/utils';
+import { getColorByTheme, isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux';
 const windowWidth = Dimensions.get('window').width;
 import _ from 'lodash';
@@ -16,6 +16,8 @@ import { Root, Popup } from 'react-native-popup-confirm-toast'
 import Confirmation from '../../components/Confirmation';
 import { navigateAndReset } from '../../helpers/RootNavigation';
 import authCss from '../../screens/authCss';
+import RBSheet from "react-native-raw-bottom-sheet";
+import NumberList from '../../components/NumberList';
 
 const ProfileSettings = () => {
     const [profileName, setProfileName] = useState(null);
@@ -42,6 +44,7 @@ const ProfileSettings = () => {
     const user = useSelector(state => state.authentication.user);
 
     const dispatch = useDispatch();
+    const refRBSheet = useRef();
 
     useEffect(() => {
         if (profileSettings && !_.isEmpty(profileSettings)) {
@@ -69,9 +72,7 @@ const ProfileSettings = () => {
             setPhoneNumber(number);
             setSID(sid);
 
-            setTimeout(() => {
-                onPressGetNumber()
-            }, 2000);
+            onPressGetNumber()
         }
     }, [])
 
@@ -174,6 +175,23 @@ const ProfileSettings = () => {
         }
     }
 
+    const openBottomSheet = () => {
+        refRBSheet.current.open()
+    }
+
+    const onCloseBottomSheet = () => {
+        refRBSheet.current.close()
+    }
+
+    const onChangeNumber = (value) => {
+        if (isEmpty(value)) return;
+
+        // console.log(value);
+        // return;
+        onChangePhone(value)
+        onCloseBottomSheet()
+    }
+
     const renderHeader = () => {
         return <Header title="Profile Settings" />
     }
@@ -261,12 +279,13 @@ const ProfileSettings = () => {
 
     const renderNumberList = () => {
         return (
-            <View style={styles.getNumberContainer}>
+            <View style={[styles.getNumberContainer, { marginBottom: Metrics.doubleBaseMargin }]}>
                 <View style={styles.getNumberContainer}>
                     <Button buttonStyle={styles.getNumberBtn} title={'Get Number'} onPress={onPressGetNumber} />
-                    <View style={{ flex: 0.9 }}>
-                        <Select placeholder="Select Number" containerStyle={{ height: 40 }} items={activeTab === 'twilio' ? numbersList : telnyxNumbersList} onChange={onChangePhone} />
-                    </View>
+                    {/* <Select placeholder="Select Number" containerStyle={{ height: 40 }} items={activeTab === 'twilio' ? numbersList : telnyxNumbersList} onChange={onChangePhone} /> */}
+                    <TouchableOpacity style={[styles.selectContactContainer]} onPress={openBottomSheet}>
+                        <Text style={globalStyles.defaultTextColor}>{phoneNumber ? phoneNumber : 'Select Contact'}</Text>
+                    </TouchableOpacity>
                 </View>
                 {
                     isDeleteBtn && <TouchableOpacity>
@@ -274,6 +293,25 @@ const ProfileSettings = () => {
                     </TouchableOpacity>
                 }
             </View>
+        )
+    }
+
+    const renderBottomSheet = () => {
+        let height = Dimensions.get('window').height - 100;
+
+        return (
+            <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                dragFromTopOnly={true}
+                height={height}
+                customStyles={{
+                    container: globalStyles.bottomSheetContainer
+                }}
+            >
+                <NumberList onPressBack={onCloseBottomSheet} data={activeTab === 'twilio' ? numbersList : telnyxNumbersList} onSubmit={onChangeNumber} />
+            </RBSheet>
         )
     }
 
@@ -302,6 +340,7 @@ const ProfileSettings = () => {
                     okText='Yes, Delete'
                     cancelText='No'
                 />
+                {renderBottomSheet()}
             </View>
         </Wrapper>
     )
@@ -366,7 +405,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#6c757d',
         borderColor: '#6c757d',
         marginRight: Metrics.ratio(10)
-    }
+    },
+    selectContactContainer: {
+        borderWidth: 1,
+        borderColor: getColorByTheme('#ececec', '#3f3f3f'),
+        fontSize: 14,
+        padding: 5,
+        height: Metrics.ratio(40),
+        color: getColorByTheme('#000', '#fff'),
+        fontFamily: Metrics.fontRegular,
+        justifyContent: 'center',
+        flex: 0.9
+    },
 });
 
 export default ProfileSettings;
