@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     messagesListItemWrap: {
         flexDirection: 'row',
         borderBottomWidth: 0.5,
-        borderColor: '#ececec',
+        borderColor: '#545458', //message divider
         paddingVertical: Metrics.ratio(10),
         paddingHorizontal: 5,
         // borderRadius: 10,
