@@ -41,7 +41,7 @@ const Login = (props) => {
 	}
 
 	const onPressSignIn = (data) => {
-		const { email, password } = data;
+		const { email, password, server_url } = data;
 		if (!isValidate) return false;
 
 		if (isEmpty(email)) {
@@ -52,6 +52,12 @@ const Login = (props) => {
 			setErrors(prevState => ({ ...prevState, password: true }));
 			return false;
 		}
+
+		if (!isEmpty(server_url)) {
+			data.server_url = server_url + '/api';
+		}
+
+		console.log(data)
 
 		dispatch(userActions.login(data, onSetErrorMessageFromServer))
 	}
@@ -155,7 +161,13 @@ const Login = (props) => {
 						<Text style={styles.serverUrlHintText}>{"Pattern : https://voip.operationprivacy.com"}</Text>
 					</View>
 				</View>
-				<Button containerStyle={styles.button} buttonStyle={styles.signInButton} title="Login" onPress={handleSubmit(onPressSignIn)} loading={isLoading} />
+				<Button
+					containerStyle={styles.button}
+					buttonStyle={styles.signInButton}
+					title="Login"
+					onPress={handleSubmit(onPressSignIn)}
+				// loading={isLoading}
+				/>
 				<View style={styles.createAccountWrap}>
 					<Text style={globalStyle.defaultTextColor}>Don’t have an account yet?</Text>
 					<TouchableOpacity onPress={onPressSignUp}>

@@ -9,6 +9,7 @@ export const ApiService = {
 
 function initApi(endpoint, method = 'GET', data = {}) {
   let API_URL = getServerUrl();
+
   const requestOptions = {
     method: method,
     headers: { 'Content-Type': 'application/json', ...authHeader() },
