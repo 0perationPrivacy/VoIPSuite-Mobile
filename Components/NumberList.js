@@ -62,7 +62,7 @@ const NumberList = ({
     return (
       <View style={innerStyle.listItemContainer}>
         <TouchableOpacity onPress={() => onPressSelectNumber(value)} style={[innerStyle.contentSpacing, innerStyle.listItemView]}>
-          <Text>{label}</Text>
+          <Text style={styles.defaultTextColor}>{label}</Text>
           {__value == value && <Feather name={'check'} size={18} color={'#198754'} />}
         </TouchableOpacity>
         {!isLast && renderDivider()}
