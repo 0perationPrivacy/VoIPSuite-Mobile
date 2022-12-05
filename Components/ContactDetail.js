@@ -38,7 +38,7 @@ const ContactDetail = ({
   const renderAvatar = () => {
     return (
       <View style={innerStyle.avatarContainer}>
-        <Feather size={50} name={'user'} style={[innerStyle.headerRightIcons]} />
+        <Feather size={50} name={'user'} style={[innerStyle.headerRightIcons, styles.defaultIconColor]} />
       </View>
     )
   }
@@ -46,7 +46,7 @@ const ContactDetail = ({
   const renderContactName = () => {
     const { first_name, last_name } = contact;
     return (
-      <Text style={innerStyle.contactNameText}>{`${first_name} ${last_name}`}</Text>
+      <Text style={[innerStyle.contactNameText, styles.defaultTextColor]}>{`${first_name} ${last_name}`}</Text>
     )
   }
 
@@ -70,8 +70,8 @@ const ContactDetail = ({
     return (
       <View style={innerStyle.contentSpacing}>
         <TouchableOpacity style={innerStyle.contentSpacing}>
-          <Feather size={18} name={'phone'} style={[innerStyle.headerRightIcons]} />
-          <Text style={innerStyle.contactNameText}>{number}</Text>
+          <Feather size={18} name={'phone'} style={[innerStyle.headerRightIcons, styles.defaultIconColor]} />
+          <Text style={[innerStyle.contactNameText, styles.defaultTextColor]}>{number}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={onPressMessage}>
           <Feather name={'message-circle'} size={24} style={styles.defaultIconColor} />
@@ -94,7 +94,7 @@ const ContactDetail = ({
 const innerStyle = StyleSheet.create({
   container: {
     paddingHorizontal: Metrics.baseMargin,
-    paddingVertical: Metrics.smallMargin
+    paddingVertical: Metrics.smallMargin,
   },
   contentSpacing: {
     justifyContent: 'space-between',
@@ -121,7 +121,9 @@ const innerStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: getColorByTheme('#f6f6f6', '#2e2e2e'),
-    marginBottom: Metrics.smallMargin
+    marginBottom: Metrics.smallMargin,
+    borderColor: getColorByTheme('#2e2e2e', '#fff'),
+    borderWidth: 1
   },
   contactNameContainer: {
 

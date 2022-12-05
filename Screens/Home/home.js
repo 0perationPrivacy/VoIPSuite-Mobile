@@ -194,7 +194,7 @@ const Home = (props) => {
 				dragFromTopOnly={true}
 				height={height}
 				customStyles={{
-					container: styles.sheetContainer
+					container: globalStyles.bottomSheetContainer
 				}}
 			>
 				<ContactDetail
