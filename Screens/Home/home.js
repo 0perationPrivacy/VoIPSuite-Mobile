@@ -242,26 +242,18 @@ const Home = (props) => {
 				isAnimated
 				renderAvatar={() => null}
 				renderSend={renderSend}
-
 				textInputStyle={styles.composer}
 				placeholder={'Type message here'}
+				renderInputToolbar={MessageInput}
+
+				// minComposerHeight={40}
+				minInputToolbarHeight={60}
+				tool
 			/>
 			{renderBottomSheet()}
 		</View>
 	)
 }
-
-const customSystemMessage = props => {
-	console.log('props ==>', props)
-	return (
-		<View style={styles.ChatMessageSytemMessageContainer}>
-			<Icon name="lock" color="#9d9d9d" size={16} />
-
-		</View>
-	);
-};
-
-
 
 const styles = StyleSheet.create({
 	composeButtonWrap: {
@@ -304,8 +296,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingHorizontal: Metrics.smallMargin,
 		paddingVertical: Metrics.baseMargin,
-		// borderBottomWidth : 1,
-		// borderBottomColor : '#ececec',
 	},
 	customHeaderLeftContainer: {
 		flexDirection: 'row',
@@ -328,17 +318,14 @@ const styles = StyleSheet.create({
 	},
 	composer: {
 		borderRadius: 25,
-		borderWidth: 0.5,
-		borderColor: '#dddddd',
 		marginTop: 10,
 		marginBottom: 10,
 		paddingLeft: 10,
 		paddingRight: 10,
 		fontSize: 16,
-		backgroundColor: getColorByTheme('#e9e9e9', '#2e2e2e'),
-		// textAlign : 'center',
+		backgroundColor: getColorByTheme('#e9e9e9', '#3b3b3b'),
 		textAlignVertical: 'center',
-		paddingBottom: 19
+		color: getColorByTheme('#000', '#fff')
 	},
 	btnSendContainer: {
 		flexDirection: 'row',

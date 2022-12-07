@@ -7,7 +7,6 @@ import { getColorByTheme } from '../helpers/utils';
 const styles = StyleSheet.create({
   inputToolbarBackground: {
     backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
-    // height : 100
   },
 });
 
