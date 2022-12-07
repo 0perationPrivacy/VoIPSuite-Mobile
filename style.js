@@ -81,9 +81,10 @@ module.exports = StyleSheet.create({
 		height: ScreenHeight - forDrawer
 	},
 	drawerInnerHeading: {
-		fontSize: 14,
+		fontSize: 16,
 		fontWeight: 'bold',
 		color: getColorByTheme('#000', '#fff'),
+		letterSpacing: 0.5
 	},
 	drawerMainItemWrap: {
 		marginBottom: 15,
@@ -103,7 +104,8 @@ module.exports = StyleSheet.create({
 	},
 	drawerInnerChildText: {
 		color: getColorByTheme('#000', '#fff'),
-		fontSize: 16,
+		fontSize: 18,
+		letterSpacing: 0.5
 	},
 	primaryBgColor: {
 		backgroundColor: '#3770e4'
