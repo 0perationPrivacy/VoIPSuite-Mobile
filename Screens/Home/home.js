@@ -1,13 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
-import { GiftedChat, InputToolbar } from 'react-native-gifted-chat/src'
-import Icon from 'react-native-vector-icons/Feather'
+import { Composer, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat/src'
 import globalStyles from '../../style';
 import MessageInput from '../../components/CustomInputToolbar';
 import { getColorByTheme } from '../../helpers/utils';
 import { Header } from '../../components';
 import { useDispatch, useSelector } from 'react-redux'
-import Feather from 'react-native-vector-icons/Feather';
 import _ from 'lodash'
 import { messagesActions } from '../../redux/actions';
 import { useRoute } from '@react-navigation/native';
@@ -16,11 +14,16 @@ import Metrics from '../../helpers/Metrics';
 import RBSheet from "react-native-raw-bottom-sheet";
 import ContactDetail from '../../components/ContactDetail';
 
+//icons
+import Icon from 'react-native-vector-icons/Feather'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+
 const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
 	const [contactInfo, setContactInfo] = useState(null);
 	const [contactNumber, setContactNumber] = useState(null);
 	const [profileID, setProfileId] = useState(null);
+	const [rendering, Setrendering] = useState(null);
 
 	const dispatch = useDispatch();
 	const route = useRoute();
@@ -133,7 +136,7 @@ const Home = (props) => {
 		if (contactInfo && _.isObject(contactInfo)) {
 			return (
 				<TouchableOpacity style={styles.headerBodyTextContainer} onPress={onPressContactName}>
-					<Feather name={'user'} size={24} color={getColorByTheme('#000', '#fff')} />
+					<Icon name={'user'} size={24} color={getColorByTheme('#000', '#fff')} />
 					<Text style={styles.headerBodyText}>{contactInfo?.first_name} {contactInfo?.last_name}</Text>
 					{/* <Text style={styles.headerBodyTextSecondary}>{contactInfo?.number}</Text> */}
 				</TouchableOpacity>
@@ -153,7 +156,7 @@ const Home = (props) => {
 	const headerLeft = () => {
 		return (
 			<TouchableOpacity onPress={() => goBack()}>
-				<Feather name={'arrow-left'} size={25} style={globalStyles.defaultIconColor} />
+				<Icon name={'arrow-left'} size={25} style={globalStyles.defaultIconColor} />
 			</TouchableOpacity>
 		)
 	}
@@ -162,10 +165,10 @@ const Home = (props) => {
 		return (
 			<View style={styles.headerRightContainer}>
 				<TouchableOpacity onPress={onPressCall}>
-					<Feather size={22} name="phone" style={globalStyles.defaultIconColor} />
+					<Icon size={22} name="phone" style={globalStyles.defaultIconColor} />
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.headerDeleteIcon} onPress={onPressDeleteIcon}>
-					<Feather size={22} name="trash" color={getColorByTheme('#2e2e2e', '#fff')} />
+					<Icon size={22} name="trash" color={getColorByTheme('#2e2e2e', '#fff')} />
 				</TouchableOpacity>
 			</View>
 		)
@@ -206,6 +209,23 @@ const Home = (props) => {
 		)
 	}
 
+	const renderSend = (props) => {
+		return (
+			<View style={styles.btnSendContainer}>
+				<TouchableOpacity>
+					<Ionicons size={Metrics.ratio(30)} name="attach" color={getColorByTheme('#0d6efd', '#0d6efd')} />
+				</TouchableOpacity>
+				<Send {...props}>
+					<View style={styles.btnSend}>
+						<View style={styles.btnSendIcon} >
+							<Icon name="arrow-right" size={20} color="#0d6efd" />
+						</View>
+					</View>
+				</Send>
+			</View>
+		)
+	};
+
 	return (
 		<View style={globalStyles.flexOne}>
 			{/* <Header headerBody={headerBody} headerRight={headerRight} /> */}
@@ -216,11 +236,15 @@ const Home = (props) => {
 				user={{
 					_id: 1,
 				}}
-				renderInputToolbar={MessageInput}
+				// renderInputToolbar={MessageInput}
 				messagesContainerStyle={globalStyles.themeBg}
-				// renderSend={customSystemMessage}
+				// renderComposer={renderComposer}
 				isAnimated
 				renderAvatar={() => null}
+				renderSend={renderSend}
+
+				textInputStyle={styles.composer}
+				placeholder={'Type message here'}
 			/>
 			{renderBottomSheet()}
 		</View>
@@ -228,6 +252,7 @@ const Home = (props) => {
 }
 
 const customSystemMessage = props => {
+	console.log('props ==>', props)
 	return (
 		<View style={styles.ChatMessageSytemMessageContainer}>
 			<Icon name="lock" color="#9d9d9d" size={16} />
@@ -235,6 +260,8 @@ const customSystemMessage = props => {
 		</View>
 	);
 };
+
+
 
 const styles = StyleSheet.create({
 	composeButtonWrap: {
@@ -299,6 +326,40 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 20,
 		borderTopLeftRadius: 20,
 	},
+	composer: {
+		borderRadius: 25,
+		borderWidth: 0.5,
+		borderColor: '#dddddd',
+		marginTop: 10,
+		marginBottom: 10,
+		paddingLeft: 10,
+		paddingRight: 10,
+		fontSize: 16,
+		backgroundColor: getColorByTheme('#e9e9e9', '#2e2e2e'),
+		// textAlign : 'center',
+		textAlignVertical: 'center',
+		paddingBottom: 19
+	},
+	btnSendContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		height: 60
+	},
+	btnSend: {
+		height: 40,
+		width: 40,
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginRight: Metrics.ratio(10),
+		backgroundColor: '#0d6efd',
+		borderRadius: 10
+	},
+	btnSendIcon: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#fff',
+		borderRadius: 50,
+	}
 });
 
 export default Home;

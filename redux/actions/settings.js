@@ -49,7 +49,7 @@ function getNumbersListByProfileAction(data, type) {
 
           dispatch(alertActions.success(response.message));
         },
-        ([error]) => {
+        ([error, valdidationErrors]) => {
           dispatch(failure(error.toString()));
           dispatch(alertActions.error(error.toString()));
         }
