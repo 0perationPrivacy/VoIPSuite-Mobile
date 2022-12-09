@@ -13,6 +13,7 @@
 <h1>Options</h1>
 <p>Follow the instructions from repo wiki to set up the backend:</p>
 <p><a href="https://github.com/0perationPrivacy/VoIP/wiki">https://github.com/0perationPrivacy/VoIP/wiki</a></p>
+<p>Or follow the step-by-step guide on https://inteltechniques.com/voip.suite.html</p>
 <p>There are 3 methods of using this service:</p>
 <ol>
 <li>
