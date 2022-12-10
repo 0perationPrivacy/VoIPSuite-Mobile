@@ -13,7 +13,7 @@ Android &amp; iOS App open source code written in React Native and compiled for 
 
 ## Features:
 - Native Applications *(not wrappers or web applications)*
-- Using a build-in notification system for Android *(Not using Google's Firebase Cloud Messaging)*. iOS provides it's own.
+- Using a built-in notification system for Android *(Not using Google's Firebase Cloud Messaging)*. iOS provides it's own.
 - Option to select URL for self hosted server setup
 - VoIP SMS / MMS
 - VoIP Calling
