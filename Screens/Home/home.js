@@ -322,6 +322,8 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 		paddingLeft: 10,
 		paddingRight: 10,
+		paddingBottom: 0,
+		paddingTop: 0,
 		fontSize: 16,
 		backgroundColor: getColorByTheme('#e9e9e9', '#3b3b3b'),
 		textAlignVertical: 'center',
