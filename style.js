@@ -148,6 +148,10 @@ module.exports = StyleSheet.create({
 		borderTopLeftRadius: 10,
 		borderBottomLeftRadius: 10,
 	},
+	authSecureIconContainer: {
+		borderTopRightRadius: 10,
+		borderBottomRightRadius: 10,
+	},
 	bottomSheetContainer: {
 		borderTopRightRadius: 20,
 		borderTopLeftRadius: 20,

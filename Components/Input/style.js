@@ -16,7 +16,7 @@ module.exports = StyleSheet.create({
 		height: 45,
 		flex: 0.9,
 		color: getColorByTheme('#000', '#fff'),
-		fontFamily : Metrics.fontRegular
+		fontFamily : Metrics.fontRegular,
 	},
 	iconWrap: {
 		justifyContent: 'center',
@@ -32,6 +32,11 @@ module.exports = StyleSheet.create({
 	},
 	noLeftBorderInput: {
 		borderLeftWidth: 0
+	},
+	noRightBorderInput: {
+		borderRightWidth: 0,
+		borderTopRightRadius:0,
+		borderBottomRightRadius:0,
 	},
 	fullflex: {
 		flex: 1

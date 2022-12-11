@@ -13,6 +13,7 @@ const CustomInput = ({
 	isError, errors,
 	customIconWrap = {},
 	secureTextEntry = false,
+	customSecureIconWrap = {},
 	icon = null, ...rest
 }) => {
 
@@ -54,7 +55,7 @@ const CustomInput = ({
 			}
 			<TextInput
 				{...rest}
-				style={[styles.inputContainer, customStyle, isError || errors?.[name] ? styles.error : '', icon ? styles.noLeftBorderInput : styles.fullflex]}
+				style={[styles.inputContainer, customStyle, isError || errors?.[name] ? styles.error : '', icon ? styles.noLeftBorderInput : styles.fullflex, secureTextEntry ? styles.noRightBorderInput : styles.fullflex]}
 				underlineColorAndroid={'transparent'}
 				onChangeText={onChangeInputText}
 				// onBlur={_onInputLeave}
@@ -65,7 +66,7 @@ const CustomInput = ({
 			/>
 			{
 				secureTextEntry &&
-				<TouchableOpacity style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '', customIconWrap]} onPress={() => { setIsSecure(!isSecure) }}>
+				<TouchableOpacity style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '', customSecureIconWrap]} onPress={() => { setIsSecure(!isSecure) }}>
 					<Icon name={isSecure ? 'eye' : 'eye-slash'} size={20} />
 				</TouchableOpacity>
 			}

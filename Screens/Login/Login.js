@@ -141,6 +141,7 @@ const Login = (props) => {
 						icon={'shield'}
 						customStyle={globalStyle.authInputContainer}
 						customIconWrap={globalStyle.authInputIconContainer}
+						customSecureIconWrap={globalStyle.authSecureIconContainer}
 					// customStyle={}
 					/>
 					<View style={styles.serverUrlWrapper}>
