@@ -27,6 +27,12 @@ class Socket {
   isConnected() {
     return this.socket;
   }
+
+  removeAllListeners() {
+    if (this.socket) {
+      this.socket.removeAllListeners()
+    }
+  }
 }
 
 let __socket = new Socket();

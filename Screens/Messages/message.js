@@ -92,7 +92,7 @@ const Messages = ({ navigation }) => {
         });
         // console.log('NotificationModule ===>', NotificationModule);
         // setNotification();
-        initSocket()
+        // initSocket()
     }, [])
 
     useEffect(() => {
@@ -117,6 +117,11 @@ const Messages = ({ navigation }) => {
         let userId = getUserId();
 
         io.emit("join_profile_channel", userId);
+
+        io.on("user_message", function (data) {
+            // console.log('data ===>', data);
+            onRefresh()
+        });
     }
 
     const renderHeader = () => {
@@ -140,6 +145,7 @@ const Messages = ({ navigation }) => {
     };
 
     const getMessagesByProfileId = (profileId) => {
+        console.log(profileId);
         if (profileId === undefined) return;
 
         setActiveProfile(profileId);

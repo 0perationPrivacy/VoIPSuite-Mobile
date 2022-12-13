@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-nati
 import { Composer, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat/src'
 import globalStyles from '../../style';
 import MessageInput from '../../components/CustomInputToolbar';
-import { getColorByTheme } from '../../helpers/utils';
+import { generateRandomString, getColorByTheme } from '../../helpers/utils';
 import { Header } from '../../components';
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
@@ -14,10 +14,13 @@ import Metrics from '../../helpers/Metrics';
 import RBSheet from "react-native-raw-bottom-sheet";
 import ContactDetail from '../../components/ContactDetail';
 import { launchImageLibrary } from 'react-native-image-picker';
+import socketClient from '../../helpers/socket';
+import notifee from '@notifee/react-native';
 
 //icons
 import Icon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { getUserId } from '../../helpers/auth-header';
 
 const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
@@ -27,6 +30,7 @@ const Home = (props) => {
 	const [rendering, Setrendering] = useState(null);
 	const [files, setFiles] = useState([]);
 	const [showSend, setShowSend] = useState(false);
+	const [isSocketInit, setSocketInit] = useState(false);
 
 	const dispatch = useDispatch();
 	const route = useRoute();
@@ -61,6 +65,8 @@ const Home = (props) => {
 			return;
 		}
 
+		console.log('huzaifa', contactInfo)
+
 		goBack();
 	}
 
@@ -92,6 +98,69 @@ const Home = (props) => {
 		}
 	}, [messages])
 
+	useEffect(() => {
+		if (contactNumber && !isSocketInit) {
+			initSocket()
+			setSocketInit(true);
+		}
+	}, [contactNumber])
+
+	const initNotifee = useCallback(async (message) => {
+		await notifee.requestPermission()
+
+		// Create a channel (required for Android)
+		const channelId = await notifee.createChannel({
+			id: 'default',
+			name: 'Default Channel',
+		});
+
+		// Display a notification
+		await notifee.displayNotification({
+			title: message,
+			body: message,
+			android: {
+				channelId,
+				// smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+				// pressAction is needed if you want the notification to open the app when pressed
+				pressAction: {
+					id: 'default',
+				},
+			},
+		});
+	}, [])
+
+	const initSocket = () => {
+		const io = socketClient.socket;
+		let userId = getUserId();
+
+		io.emit("join_profile_channel", userId);
+		io.on("user_message", function (data) {
+			if (!data) return;
+			const { number, message } = data;
+			if (number == contactNumber) {
+				initNotifee(message)
+				appendMessage([
+					{
+						_id: generateRandomString(),
+						text: message,
+						createdAt: new Date(),
+						user: {
+							_id: 2,
+						},
+					},
+				])
+			}
+			console.log('data ===>', data);
+			console.log(contactNumber);
+			// init()
+		});
+	}
+
+	const test = () => {
+		console.log(contactNumber);
+	}
+
+
 	const onSend = (messages = []) => {
 		onSendMessage(messages)
 	}
@@ -110,6 +179,10 @@ const Home = (props) => {
 		init();
 		// setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
 	}
+
+	const appendMessage = useCallback((messages = []) => {
+		setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+	}, [])
 
 	const onPressAddContact = (number) => {
 		navigate('Contact', { number })
