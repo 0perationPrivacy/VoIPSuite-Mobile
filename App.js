@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import {
   SafeAreaView,
-  StatusBar,
   useColorScheme,
   Appearance
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, } from '@react-navigation/drawer';
 import { navigationRef } from './helpers/RootNavigation';
 
@@ -19,7 +18,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
-import { getSocketInstance } from './helpers/utils';
+import socketClient from './helpers/socket';
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
 //   global.originalXMLHttpRequest :
@@ -66,6 +65,24 @@ const App = () => {
     // });
 
   }, [])
+
+  useEffect(() => {
+    (async () => {
+      io = await socketClient.init();
+
+      io.on("connect", () => {
+        console.log('socket connected');
+      });
+
+      io.on('connect_error', socket => {
+        console.log(`socket connect error ===> ${socket}`);
+      });
+    })();
+
+    return () => {
+      // this now gets called when the component unmounts
+    };
+  }, []);
 
   return (
     <Provider store={store}>

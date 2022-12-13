@@ -7,12 +7,13 @@ import { getColorByTheme } from '../../helpers/utils';
 import { Header } from '../../components';
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
-import { messagesActions } from '../../redux/actions';
+import { messagesActions, uploadsActions } from '../../redux/actions';
 import { useRoute } from '@react-navigation/native';
 import { goBack, navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import Metrics from '../../helpers/Metrics';
 import RBSheet from "react-native-raw-bottom-sheet";
 import ContactDetail from '../../components/ContactDetail';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 //icons
 import Icon from 'react-native-vector-icons/Feather'
@@ -24,6 +25,8 @@ const Home = (props) => {
 	const [contactNumber, setContactNumber] = useState(null);
 	const [profileID, setProfileId] = useState(null);
 	const [rendering, Setrendering] = useState(null);
+	const [files, setFiles] = useState([]);
+	const [showSend, setShowSend] = useState(false);
 
 	const dispatch = useDispatch();
 	const route = useRoute();
@@ -98,7 +101,7 @@ const Home = (props) => {
 		const { text } = messages[0]
 		const number = contactNumber
 
-		let data = { media: [], message: text, numbers: [number], profile: profileID, user: _id }
+		let data = { media: files, message: text, numbers: [number], profile: profileID, user: _id }
 		dispatch(messagesActions.sendMessageDetailsAction(data, () => onSuccessSendMessage(messages), false))
 
 	}
@@ -131,6 +134,45 @@ const Home = (props) => {
 	const closeContactBottomSheet = () => {
 		refRBSheet.current.close()
 	}
+
+	const onPressFileUpload = async () => {
+		console.log('result')
+
+		const fileOptions = {};
+		const result = await launchImageLibrary(fileOptions);
+
+		if (result?.assets) {
+			const file = result.assets[0]
+
+			const data = new FormData();
+			data.append('file', {
+				name: file.fileName,
+				type: file.type,
+				uri: Platform.OS === 'ios' ?
+					file.uri.replace('file://', '')
+					: file.uri,
+			});
+
+			dispatch(uploadsActions.uploadMediaAction(data, onFileUploadSuccess))
+		}
+
+	}
+
+	const onFileUploadSuccess = (data) => {
+		const fileArray = [...files]
+		fileArray.push(data.media);
+
+		setFiles(fileArray)
+	}
+
+	useEffect(() => {
+		let status = false;
+		if (files.length > 0) {
+			status = true;
+		}
+
+		setShowSend(status);
+	}, [files])
 
 	const headerBody = () => {
 		if (contactInfo && _.isObject(contactInfo)) {
@@ -212,7 +254,7 @@ const Home = (props) => {
 	const renderSend = (props) => {
 		return (
 			<View style={styles.btnSendContainer}>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={onPressFileUpload}>
 					<Ionicons size={Metrics.ratio(30)} name="attach" color={getColorByTheme('#0d6efd', '#0d6efd')} />
 				</TouchableOpacity>
 				<Send {...props}>
@@ -245,7 +287,7 @@ const Home = (props) => {
 				textInputStyle={styles.composer}
 				placeholder={'Type message here'}
 				renderInputToolbar={MessageInput}
-
+				alwaysShowSend={showSend}
 				// minComposerHeight={40}
 				minInputToolbarHeight={60}
 				tool

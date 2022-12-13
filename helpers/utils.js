@@ -43,12 +43,18 @@ const getOSVersion = () => {
 }
 
 const getSocketInstance = async () => {
-    let io = await SocketIO("https://voip-node.herokuapp.com/", {
-        // jsonp: false,
-        transports: ['websocket'],
-    });
+    // const socket = io({
+    //     autoConnect: false
+    // });
 
-    return io;
+    // socket.connect();
+
+    // return new Promise((resolve) => {
+    //     resolve(SocketIO("https://voip.operationprivacy.com", {
+    //         // jsonp: false,
+    //         transports: ['websocket'],
+    //     }))
+    // });
 }
 
 const validURL = (str) => {

@@ -14,6 +14,7 @@ import { navigate } from '../../helpers/RootNavigation';
 import HomeFloating from '../../components/HomeFloating';
 import { getUserId } from '../../helpers/auth-header';
 import notifee from '@notifee/react-native';
+import socketClient from '../../helpers/socket';
 
 const Messages = ({ navigation }) => {
 
@@ -91,7 +92,7 @@ const Messages = ({ navigation }) => {
         });
         // console.log('NotificationModule ===>', NotificationModule);
         // setNotification();
-        // initSocket()
+        initSocket()
     }, [])
 
     useEffect(() => {
@@ -112,10 +113,9 @@ const Messages = ({ navigation }) => {
     }, [messages]);
 
     const initSocket = async () => {
-        const io = await getSocketInstance();
+        const io = socketClient.socket;
         let userId = getUserId();
 
-        console.log('in home ====>', userId);
         io.emit("join_profile_channel", userId);
     }
 
