@@ -358,7 +358,7 @@ const Home = (props) => {
 				messagesContainerStyle={globalStyles.themeBg}
 				// renderComposer={renderComposer}
 				isAnimated
-				renderAvatar={() => null}
+				renderAvatar={null}
 				renderSend={renderSend}
 				textInputStyle={styles.composer}
 				placeholder={'Type message here'}
