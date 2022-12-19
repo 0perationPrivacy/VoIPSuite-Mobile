@@ -38,7 +38,7 @@
     "react-native-modal-dropdown": "^1.0.2",
     "react-native-popup-confirm-toast": "^2.1.1",
     "react-native-raw-bottom-sheet": "^2.2.0",
-    "react-native-reanimated": "~2.2.0",
+    "react-native-reanimated": "^2.13.0",
     "react-native-restart": "^0.0.24",
     "react-native-safe-area-context": "^4.2.4",
     "react-native-screens": "^3.11.1",

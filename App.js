@@ -33,6 +33,8 @@ import socketClient from './helpers/socket';
 //   });
 // };`
 
+global.__reanimatedWorkletInit = () => {};
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   // const backgroundStyle = {

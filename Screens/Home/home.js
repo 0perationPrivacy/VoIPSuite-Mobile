@@ -100,8 +100,8 @@ const Home = (props) => {
 
 	useEffect(() => {
 		if (contactNumber && !isSocketInit) {
-			initSocket()
-			setSocketInit(true);
+			// initSocket()
+			// setSocketInit(true);
 		}
 	}, [contactNumber])
 
@@ -364,6 +364,7 @@ const Home = (props) => {
 				// minComposerHeight={40}
 				minInputToolbarHeight={60}
 				tool
+				shouldUpdateMessage={ (props, nextProps) =>  __messages} 
 			/>
 			{renderBottomSheet()}
 		</View>
