@@ -106,8 +106,7 @@ const Home = (props) => {
 	}, [contactNumber])
 
 	const initNotifee = useCallback(async (message) => {
-		await notifee.requestPermission()
-
+	
 		// Create a channel (required for Android)
 		const channelId = await notifee.createChannel({
 			id: 'default',

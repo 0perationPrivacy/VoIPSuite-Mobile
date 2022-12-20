@@ -19,6 +19,7 @@ import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
 import socketClient from './helpers/socket';
+import { askForPermission } from './helpers/notifee';
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
 //   global.originalXMLHttpRequest :
@@ -79,6 +80,9 @@ const App = () => {
       io.on('connect_error', socket => {
         console.log(`socket connect error ===> ${socket}`);
       });
+
+      // ask for notification persmission
+      await askForPermission()
     })();
 
     return () => {
