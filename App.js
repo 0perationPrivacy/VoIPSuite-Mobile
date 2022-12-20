@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   useColorScheme,
-  Appearance
+  Appearance,
+  NativeModules,
+  Text,
+  View,
+  Alert
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -20,6 +24,11 @@ import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
 import socketClient from './helpers/socket';
 import { askForPermission } from './helpers/notifee';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Button } from './components';
+const { Heartbeat } = NativeModules;
+
+// import Heartbeat from './helpers/heartbeat';
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
 //   global.originalXMLHttpRequest :
@@ -34,7 +43,7 @@ import { askForPermission } from './helpers/notifee';
 //   });
 // };`
 
-global.__reanimatedWorkletInit = () => {};
+global.__reanimatedWorkletInit = () => { };
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -91,19 +100,25 @@ const App = () => {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaView style={styles.flexOne}>
-          {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
-          <NavigationContainer ref={navigationRef} >
-            <Drawer.Navigator screenOptions={{ drawerStyle: styles.drawerStyle }} drawerContent={(props) => <DrawerContent {...props} />} >
-              <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
-            </Drawer.Navigator>
-          </NavigationContainer>
-          <FlashMessage position="bottom" />
-        </SafeAreaView>
-      </PersistGate>
-    </Provider>
+    // <Provider store={store}>
+    //   <PersistGate loading={null} persistor={persistor}>
+    //     <SafeAreaView style={styles.flexOne}>
+    //       {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
+    //       <NavigationContainer ref={navigationRef} >
+    //         <Drawer.Navigator screenOptions={{ drawerStyle: styles.drawerStyle }} drawerContent={(props) => <DrawerContent {...props} />} >
+    //           <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
+    //         </Drawer.Navigator>
+    //       </NavigationContainer>
+    //       <FlashMessage position="bottom" />
+    //     </SafeAreaView>
+    //   </PersistGate>
+    // </Provider>
+
+    <View>
+      <Button onPress={() => Heartbeat.startService()} title={'Start'} />
+      <Button onPress={() => Heartbeat.stopService()} title={'Stop'} buttonStyle={{marginTop : 50}} />
+  
+    </View>
   );
 };
 
