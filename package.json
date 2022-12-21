@@ -24,6 +24,7 @@
     "react": "17.0.2",
     "react-hook-form": "^7.27.1",
     "react-native": "0.67.2",
+    "react-native-background-actions": "^3.0.0",
     "react-native-cli": "^2.0.1",
     "react-native-contacts": "^7.0.4",
     "react-native-device-info": "^10.2.0",

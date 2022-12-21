@@ -19,7 +19,6 @@ public class ReactOnePackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
 
         modules.add(new NotificationModule(reactContext));
-        modules.add(new HeartbeatModule(reactContext));
 
         return modules;
     }

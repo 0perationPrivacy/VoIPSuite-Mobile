@@ -2,6 +2,7 @@ package com.voip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -11,6 +12,8 @@ import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 
 
 public class HeartbeatEventService extends HeadlessJsTaskService {
+    private static final String TAG = "huzaifa";
+
     @Override
     @Nullable
     protected HeadlessJsTaskConfig getTaskConfig(Intent intent) {

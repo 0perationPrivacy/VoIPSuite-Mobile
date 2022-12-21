@@ -27,6 +27,7 @@ import { askForPermission } from './helpers/notifee';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Button } from './components';
 const { Heartbeat } = NativeModules;
+import notifee from '@notifee/react-native';
 
 // import Heartbeat from './helpers/heartbeat';
 
@@ -92,6 +93,32 @@ const App = () => {
 
       // ask for notification persmission
       await askForPermission()
+      // const channelId = await notifee.createChannel({
+      //   id: 'default',
+      //   name: 'Default Channel',
+      // });
+
+      // // Heartbeat.updateNotification({
+      // //   channelId,
+      // //   notificationId: 'widget-notification',
+      // // })
+
+      // setTimeout(async () => {
+      //   await notifee.displayNotification({
+      //     title: 'Welcome to VoIP Suite',
+      //     body: 'Main body content of the notification',
+      //     android: {
+      //       channelId,
+      //       // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+      //       // pressAction is needed if you want the notification to open the app when pressed
+      //       pressAction: {
+      //         id: 'default',
+      //       },
+      //     },
+      //   });
+      // }, 5000);
+
+
     })();
 
     return () => {
@@ -115,9 +142,9 @@ const App = () => {
     // </Provider>
 
     <View>
-      <Button onPress={() => Heartbeat.startService()} title={'Start'} />
-      <Button onPress={() => Heartbeat.stopService()} title={'Stop'} buttonStyle={{marginTop : 50}} />
-  
+      <Button title={'Start'} />
+      <Button title={'Stop'} buttonStyle={{ marginTop: 50 }} />
+
     </View>
   );
 };
