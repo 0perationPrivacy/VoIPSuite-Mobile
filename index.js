@@ -9,7 +9,6 @@ import App from './App';
 import { name as appName } from './app.json';
 import { setupNotifeeHandlers } from './helpers/notifee';
 import notifee from '@notifee/react-native';
-import BackgroundService from 'react-native-background-actions';
 
 const MyHeadlessTask = async () => {
   console.log('Receiving HeartBeat!');

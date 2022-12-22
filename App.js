@@ -142,7 +142,7 @@ const App = () => {
     // </Provider>
 
     <View>
-      <Button title={'Start'} />
+      <Button title={'Start'} onPress={() => Heartbeat.startService()} />
       <Button title={'Stop'} buttonStyle={{ marginTop: 50 }} />
 
     </View>
