@@ -121,7 +121,7 @@ const Messages = ({ navigation }) => {
         const io = socketClient.socket;
         let userId = getUserId();
 
-        io.emit("join_profile_channel", userId);
+        io.emit("join_profile_channel", '621e9f2685a90200160c3160');
 
         io.on("user_message", function (data) {
             console.log('datdadadadadadada ===>', data);

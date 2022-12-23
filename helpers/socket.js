@@ -15,6 +15,9 @@ class Socket {
       resolve(SocketIO("https://voip.operationprivacy.com", {
         // jsonp: false,
         transports: ['websocket'],
+        reconnection: true,
+        reconnectionDelay: 100,
+        reconnectionAttempts: 10000,
       }))
     });
     // return this.socket.connect()
@@ -25,7 +28,7 @@ class Socket {
   }
 
   isConnected() {
-    return this.socket;
+    return this.socket?.connected;
   }
 
   removeAllListeners() {

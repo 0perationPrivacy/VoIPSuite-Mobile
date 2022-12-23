@@ -81,15 +81,15 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      io = await socketClient.init();
+      // io = await socketClient.init();
 
-      io.on("connect", () => {
-        console.log('socket connected');
-      });
+      // io.on("connect", () => {
+      //   console.log('socket connected');
+      // });
 
-      io.on('connect_error', socket => {
-        console.log(`socket connect error ===> ${socket}`);
-      });
+      // io.on('connect_error', socket => {
+      //   console.log(`socket connect error ===> ${socket}`);
+      // });
 
       // ask for notification persmission
       await askForPermission()
