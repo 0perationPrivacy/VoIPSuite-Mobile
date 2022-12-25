@@ -102,7 +102,7 @@ const Messages = ({ navigation }) => {
 
     useEffect(() => {
         if (activeProfile) {
-            initSocket()
+            // initSocket()
         }
     }, [activeProfile])
 
@@ -169,8 +169,10 @@ const Messages = ({ navigation }) => {
     }
 
     const onPressMessageList = (contact) => {
-        let data = { number: contact, profile: { id: activeProfile } }
-        navigate('Home', { data })
+        console.log(activeProfile);
+        console.log(contact);
+        // let data = { number: contact, profile: { id: activeProfile } }
+        // navigate('Home', { data })
     }
 
     const onPressCompose = () => {

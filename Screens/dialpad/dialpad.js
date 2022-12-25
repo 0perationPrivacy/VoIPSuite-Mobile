@@ -31,15 +31,15 @@ const DialPad = () => {
 
     const [stream, setStream] = useState(null);
     const start = async () => {
-        if (!stream) {
-            let s;
-            try {
-                s = await mediaDevices.getUserMedia({ audio: true, video: false });
-                setStream(s);
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        // if (!stream) {
+        //     let s;
+        //     try {
+        //         s = await mediaDevices.getUserMedia({ audio: true, video: false });
+        //         setStream(s);
+        //     } catch (e) {
+        //         console.error(e);
+        //     }
+        // }
     };
     const stop = () => {
         if (stream) {

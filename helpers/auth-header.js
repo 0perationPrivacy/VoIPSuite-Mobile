@@ -1,4 +1,5 @@
 import { store } from "../redux/store";
+import _ from 'lodash'
 
 export function authHeader() {
     // return authorization header with jwt token
@@ -18,4 +19,15 @@ export function getUserId() {
     const { user } = state?.authentication;
 
     return user?.data?._id;
+}
+
+export function getCurrentActiveProfile() {
+    var state = store.getState();
+    const { profileSettings } = state.settings;
+
+    if (profileSettings && !_.isEmpty(profileSettings)) {
+        return profileSettings;
+    }
+
+    return null;
 }

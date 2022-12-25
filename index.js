@@ -38,13 +38,14 @@ const MyHeadlessTask = async () => {
       console.log('data ===>', data)
       const { number, message } = data;
       const channelId = await notifee.createChannel({
-        id: 'default',
-        name: 'Test Channel',
+        id: 'w-channel',
+        name: 'Test w-channel',
       });
 
       await notifee.displayNotification({
         title: message,
         body: 'Main body content of the notification',
+        data: { 'event_type': 'message', message: data },
         android: {
           channelId,
           pressAction: {
@@ -58,23 +59,6 @@ const MyHeadlessTask = async () => {
 
   }
 };
-
-// await BackgroundService.start(MyHeadlessTask,  {
-//   taskName: 'Example',
-//   taskTitle: 'ExampleTask title',
-//   taskDesc: 'ExampleTask description',
-//   taskIcon: {
-//       name: 'ic_launcher',
-//       type: 'mipmap',
-//   },
-//   color: '#ff00ff',
-//   linkingURI: 'yourSchemeHere://chat/jane', // See Deep Linking for more info
-//   parameters: {
-//       delay: 1000,
-//   },
-// });
-// await BackgroundService.updateNotification({ taskDesc: 'New ExampleTask description' }); // Only Android, iOS will ignore this call
-
 
 setupNotifeeHandlers()
 

@@ -100,8 +100,8 @@ const Home = (props) => {
 
 	useEffect(() => {
 		if (contactNumber && !isSocketInit) {
-			initSocket()
-			setSocketInit(true);
+			// initSocket()
+			// setSocketInit(true);
 		}
 	}, [contactNumber])
 
