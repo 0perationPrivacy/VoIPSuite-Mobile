@@ -13,14 +13,29 @@ export async function cancel(notificationId) {
   await notifee.cancelNotification(notificationId);
 }
 
-export async function createChannel(params) {
+export async function createChannel(id, name) {
   const channelId = await notifee.createChannel({
-    id: 'my-channel',
-    name: 'Test Channel',
+    id: id,
+    name: name,
   });
 
   return channelId;
 }
+
+export async function displayNotification(message, channelId, content = "", data = {}) {
+  await notifee.displayNotification({
+    title: message,
+    body: content,
+    data: data,
+    android: {
+      channelId,
+      pressAction: {
+        id: 'default',
+      },
+    },
+  });
+}
+
 
 export function setupNotifeeHandlers() {
   notifee.onBackgroundEvent(async ({ type, detail }) => {

@@ -13,5 +13,8 @@ export function getServerUrl() {
 
   return API_URL;
 }
-
 export var DEFAUL_URL = API_URL + API_PREFIX;
+
+
+export const MESSAGE_CHANNEL_ID = 'socket-message';
+export const MESSAGE_CHANNEL_NAME = 'socket-message-channel';
