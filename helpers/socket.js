@@ -26,6 +26,8 @@ class Socket {
     if (io) {
       io.disconnect();
       io.removeAllListeners();
+
+      this.socket = null;
     }
   }
 

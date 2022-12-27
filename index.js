@@ -24,13 +24,15 @@ const MyHeadlessTask = async () => {
     });
 
   } else {
+    const loginStatus = isLoggedIn();
+    if (!loginStatus) return;
+
     io = await socketClient.init();
-    let loginStatus = isLoggedIn();
-    let userId = getUserId();
+    const userId = getUserId();
 
     console.log('userId ====>', userId);
 
-    if (io && loginStatus) {
+    if (io) {
       socketClient.joinRoomByUserId(userId)
       socketClient.listenEventForMessage(async function (data) {
         console.log('data about ===>', data)

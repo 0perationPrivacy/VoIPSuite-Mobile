@@ -14,8 +14,8 @@ const screenHeight = width < height ? height : width;
 const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 667;
 
-const scale = size => screenWidth / guidelineBaseWidth * +size;
-const scaleVertical = size => screenHeight / guidelineBaseHeight * size;
+const scale = (size: number) => screenWidth / guidelineBaseWidth * +size;
+const scaleVertical = (size: number) => screenHeight / guidelineBaseHeight * size;
 
 const ratio = (iosSize: number, androidSize?: number) =>
     Platform.select({
@@ -38,12 +38,12 @@ const generatedFontSize = (iosFontSize: number, androidFontSize?: number) =>
 const NAVBAR_HEIGHT = Platform.OS === "ios" ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : 0;
 
-const widthPercentageToDP = widthPercent => {
+const widthPercentageToDP = (widthPercent: string) => {
     const elemWidth = parseFloat(widthPercent);
     return PixelRatio.roundToNearestPixel(width * elemWidth / 100);
 };
 
-const heightPercentageToDP = heightPercent => {
+const heightPercentageToDP = (heightPercent: string) => {
     const elemHeight = parseFloat(heightPercent);
     return PixelRatio.roundToNearestPixel(height * elemHeight / 100);
 };
@@ -94,7 +94,7 @@ export default {
 
     mapVerticalPadding: ratio(160),
     mapHorizontalPadding: ratio(160),
-    
+
     icon: {
         tiny: ratio(8),
         small: ratio(16),

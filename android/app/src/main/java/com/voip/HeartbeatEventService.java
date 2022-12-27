@@ -12,8 +12,6 @@ import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 
 
 public class HeartbeatEventService extends HeadlessJsTaskService {
-    private static final String TAG = "huzaifa";
-
     @Override
     @Nullable
     protected HeadlessJsTaskConfig getTaskConfig(Intent intent) {
@@ -21,7 +19,7 @@ public class HeartbeatEventService extends HeadlessJsTaskService {
         return new HeadlessJsTaskConfig(
                 "Heartbeat",
                 extras != null ? Arguments.fromBundle(extras) : Arguments.createMap(),
-                5000,
+                10000,
                 true);
     }
 }
