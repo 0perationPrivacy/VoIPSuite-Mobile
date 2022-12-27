@@ -4,6 +4,7 @@ import { closeDrawer, navigate, navigateAndReset } from '../../helpers/RootNavig
 import { alertActions } from './alert';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import RNRestart from 'react-native-restart'; // Import package from node modules
+import socketInstance from '../../helpers/socket';
 
 export const userActions = {
     login,
@@ -57,6 +58,8 @@ function login(data, errorMessagesCb) {
 function logout() {
     return dispatch => {
         dispatch(logout());
+        console.log(socketInstance.isConnected)
+        socketInstance.disconnect();
         navigateAndReset('Login');
         closeDrawer()
     };

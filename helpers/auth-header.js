@@ -31,3 +31,10 @@ export function getCurrentActiveProfile() {
 
     return null;
 }
+
+export function isLoggedIn() {
+    var state = store.getState();
+    const { loggedIn } = state?.authentication;
+
+    return loggedIn;
+}

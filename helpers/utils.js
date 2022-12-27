@@ -1,7 +1,6 @@
 import { Appearance } from 'react-native';
 import _ from 'lodash';
 import { getVersion } from 'react-native-device-info';
-import SocketIO from "socket.io-client";
 
 const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -42,21 +41,6 @@ const getOSVersion = () => {
     return `App Version: ${getVersion()}`;
 }
 
-const getSocketInstance = async () => {
-    // const socket = io({
-    //     autoConnect: false
-    // });
-
-    // socket.connect();
-
-    // return new Promise((resolve) => {
-    //     resolve(SocketIO("https://voip.operationprivacy.com", {
-    //         // jsonp: false,
-    //         transports: ['websocket'],
-    //     }))
-    // });
-}
-
 const validURL = (str) => {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -83,7 +67,6 @@ export {
     getReadableDate,
     getReadableTime,
     getOSVersion,
-    getSocketInstance,
     validURL,
     generateRandomString
 }

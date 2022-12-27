@@ -21,23 +21,32 @@ class Socket {
   }
 
   disconnect() {
-    this.socket.disconnect()
+    let io = this.socket;
+    console.log(io)
+    if (io) {
+      io.disconnect();
+      io.removeAllListeners();
+    }
   }
 
   isConnected() {
     return this.socket?.connected;
   }
 
-  removeAllListeners() {
-    if (this.socket) {
-      this.socket.removeAllListeners()
-    }
+  onConnectEvent() {
+    this.socket?.on("connect", () => {
+      console.log('socket connected from headless');
+    });
   }
 
-  async joinRoomByUserId(userId) {
-    io.emit("join_profile_channel", '621e9f2685a90200160c3160');
+  joinRoomByUserId(userId) {
+    this.socket?.emit("join_profile_channel", userId);
+  }
+
+  listenEventForMessage(listener = () => { }) {
+    this.socket?.on("user_message", listener);
   }
 }
 
-let __socket = new Socket();
-export default __socket;
+let socketInstance = new Socket();
+export default socketInstance;

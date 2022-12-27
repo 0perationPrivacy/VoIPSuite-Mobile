@@ -8,40 +8,38 @@ import { AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
 import { createChannel, displayNotification, setupNotifeeHandlers } from './helpers/notifee';
-import notifee from '@notifee/react-native';
 import socketClient from './helpers/socket';
 import { MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME } from './helpers/config';
+import { getUserId, isLoggedIn } from './helpers/auth-header';
 
 const MyHeadlessTask = async () => {
-  console.log('Receiving HeartBeat!');
   let isConnected = socketClient.isConnected();
-  console.log('is connected =>', isConnected)
+  console.log('isConnected ===>', isConnected)
 
   if (isConnected) {
-    console.log('about to fly')
     const io = socketClient.socket;
 
     io.on('connect_error', socket => {
       console.log(`socket connect error from headless ===> ${socket}`);
     });
 
-    console.log('about to cry')
-
   } else {
     io = await socketClient.init();
+    let loginStatus = isLoggedIn();
+    let userId = getUserId();
 
-    io.on("connect", () => {
-      console.log('socket connected from headless');
-    });
+    console.log('userId ====>', userId);
 
-    io.emit("join_profile_channel", '621e9f2685a90200160c3160');
-    io.on("user_message", async function (data) {
-      console.log('data notif ===>', data)
-      const { number, message } = data;
+    if (io && loginStatus) {
+      socketClient.joinRoomByUserId(userId)
+      socketClient.listenEventForMessage(async function (data) {
+        console.log('data about ===>', data)
+        const { message } = data;
 
-      const channelId = await createChannel(MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME)
-      await displayNotification(message, channelId, 'Main body content of the notification', { 'event_type': 'message', message: data })
-    });
+        const channelId = await createChannel(MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME)
+        await displayNotification(message, channelId, 'Main body content of the notification', { 'event_type': 'message', message: data })
+      })
+    }
   }
 };
 
