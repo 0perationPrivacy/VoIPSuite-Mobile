@@ -60,13 +60,25 @@ export function setupNotifeeHandlers() {
     }
   });
 
-  notifee.onForegroundEvent(({ type, detail }) => {
+  notifee.onForegroundEvent(async ({ type, detail }) => {
     const { notification, pressAction } = detail;
-    console.log('pressActiddddon.id', pressAction, type)
-    if (type === EventType.ACTION_PRESS) {
-      console.log('type ====> notification')
-      console.log(`notification.id ====> ${notification.id}`)
-      console.log(`notification.data ====> ${notification.data?.event_type}`)
+    const { data } = notification;
+
+    if (type === EventType.PRESS) {
+      let profile = getCurrentActiveProfile();
+      const { message = {} } = data;
+
+      if ((profile && profile?._id) && (message && !_.isEmpty(message))) {
+        delete Object.assign(message, { ['_id']: message['number'] })['number'];
+
+        let params = { number: message, profile: { id: profile?._id } }
+        console.log('params ===>', params)
+        setTimeout(() => {
+          navigate('Home', { data: params })
+        }, 2000);
+      }
+
+      await notifee.cancelNotification(notification.id);
     }
   });
 }

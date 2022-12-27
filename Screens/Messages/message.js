@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, FlatList, RefreshControl } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, FlatList, RefreshControl, Alert } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Feather from 'react-native-vector-icons/Feather';
@@ -68,7 +68,7 @@ const Messages = ({ navigation }) => {
 
     useEffect(() => {
         if (activeProfile) {
-            // initSocket()
+            initSocket()
         }
     }, [activeProfile])
 
@@ -79,16 +79,9 @@ const Messages = ({ navigation }) => {
     }, [messages]);
 
     const initSocket = async () => {
-        const io = socketClient.socket;
-        let userId = getUserId();
-
-        io.emit("join_profile_channel", '621e9f2685a90200160c3160');
-
-        io.on("user_message", function (data) {
-            console.log('datdadadadadadada ===>', data);
-            // console.log(activeProfile);
+        socketClient.listenEventForMessage(function (data) {
             getMessagesByProfileId(activeProfile)
-        });
+        })
     }
 
     const renderHeader = () => {
