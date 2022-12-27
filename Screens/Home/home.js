@@ -100,8 +100,8 @@ const Home = (props) => {
 
 	useEffect(() => {
 		if (contactNumber && !isSocketInit) {
-			initSocket()
-			setSocketInit(true);
+			// initSocket()
+			// setSocketInit(true);
 		}
 	}, [contactNumber])
 
@@ -132,9 +132,9 @@ const Home = (props) => {
 		const io = socketClient.socket;
 		let userId = getUserId();
 
-		console.log(io)
+		// console.log(io)
 
-		io.emit("join_profile_channel", userId);
+		io.emit("join_profile_channel", 'userId');
 		io.on("user_message", function (data) {
 			console.log('data ===>', data);
 

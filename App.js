@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   useColorScheme,
-  Appearance
+  Appearance,
+  NativeModules,
+  Text,
+  View,
+  Alert,
+  AppState
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -20,6 +25,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from "react-native-flash-message";
 import socketClient from './helpers/socket';
 import { askForPermission } from './helpers/notifee';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Button } from './components';
+const { Heartbeat } = NativeModules;
+import notifee from '@notifee/react-native';
+
+// import Heartbeat from './helpers/heartbeat';
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
 //   global.originalXMLHttpRequest :
@@ -34,7 +45,7 @@ import { askForPermission } from './helpers/notifee';
 //   });
 // };`
 
-global.__reanimatedWorkletInit = () => {};
+global.__reanimatedWorkletInit = () => { };
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -44,6 +55,9 @@ const App = () => {
 
   const colorScheme = Appearance.getColorScheme();
   const Drawer = createDrawerNavigator();
+
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   useEffect(() => {
     // const io = await getSocketInstance();
@@ -69,18 +83,32 @@ const App = () => {
 
   }, [])
 
+  // for app state change
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", nextAppState => {
+      if (
+        nextAppState === "active"
+      ) {
+        // Heartbeat.stopService();
+        console.log("App has come to the foreground!");
+      }
+
+      if (nextAppState == 'background') {
+        Heartbeat.startService();
+        console.log("App has come to the background!");
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
   useEffect(() => {
     (async () => {
-      io = await socketClient.init();
-
-      io.on("connect", () => {
-        console.log('socket connected');
-      });
-
-      io.on('connect_error', socket => {
-        console.log(`socket connect error ===> ${socket}`);
-      });
-
       // ask for notification persmission
       await askForPermission()
     })();

@@ -17,19 +17,19 @@ const guidelineBaseHeight = 667;
 const scale = size => screenWidth / guidelineBaseWidth * +size;
 const scaleVertical = size => screenHeight / guidelineBaseHeight * size;
 
-const ratio = (iosSize: number, androidSize: ?number) =>
+const ratio = (iosSize: number, androidSize?: number) =>
     Platform.select({
         ios: scaleVertical(iosSize),
         android: androidSize || iosSize
     });
 
-const widthRatio = (iosSize: number, androidSize: ?number) =>
+const widthRatio = (iosSize: number, androidSize?: number) =>
     Platform.select({
         ios: scale(iosSize),
         android: androidSize || iosSize
     });
 
-const generatedFontSize = (iosFontSize: number, androidFontSize: ?number) =>
+const generatedFontSize = (iosFontSize: number, androidFontSize?: number) =>
     Platform.select({
         ios: scale(iosFontSize),
         android: androidFontSize || iosFontSize
@@ -94,8 +94,7 @@ export default {
 
     mapVerticalPadding: ratio(160),
     mapHorizontalPadding: ratio(160),
-    routeStrokeWidth: ratio(4),
-
+    
     icon: {
         tiny: ratio(8),
         small: ratio(16),

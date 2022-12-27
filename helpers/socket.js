@@ -1,5 +1,4 @@
 import SocketIO from "socket.io-client";
-
 class Socket {
   constructor() {
     this.socket = null;
@@ -13,11 +12,12 @@ class Socket {
   async connect() {
     return new Promise((resolve) => {
       resolve(SocketIO("https://voip.operationprivacy.com", {
-        // jsonp: false,
         transports: ['websocket'],
+        reconnection: true,
+        reconnectionDelay: 100,
+        reconnectionAttempts: 10000,
       }))
     });
-    // return this.socket.connect()
   }
 
   disconnect() {
@@ -25,13 +25,17 @@ class Socket {
   }
 
   isConnected() {
-    return this.socket;
+    return this.socket?.connected;
   }
 
   removeAllListeners() {
     if (this.socket) {
       this.socket.removeAllListeners()
     }
+  }
+
+  async joinRoomByUserId(userId) {
+    io.emit("join_profile_channel", '621e9f2685a90200160c3160');
   }
 }
 
