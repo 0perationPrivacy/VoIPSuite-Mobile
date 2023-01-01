@@ -177,13 +177,13 @@ const Home = (props) => {
 		const { text } = messages[0]
 		const number = contactNumber
 
-		let data = { media: files, message: text, numbers: [number], profile: profileID, user: _id }
+		let data = { media: getFilesData(), message: text, numbers: [number], profile: profileID, user: _id }
 		dispatch(messagesActions.sendMessageDetailsAction(data, () => onSuccessSendMessage(messages), false))
-
 	}
 
 	const onSuccessSendMessage = (messages = []) => {
 		init();
+		setFiles([])
 		// setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
 	}
 
@@ -251,6 +251,14 @@ const Home = (props) => {
 		}
 
 		setFiles(fileArray)
+	}
+
+	const getFilesData = () => {
+		const data = files.map(item => {
+			return item?.media
+		});
+
+		return data;
 	}
 
 	useEffect(() => {
@@ -359,16 +367,17 @@ const Home = (props) => {
 	}
 
 	const renderSend = (props) => {
+		let icon = isLoading ? 'loader' : 'arrow-right'
 		return (
 			<View>
 				<View style={styles.btnSendContainer}>
 					<TouchableOpacity onPress={onPressFileUpload}>
 						<Ionicons size={Metrics.ratio(30)} name="attach" color={getColorByTheme('#0d6efd', '#0d6efd')} />
 					</TouchableOpacity>
-					<Send {...props}>
+					<Send {...props} disabled={isLoading}>
 						<View style={styles.btnSend}>
 							<View style={styles.btnSendIcon} >
-								<Icon name="arrow-right" size={20} color="#0d6efd" />
+								<Icon name={icon} size={20} color="#0d6efd" />
 							</View>
 						</View>
 					</Send>
