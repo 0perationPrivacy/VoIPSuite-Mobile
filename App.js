@@ -94,7 +94,7 @@ const App = () => {
       }
 
       if (nextAppState == 'background') {
-        Heartbeat.startService();
+        // Heartbeat.startService();
         console.log("App has come to the background!");
       }
 

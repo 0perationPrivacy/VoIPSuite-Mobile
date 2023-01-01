@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
-import { Composer, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat/src'
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions, Image } from 'react-native';
+import { GiftedChat, Send } from 'react-native-gifted-chat/src'
 import globalStyles from '../../style';
 import MessageInput from '../../components/CustomInputToolbar';
 import { generateRandomString, getColorByTheme } from '../../helpers/utils';
-import { Header } from '../../components';
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { messagesActions, uploadsActions } from '../../redux/actions';
@@ -21,14 +20,17 @@ import notifee from '@notifee/react-native';
 import Icon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { getUserId } from '../../helpers/auth-header';
+import GalleryItem from './GalleryItem';
 
 const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
 	const [contactInfo, setContactInfo] = useState(null);
 	const [contactNumber, setContactNumber] = useState(null);
 	const [profileID, setProfileId] = useState(null);
-	const [rendering, Setrendering] = useState(null);
-	const [files, setFiles] = useState([]);
+	const [files, setFiles] = useState(
+		[]
+	);
+	const [filesId, setFilesId] = useState([]);
 	const [showSend, setShowSend] = useState(false);
 	const [isSocketInit, setSocketInit] = useState(false);
 
@@ -45,6 +47,10 @@ const Home = (props) => {
 	useEffect(() => {
 		init();
 	}, [])
+
+	useEffect(() => {
+		console.log(files)
+	}, [files])
 
 	const init = () => {
 		const { data } = route.params;
@@ -106,7 +112,7 @@ const Home = (props) => {
 	}, [contactNumber])
 
 	const initNotifee = useCallback(async (message) => {
-	
+
 		// Create a channel (required for Android)
 		const channelId = await notifee.createChannel({
 			id: 'default',
@@ -162,7 +168,6 @@ const Home = (props) => {
 		console.log(contactNumber);
 	}
 
-
 	const onSend = (messages = []) => {
 		onSendMessage(messages)
 	}
@@ -211,8 +216,6 @@ const Home = (props) => {
 	}
 
 	const onPressFileUpload = async () => {
-		console.log('result')
-
 		const fileOptions = {};
 		const result = await launchImageLibrary(fileOptions);
 
@@ -234,8 +237,18 @@ const Home = (props) => {
 	}
 
 	const onFileUploadSuccess = (data) => {
+		console.log(data)
+
 		const fileArray = [...files]
-		fileArray.push(data.media);
+		fileArray.push(data);
+		setFiles(fileArray)
+	}
+
+	const onPressRemoveFile = (index) => {
+		const fileArray = [...files]
+		if (index > -1) {
+			fileArray.splice(index, 1);
+		}
 
 		setFiles(fileArray)
 	}
@@ -326,19 +339,40 @@ const Home = (props) => {
 		)
 	}
 
+	const renderImageGallery = () => {
+		return (
+			<View style={styles.messageGalleryContainer}>
+				{
+					files.map((item, index) => {
+						return (
+							<GalleryItem
+								item={item}
+								index={index}
+								key={item?._id}
+								onPressRemove={onPressRemoveFile}
+							/>
+						)
+					})
+				}
+			</View>
+		)
+	}
+
 	const renderSend = (props) => {
 		return (
-			<View style={styles.btnSendContainer}>
-				<TouchableOpacity onPress={onPressFileUpload}>
-					<Ionicons size={Metrics.ratio(30)} name="attach" color={getColorByTheme('#0d6efd', '#0d6efd')} />
-				</TouchableOpacity>
-				<Send {...props}>
-					<View style={styles.btnSend}>
-						<View style={styles.btnSendIcon} >
-							<Icon name="arrow-right" size={20} color="#0d6efd" />
+			<View>
+				<View style={styles.btnSendContainer}>
+					<TouchableOpacity onPress={onPressFileUpload}>
+						<Ionicons size={Metrics.ratio(30)} name="attach" color={getColorByTheme('#0d6efd', '#0d6efd')} />
+					</TouchableOpacity>
+					<Send {...props}>
+						<View style={styles.btnSend}>
+							<View style={styles.btnSendIcon} >
+								<Icon name="arrow-right" size={20} color="#0d6efd" />
+							</View>
 						</View>
-					</View>
-				</Send>
+					</Send>
+				</View>
 			</View>
 		)
 	};
@@ -347,6 +381,7 @@ const Home = (props) => {
 		<View style={globalStyles.flexOne}>
 			{/* <Header headerBody={headerBody} headerRight={headerRight} /> */}
 			{customHeader()}
+
 			<GiftedChat
 				messages={__messages}
 				onSend={messages => onSend(messages)}
@@ -362,11 +397,12 @@ const Home = (props) => {
 				textInputStyle={styles.composer}
 				placeholder={'Type message here'}
 				renderInputToolbar={MessageInput}
+				renderFooter={files.length > 0 ? renderImageGallery : null}
 				alwaysShowSend={showSend}
 				// minComposerHeight={40}
 				minInputToolbarHeight={60}
 				tool
-				shouldUpdateMessage={ (props, nextProps) =>  __messages} 
+				shouldUpdateMessage={(props, nextProps) => __messages}
 			/>
 			{renderBottomSheet()}
 		</View>
@@ -466,7 +502,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: '#fff',
 		borderRadius: 50,
-	}
+	},
+	messageGalleryContainer: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		paddingVertical: Metrics.ratio(10),
+		borderTopWidth: 0.5,
+		paddingHorizontal: Metrics.ratio(10)
+	},
 });
 
 export default Home;
