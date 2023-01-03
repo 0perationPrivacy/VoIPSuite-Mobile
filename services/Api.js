@@ -19,5 +19,9 @@ function initApi(endpoint, method = 'GET', data = {}) {
     Object.assign(requestOptions, { body: JSON.stringify(data) })
   }
 
-  return fetch(`${API_URL}/${endpoint}`, requestOptions).then(handleResponse);
+  return fetch(`${API_URL}/${endpoint}`, requestOptions)
+    .then(handleResponse)
+    .catch((err) => {
+      return Promise.reject([err])
+    });
 }

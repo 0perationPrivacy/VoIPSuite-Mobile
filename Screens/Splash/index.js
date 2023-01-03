@@ -15,7 +15,6 @@ const Splash = () => {
             const { loggedIn, user } = _user;
             if (loggedIn && user) {
                 getProfileList()
-                return true;
             } else {
                 store.dispatch(userActions.logout())
             }

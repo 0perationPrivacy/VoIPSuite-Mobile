@@ -15,6 +15,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 let store = configureStore({
     reducer: persistedReducer,
     // devTools: process.env.NODE_ENV !== 'production',
+    devTools: true,
     middleware: [thunkMiddleware]
 });
 

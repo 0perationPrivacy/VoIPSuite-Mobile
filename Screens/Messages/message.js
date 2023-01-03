@@ -168,6 +168,8 @@ const Messages = ({ navigation }) => {
         );
     };
 
+    // console.log('daadad')
+
     return (
         <>
             {renderHeader()}

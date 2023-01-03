@@ -3,6 +3,8 @@ import { getServerUrl } from '../helpers/config';
 import { authHeader } from '../helpers/auth-header';
 import { store } from '../redux/store';
 import { userActions } from '../redux/actions';
+import { navigateAndReset } from '../helpers/RootNavigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const userService = {
     login,
@@ -36,7 +38,8 @@ async function login(data) {
 }
 
 function logout() {
-    // localStorage.removeItem('user');
+    AsyncStorage.clear();
+    navigateAndReset('Login')
 }
 
 async function register(user) {
