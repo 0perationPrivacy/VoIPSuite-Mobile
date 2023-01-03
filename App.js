@@ -89,15 +89,15 @@ const App = () => {
       if (
         nextAppState === "active"
       ) {
-        // Heartbeat.stopService();
+        Heartbeat.stopService();
         console.log("App has come to the foreground!");
       }
 
       if (nextAppState == 'background') {
-        // Heartbeat.startService();
+        Heartbeat.startService();
         console.log("App has come to the background!");
       }
-
+      
       appState.current = nextAppState;
       setAppStateVisible(appState.current);
     });

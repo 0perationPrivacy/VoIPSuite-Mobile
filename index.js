@@ -14,34 +14,32 @@ import { getUserId, isLoggedIn } from './helpers/auth-header';
 
 const MyHeadlessTask = async () => {
   let isConnected = socketClient.isConnected();
-  console.log('isConnected ===>', isConnected)
+  var io = socketClient.socket;
 
-  if (isConnected) {
-    const io = socketClient.socket;
+  console.log('isConnected headless ===>', isConnected)
 
-    io.on('connect_error', socket => {
-      console.log(`socket connect error from headless ===> ${socket}`);
-    });
-
-  } else {
-    const loginStatus = isLoggedIn();
-    if (!loginStatus) return;
-
+  if (!isConnected) {
     io = await socketClient.init();
-    const userId = getUserId();
+  }
 
-    console.log('userId ====>', userId);
+  const loginStatus = isLoggedIn();
+  if (!loginStatus) return;
 
-    if (io) {
-      socketClient.joinRoomByUserId(userId)
-      socketClient.listenEventForMessage(async function (data) {
-        console.log('data about ===>', data)
-        const { message } = data;
+  const userId = getUserId();
 
-        const channelId = await createChannel(MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME)
-        await displayNotification(message, channelId, 'Main body content of the notification', { 'event_type': 'message', message: data })
-      })
-    }
+  if (io) {
+    socketClient.joinRoomByUserId(userId)
+    socketClient.listenEventForMessage(async function (data) {
+      const { message, contact, number } = data;
+      let title = number;
+      if (contact) {
+        const { first_name, last_name } = contact;
+        title = first_name + ' ' + last_name;
+      }
+
+      const channelId = await createChannel(MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME)
+      await displayNotification(title, channelId, message, { 'event_type': 'message', message: data })
+    })
   }
 };
 

@@ -36,7 +36,6 @@ export async function displayNotification(message, channelId, content = "", data
   });
 }
 
-
 export function setupNotifeeHandlers() {
   notifee.onBackgroundEvent(async ({ type, detail }) => {
     const { notification, pressAction } = detail;

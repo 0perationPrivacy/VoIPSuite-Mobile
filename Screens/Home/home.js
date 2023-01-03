@@ -19,7 +19,7 @@ import notifee from '@notifee/react-native';
 //icons
 import Icon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { getUserId } from '../../helpers/auth-header';
+import { getUserId, isLoggedIn } from '../../helpers/auth-header';
 import GalleryItem from './GalleryItem';
 import Loader from '../../components/Loader';
 
@@ -29,28 +29,7 @@ const Home = (props) => {
 	const [contactNumber, setContactNumber] = useState(null);
 	const [profileID, setProfileId] = useState(null);
 	const [files, setFiles] = useState(
-		[
-			{
-				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
-				_id: "621e9f2685a902001rwr60c3160"
-			},
-			{
-				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
-				_id: "621e9f268tw5a90200160c3160"
-			},
-			{
-				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
-				_id: "621e9f2685a90200160c3160"
-			},
-			{
-				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
-				_id: "621e9f26385rwera90200160c3160"
-			},
-			{
-				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
-				_id: "621e9f2685twa90200160c3160"
-			}
-		]
+		[]
 	);
 	const [filesId, setFilesId] = useState([]);
 	const [showSend, setShowSend] = useState(false);
@@ -93,8 +72,6 @@ const Home = (props) => {
 			return;
 		}
 
-		console.log('huzaifa', contactInfo)
-
 		goBack();
 	}
 
@@ -127,49 +104,30 @@ const Home = (props) => {
 	}, [messages])
 
 	useEffect(() => {
-		if (contactNumber && !isSocketInit) {
-			// initSocket()
-			// setSocketInit(true);
+		(async () => {
+			await initSocket()
+			setSocketInit(true);
+		})();
+
+		return () => {
+			// this now gets called when the component unmounts
+		};
+	}, [contactNumber]);
+
+
+	const initSocket = async () => {
+		let isConnected = socketClient.isConnected();
+
+		if (!isConnected) {
+			await socketClient.init();
 		}
-	}, [contactNumber])
 
-	const initNotifee = useCallback(async (message) => {
-
-		// Create a channel (required for Android)
-		const channelId = await notifee.createChannel({
-			id: 'default',
-			name: 'Default Channel',
-		});
-
-		// Display a notification
-		await notifee.displayNotification({
-			title: message,
-			body: message,
-			android: {
-				channelId,
-				// smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-				// pressAction is needed if you want the notification to open the app when pressed
-				pressAction: {
-					id: 'default',
-				},
-			},
-		});
-	}, [])
-
-	const initSocket = () => {
-		const io = socketClient.socket;
-		let userId = getUserId();
-
-		// console.log(io)
-
-		io.emit("join_profile_channel", 'userId');
-		io.on("user_message", function (data) {
-			console.log('data ===>', data);
-
+		const userId = getUserId();
+		socketClient.joinRoomByUserId(userId)
+		socketClient.listenEventForMessage(async function (data) {
 			if (!data) return;
 			const { number, message } = data;
 			if (number == contactNumber) {
-				initNotifee(message)
 				appendMessage([
 					{
 						_id: generateRandomString(),
@@ -181,13 +139,7 @@ const Home = (props) => {
 					},
 				])
 			}
-			console.log(contactNumber);
-			// init()
-		});
-	}
-
-	const test = () => {
-		console.log(contactNumber);
+		})
 	}
 
 	const onSend = (messages = []) => {
