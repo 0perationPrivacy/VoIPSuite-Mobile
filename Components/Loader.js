@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 
-const Loader = ({ size = 'large' }) => {
+const Loader = ({ size = 'large', color = "#3770e4" }) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={size} color="#3770e4" />
+      <ActivityIndicator size={size} color={color} />
     </View>
   )
 };

@@ -18,36 +18,7 @@ import EmptyList from '../../components/EmptyList';
 import MessageItem from './item';
 
 const Messages = ({ navigation }) => {
-    const [__messages, setMessages] = useState([
-        // {
-        //     _id: 1,
-        //     contact: {
-        //         first_name: 'Muhammahd',
-        //         last_name: 'Huzaifa'
-        //     },
-        //     created_at: new Date(),
-        //     message: 'hola'
-        // },
-        // {
-        //     _id: 2,
-        //     contact: {
-        //         first_name: 'Muhammahd',
-        //         last_name: 'Huzaifa'
-        //     },
-        //     created_at: new Date(),
-        //     message: 'hola'
-        // },
-        // {
-        //     _id: 3,
-        //     contact: {
-        //         first_name: 'Muhammahd',
-        //         last_name: 'Huzaifa'
-        //     },
-        //     created_at: new Date(),
-        //     message: 'hola'
-        // }
-    ]);
-
+    const [__messages, setMessages] = useState([]);
     const [activeProfile, setActiveProfile] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
 

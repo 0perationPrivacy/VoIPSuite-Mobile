@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { getUserId } from '../../helpers/auth-header';
 import GalleryItem from './GalleryItem';
+import Loader from '../../components/Loader';
 
 const Home = (props) => {
 	const [__messages, setMessages] = useState([]);
@@ -28,7 +29,28 @@ const Home = (props) => {
 	const [contactNumber, setContactNumber] = useState(null);
 	const [profileID, setProfileId] = useState(null);
 	const [files, setFiles] = useState(
-		[]
+		[
+			{
+				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
+				_id: "621e9f2685a902001rwr60c3160"
+			},
+			{
+				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
+				_id: "621e9f268tw5a90200160c3160"
+			},
+			{
+				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
+				_id: "621e9f2685a90200160c3160"
+			},
+			{
+				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
+				_id: "621e9f26385rwera90200160c3160"
+			},
+			{
+				media: "https://voip.operationprivacy.com/uploads/01032023/3e6d1644ae7b1536503a063400dc2e3eda725c8d598c3b5b",
+				_id: "621e9f2685twa90200160c3160"
+			}
+		]
 	);
 	const [filesId, setFilesId] = useState([]);
 	const [showSend, setShowSend] = useState(false);
@@ -376,19 +398,21 @@ const Home = (props) => {
 	const renderSend = (props) => {
 		let icon = isLoading ? 'loader' : 'arrow-right'
 		return (
-			<View>
-				<View style={styles.btnSendContainer}>
-					<TouchableOpacity onPress={onPressFileUpload}>
-						<Ionicons size={Metrics.ratio(30)} name="attach" color={getColorByTheme('#0d6efd', '#0d6efd')} />
-					</TouchableOpacity>
-					<Send {...props} disabled={isLoading}>
-						<View style={styles.btnSend}>
-							<View style={styles.btnSendIcon} >
-								<Icon name={icon} size={20} color="#0d6efd" />
-							</View>
+			<View style={styles.btnSendContainer}>
+				<TouchableOpacity onPress={onPressFileUpload}>
+					<Ionicons size={Metrics.ratio(30)} name="attach" color={getColorByTheme('#0d6efd', '#0d6efd')} />
+				</TouchableOpacity>
+				<Send {...props} disabled={isLoading}>
+					<View style={styles.btnSend}>
+						<View style={styles.btnSendIcon} >
+							{
+								isLoading ?
+									<Loader color='#fff' /> :
+									<Icon name={icon} size={20} color="#0d6efd" />
+							}
 						</View>
-					</Send>
-				</View>
+					</View>
+				</Send>
 			</View>
 		)
 	};
@@ -520,7 +544,7 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 	},
 	messageGalleryContainer: {
-		borderTopWidth: 0.5,
+		borderTopWidth: 0.5
 	},
 	messageGalleryItemContainer: {
 		paddingVertical: Metrics.ratio(10),
