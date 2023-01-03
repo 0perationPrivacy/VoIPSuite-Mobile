@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   }),
   chatGalleryRemoveIcon: {
     position: 'absolute',
-    zIndex: 999,
+    zIndex: 999999,
     right: Metrics.ratio(-5),
     backgroundColor: 'red',
     borderRadius: Metrics.ratio(20),
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     height: Metrics.ratio(20),
     alignItems: 'center',
     justifyContent: 'center',
-    top: Metrics.ratio(-5)
+    top: Metrics.ratio(-10)
   }
 });
 

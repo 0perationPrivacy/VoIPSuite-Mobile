@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions, Image, FlatList } from 'react-native';
 import { GiftedChat, Send } from 'react-native-gifted-chat/src'
 import globalStyles from '../../style';
 import MessageInput from '../../components/CustomInputToolbar';
@@ -350,19 +350,26 @@ const Home = (props) => {
 	const renderImageGallery = () => {
 		return (
 			<View style={styles.messageGalleryContainer}>
-				{
-					files.map((item, index) => {
-						return (
-							<GalleryItem
-								item={item}
-								index={index}
-								key={item?._id}
-								onPressRemove={onPressRemoveFile}
-							/>
-						)
-					})
-				}
+				<FlatList
+					data={files}
+					renderItem={renderImageGalleryItem}
+					keyExtractor={(item) => item?._id}
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+					contentContainerStyle={styles.messageGalleryItemContainer}
+				/>
 			</View>
+		)
+	}
+
+	const renderImageGalleryItem = ({ item, index }) => {
+		return (
+			<GalleryItem
+				item={item}
+				index={index}
+				onPressRemove={onPressRemoveFile}
+			/>
 		)
 	}
 
@@ -513,11 +520,12 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 	},
 	messageGalleryContainer: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		paddingVertical: Metrics.ratio(10),
 		borderTopWidth: 0.5,
-		paddingHorizontal: Metrics.ratio(10)
+	},
+	messageGalleryItemContainer: {
+		paddingVertical: Metrics.ratio(10),
+		paddingHorizontal: Metrics.ratio(10),
+		marginVertical: Metrics.ratio(5)
 	},
 });
 
