@@ -1,4 +1,5 @@
 import SocketIO from "socket.io-client";
+import { getBaseUrl } from "./config";
 class Socket {
   constructor() {
     this.socket = null;
@@ -10,8 +11,9 @@ class Socket {
   }
 
   async connect() {
+    let url = getBaseUrl();
     return new Promise((resolve) => {
-      resolve(SocketIO("https://voip.operationprivacy.com", {
+      resolve(SocketIO(url, {
         transports: ['websocket'],
         reconnection: true,
         reconnectionDelay: 100,

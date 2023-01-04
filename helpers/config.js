@@ -1,20 +1,24 @@
 import { store } from "../redux/store";
 
-var API_URL = 'https://voip.operationprivacy.com/api';
-var API_PREFIX = '/api';
+var BASE_URL = 'https://voip.operationprivacy.com';
+var PREFIX = '/api';
 
-export function getServerUrl() {
+export function getBaseUrl() {
   const state = store.getState();
   const { user = {} } = state.authentication;
 
   if (user?.server_url) {
-    API_URL = user?.server_url;
+    BASE_URL = user?.server_url;
   }
 
-  return API_URL;
+  return BASE_URL;
 }
-export var DEFAUL_URL = API_URL + API_PREFIX;
 
+export function getServerUrl() {
+  let baseUrl = getBaseUrl();
+  return baseUrl + PREFIX;
+}
 
+export const API_PREFIX = PREFIX;
 export const MESSAGE_CHANNEL_ID = 'socket-message';
 export const MESSAGE_CHANNEL_NAME = 'socket-message-channel';

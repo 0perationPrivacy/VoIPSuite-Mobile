@@ -1,5 +1,5 @@
 
-import { getServerUrl } from '../helpers/config';
+import { API_PREFIX, getServerUrl } from '../helpers/config';
 import { authHeader } from '../helpers/auth-header';
 import { store } from '../redux/store';
 import { userActions } from '../redux/actions';
@@ -18,9 +18,7 @@ var API_URL = getServerUrl();
 
 async function login(data) {
     let { server_url, ...rest } = data;
-    server_url = server_url ? server_url : API_URL;
-
-    console.log(server_url);
+    server_url = server_url ? server_url + API_PREFIX : API_URL;
 
     const requestOptions = {
         method: 'POST',
@@ -38,22 +36,24 @@ async function login(data) {
 }
 
 function logout() {
-    AsyncStorage.clear();
-    navigateAndReset('Login')
+    store.dispatch(userActions.logout());
 }
 
 async function register(user) {
     let { server_url, ...rest } = user;
-    server_url = server_url ? server_url : API_URL;
+    server_url = server_url ? server_url + API_PREFIX : API_URL;
 
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(rest)
     };
-
-    const response = await fetch(`${server_url}/auth/register`, requestOptions);
-    return handleResponse(response, false);
+    try {
+        const response = await fetch(`${server_url}/auth/register`, requestOptions);
+        return handleResponse(response, false);
+    } catch (error) {
+        return await Promise.reject([error]);
+    }
 }
 
 async function changeUsername(user) {

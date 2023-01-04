@@ -12,7 +12,7 @@ import { userActions } from '../../redux/actions'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Metrics from '../../helpers/Metrics';
 import Version from '../../components/Version';
-import { DEFAUL_URL } from '../../helpers/config';
+import { API_PREFIX } from '../../helpers/config';
 
 const Login = (props) => {
 	const [params, setParams] = useState({ email: "", password: "", server_url: "" });
@@ -54,10 +54,8 @@ const Login = (props) => {
 		}
 
 		if (!isEmpty(server_url)) {
-			data.server_url = server_url + '/api';
+			data.server_url = server_url;
 		}
-
-		console.log(data)
 
 		dispatch(userActions.login(data, onSetErrorMessageFromServer))
 	}
@@ -167,7 +165,7 @@ const Login = (props) => {
 					buttonStyle={styles.signInButton}
 					title="Login"
 					onPress={handleSubmit(onPressSignIn)}
-				// loading={isLoading}
+					loading={isLoading}
 				/>
 				<View style={styles.createAccountWrap}>
 					<Text style={globalStyle.defaultTextColor}>Don’t have an account yet?</Text>

@@ -58,7 +58,6 @@ function login(data, errorMessagesCb) {
 function logout() {
     return dispatch => {
         dispatch(logout());
-        console.log(socketInstance.isConnected)
         socketInstance.disconnect();
         navigateAndReset('Login');
         closeDrawer()
