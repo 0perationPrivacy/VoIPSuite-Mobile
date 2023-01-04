@@ -38,10 +38,16 @@ const Messages = ({ navigation }) => {
     }, [])
 
     useEffect(() => {
-        if (activeProfile) {
-            initSocket()
-        }
-    }, [activeProfile])
+        (async () => {
+            if (activeProfile) {
+                await initSocket()
+            }
+        })();
+
+        return () => {
+            // this now gets called when the component unmounts
+        };
+    }, [activeProfile]);
 
     useEffect(() => {
         if (_.isArray(messages)) {
@@ -50,6 +56,15 @@ const Messages = ({ navigation }) => {
     }, [messages]);
 
     const initSocket = async () => {
+        let isConnected = socketClient.isConnected();
+        console.log('isConnected in home ===>', isConnected);
+
+        if (!isConnected) {
+            await socketClient.init();
+        }
+
+        const userId = getUserId();
+        socketClient.joinRoomByUserId(userId)
         socketClient.listenEventForMessage(function (data) {
             getMessagesByProfileId(activeProfile)
         })
