@@ -30,6 +30,7 @@ export async function displayNotification(message, channelId, content = "", data
     data: data,
     android: {
       channelId,
+      smallIcon : 'ic_launcher',
       pressAction: {
         id: 'default',
       },
