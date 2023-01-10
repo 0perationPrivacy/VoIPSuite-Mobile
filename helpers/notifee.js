@@ -17,6 +17,7 @@ export async function createChannel(id, name) {
   const channelId = await notifee.createChannel({
     id: id,
     name: name,
+    sound: 'default'
   });
 
   return channelId;
