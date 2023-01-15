@@ -7,7 +7,9 @@ import _ from 'lodash'
 
 const MessageItem = ({ item, index, onPress = () => { } }) => {
 
-  const { contact, message, created_at, _id } = item;
+  const { contact, message, created_at, _id, isview } = item;
+
+  const isNewMessage = isview > 0;
 
   let _contact = contact ? contact?.first_name + ' ' + contact?.last_name : _id;
 
@@ -21,20 +23,24 @@ const MessageItem = ({ item, index, onPress = () => { } }) => {
   return (
     <TouchableOpacity
       style={styles.messagesListItemWrap}
-      key={`swipe-item-${index}`}
+      key={`swipe-item-${_id}`}
       onPress={onPressItem}>
       <View style={styles.messagesListItemAvatar}>
-        {/* <Text style={styles.messagesListItemAvatarText}>A</Text> */}
         <Feather name={'user'} size={18} color={getColorByTheme('#000', '#fff')} />
       </View>
       <View style={styles.messagesListItemDetailWrap}>
         <View style={styles.messagesListItemTitleWrap}>
           <Text style={styles.messagesListItemTitle}>{_contact}</Text>
-          <Text style={styles.messagesListItemDate}>{date}</Text>
+          <Text style={styles.messagesListItemDescription}>{message && message.substring(0, 15)}.......</Text>
         </View>
         <View style={styles.messagesBottomView}>
-          <Text style={styles.messagesListItemDescription}>{message && message.substring(0, 15)}.......</Text>
-          <Text style={[styles.messagesListItemDate, styles.messagesListItemTime]}>{time}</Text>
+          <Text style={styles.messagesListItemDate}>{date}</Text>
+          <View style={styles.messageTimeContainer}>
+            <Text style={styles.messagesListItemDate}>{time}</Text>
+            {
+              isNewMessage && <Text style={styles.messageCountBadge}>{isview}</Text>
+            }
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -48,7 +54,6 @@ const styles = StyleSheet.create({
     borderColor: '#545458', //message divider
     paddingVertical: Metrics.ratio(10),
     paddingHorizontal: 5,
-    // borderRadius: 10,
     marginBottom: 5,
     backgroundColor: getColorByTheme('#fff', '#2e2e2e'),
     alignItems: 'center'
@@ -68,38 +73,48 @@ const styles = StyleSheet.create({
     color: getColorByTheme('#000', '#fff'),
   },
   messagesListItemDetailWrap: {
-    marginLeft: '5%',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    marginLeft: Metrics.baseMargin,
+    marginBottom: Metrics.ratio(5),
     flex: 1,
   },
   messagesListItemTitleWrap: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: Metrics.ratio(5)
+    flex: 1,
   },
   messagesListItemTitle: {
     fontSize: 14,
     color: getColorByTheme('#000', '#fff'),
-    fontFamily: Metrics.fontRegular
+    fontFamily: Metrics.fontRegular,
   },
   messagesListItemDate: {
     fontSize: 10,
     alignSelf: 'center',
     color: getColorByTheme('#000', '#fff'),
-    fontFamily: Metrics.fontRegular
-  },
-  messagesListItemTime: {
-    // marginTop : Metrics.ratio(20)
+    fontFamily: Metrics.fontRegular,
+    textAlign: 'left'
   },
   messagesBottomView: {
-    flexDirection: 'row',
     justifyContent: 'space-between'
   },
   messagesListItemDescription: {
     fontSize: 14,
     color: getColorByTheme('#212529', '#fff'),
-    fontFamily: Metrics.fontRegular
+    fontFamily: Metrics.fontRegular,
   },
+  messageTimeContainer: {
+    flexDirection: 'row',
+    alignSelf:'flex-end'
+  },
+  messageCountBadge: {
+    borderRadius: 5,
+    width: 20,
+    height: 20,
+    backgroundColor: '#198754',
+    color: '#fff',
+    marginLeft: Metrics.smallMargin,
+    textAlign: 'center'
+  }
 });
 
 export default MessageItem;

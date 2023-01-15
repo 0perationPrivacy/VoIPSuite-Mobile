@@ -51,6 +51,7 @@ const Messages = ({ navigation }) => {
 
     useEffect(() => {
         if (_.isArray(messages)) {
+            console.log('messages ===>', messages)
             setMessages(messages);
         }
     }, [messages]);
@@ -66,6 +67,7 @@ const Messages = ({ navigation }) => {
         const userId = getUserId();
         socketClient.joinRoomByUserId(userId)
         socketClient.listenEventForMessage(function (data) {
+            console.log('socket data ===>', data)
             getMessagesByProfileId(activeProfile)
         })
     }
@@ -91,7 +93,6 @@ const Messages = ({ navigation }) => {
     };
 
     const getMessagesByProfileId = (profileId) => {
-        console.log(profileId);
         if (profileId === undefined) return;
 
         setActiveProfile(profileId);
@@ -153,8 +154,6 @@ const Messages = ({ navigation }) => {
             <EmptyList />
         );
     };
-
-    // console.log('daadad')
 
     return (
         <>

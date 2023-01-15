@@ -39,7 +39,7 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	useEffect(() => {
 		if (profile && _.isArray(profile)) {
 			let data = []
-			profile.map((item, index) => {
+			profile.forEach((item, index) => {
 				const { id, profile, number } = item;
 				data.push({ id, profile, number })
 			})
