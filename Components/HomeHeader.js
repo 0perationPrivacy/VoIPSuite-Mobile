@@ -1,6 +1,6 @@
 import Icon from 'react-native-vector-icons/Feather'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Dimensions, FlatList, StyleSheet, Text, View,TouchableOpacity } from 'react-native'
+import { Dimensions, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown'
 import { useNavigation } from '@react-navigation/native'
 import styles from '../style'
@@ -17,14 +17,11 @@ import { getColorByTheme } from '../helpers/utils'
 
 const HomeHeader = ({ onPressProfile = () => { } }) => {
 
-	const [profileDropDown, setProfileDropDown] = useState(null);
 	const [isProfileModalVisible, setProfileModalVisibility] = useState(false);
-	const [profileList, setProfileList] = useState([]);
 	const [profiles, setProfiles] = useState([]);
 	const [activeProfileNumber, setActiveProfileNumber] = useState(null);
 	const [profileName, setProfileName] = useState('Choose Profile Name');
 
-	const navigation = useNavigation();
 	const dispatch = useDispatch();
 
 	const isLoading = useSelector(state => state.profile.isLoading);
@@ -40,9 +37,12 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		if (profile && _.isArray(profile)) {
 			let data = []
 			profile.forEach((item, index) => {
-				const { id, profile, number } = item;
-				data.push({ id, profile, number })
+				const { id, profile, number, messageCount } = item;
+				data.push({ id, profile, number, messageCount })
 			})
+
+
+			console.log('PROFILE LIST DATA ===> ', data)
 
 			setProfiles(data);
 			onSetProfileNameRedux({ profile: data[0]?.profile, id: data[0]?.id })
@@ -98,14 +98,6 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 		getProfileList();
 	}
 
-	const renderButtonText = (rowData) => {
-		const { profile, id } = rowData;
-		if (id) {
-			onSetProfileNameRedux({ profile, id });
-		}
-		return `${profile}`;
-	};
-
 	const getProfileListItemHeight = () => {
 		let height = Dimensions.get('window').height / 2 + 100;
 		let length = profiles.length;
@@ -118,13 +110,16 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 	}
 
 	const renderProfileItem = ({ item }) => {
-		const { profile, number } = item;
+		const { profile, number, messageCount } = item;
 
 		return (
-			<TouchableOpacity style={innerStyle.profileItemContainer} onPress={() => onSelectProfile(item)}>
-				<Text style={innerStyle.profileItemText}>{profile}</Text>
-				{number && <Text style={[innerStyle.profileItemText, { color: '#ff5821' }]}>{number}</Text>}
-			</TouchableOpacity>
+			<View style={innerStyle.profileItemContainer}>
+				<TouchableOpacity style={innerStyle.profileItemView} onPress={() => onSelectProfile(item)}>
+					<Text style={innerStyle.profileItemText}>{profile}</Text>
+					{number && <Text style={[innerStyle.profileItemText, { color: '#ff5821' }]}>{number}</Text>}
+				</TouchableOpacity>
+				{messageCount > 0 && <Text style={innerStyle.profileItemBadgeCount}>{messageCount}</Text>}
+			</View>
 		)
 	}
 
@@ -214,16 +209,29 @@ const innerStyle = StyleSheet.create({
 		marginTop: Metrics.baseMargin,
 	},
 	profileItemContainer: {
+		flexDirection: 'row',
 		paddingVertical: Metrics.baseMargin,
 		borderBottomWidth: 1,
 		borderBottomColor: '#ececec'
+	},
+	profileItemView: {
+		flex: 1
 	},
 	profileItemText: {
 		fontSize: 16,
 		color: getColorByTheme('#000', '#000'),
 		fontFamily: Metrics.fontRegular
 	},
-	profileItemNumberText: {}
+	profileItemBadgeCount: {
+		alignSelf: 'center',
+		borderRadius: 5,
+		width: 20,
+		height: 20,
+		backgroundColor: '#dc3545',
+		color: '#fff',
+		marginLeft: Metrics.smallMargin,
+		textAlign: 'center'
+	}
 });
 
 
