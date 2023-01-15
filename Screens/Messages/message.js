@@ -33,7 +33,7 @@ const Messages = ({ navigation }) => {
     useEffect(() => {
         getMessagesByProfileId()
         navigation.addListener('focus', () => {
-            // getMessagesByProfileId();
+            getMessagesByProfileId();
         });
     }, [])
 
