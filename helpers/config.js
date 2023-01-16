@@ -20,5 +20,5 @@ export function getServerUrl() {
 }
 
 export const API_PREFIX = PREFIX;
-export const MESSAGE_CHANNEL_ID = 'notifiee-socket-message';
-export const MESSAGE_CHANNEL_NAME = 'notifiee-socket-message-channel';
+export const MESSAGE_CHANNEL_ID = 'notifiee-new-socket';
+export const MESSAGE_CHANNEL_NAME = 'notifiee-new-socket-channel';

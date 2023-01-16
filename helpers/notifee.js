@@ -1,4 +1,4 @@
-import notifee, { EventType } from '@notifee/react-native';
+import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
 import { store } from '../redux/store';
 import { getCurrentActiveProfile } from './auth-header';
 import { navigate } from './RootNavigation';
@@ -17,7 +17,8 @@ export async function createChannel(id, name) {
   const channelId = await notifee.createChannel({
     id: id,
     name: name,
-    sound: 'default'
+    sound: 'default',
+    importance: AndroidImportance.HIGH
   });
 
   return channelId;
@@ -30,6 +31,7 @@ export async function displayNotification(message, channelId, content = "", data
     data: data,
     android: {
       channelId,
+      importance: AndroidImportance.HIGH,
       smallIcon: 'ic_launcher',
       pressAction: {
         id: 'default',
