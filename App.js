@@ -97,7 +97,7 @@ const App = () => {
         Heartbeat.startService();
         console.log("App has come to the background!");
       }
-      
+
       appState.current = nextAppState;
       setAppStateVisible(appState.current);
     });
