@@ -13,18 +13,19 @@ class Socket {
   async connect() {
     let url = getBaseUrl();
     return new Promise((resolve) => {
-      resolve(SocketIO(url, {
-        transports: ['websocket'],
-        reconnection: true,
-        reconnectionDelay: 100,
-        reconnectionAttempts: 10000,
-      }))
+      resolve(
+        SocketIO(url, {
+          transports: ['websocket'],
+          reconnection: true,
+          reconnectionDelay: 100,
+          reconnectionAttempts: 10000,
+        })
+      )
     });
   }
 
   disconnect() {
     let io = this.socket;
-    console.log(io)
     if (io) {
       io.disconnect();
       io.removeAllListeners();

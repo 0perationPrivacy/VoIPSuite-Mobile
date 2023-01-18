@@ -19,7 +19,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 public class HeartbeartService extends Service {
 
     private static final int SERVICE_NOTIFICATION_ID = 12345;
-    private static final String CHANNEL_ID = "HEARTBEAT";
+    private static final String CHANNEL_ID = "VoIP Messaging";
 
     private Handler handler = new Handler();
     private Runnable runnableCode = new Runnable() {
@@ -35,12 +35,10 @@ public class HeartbeartService extends Service {
     };
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "HEARTBEAT", importance);
-            channel.setDescription("CHANEL DESCRIPTION");
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "VoIP Messaging", importance);
+            channel.setDescription("CHANNEL DESCRIPTION");
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -71,11 +69,11 @@ public class HeartbeartService extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Heartbeat service")
-                .setContentText("Running...")
+                .setContentTitle("Loading Messages")
+                .setContentText("loading...")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(contentIntent)
-                .setOngoing(true)
+                .setOngoing(false)
                 .build();
         startForeground(SERVICE_NOTIFICATION_ID, notification);
         return START_STICKY;

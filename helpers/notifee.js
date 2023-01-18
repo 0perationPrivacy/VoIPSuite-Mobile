@@ -13,6 +13,12 @@ export async function cancel(notificationId) {
   await notifee.cancelNotification(notificationId);
 }
 
+export async function getChannelById(id) {
+  const channel = await notifee.getChannel(id);
+  return channel.id;
+}
+
+
 export async function createChannel(id, name) {
   const channelId = await notifee.createChannel({
     id: id,

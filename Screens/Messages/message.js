@@ -67,8 +67,8 @@ const Messages = ({ navigation }) => {
         const userId = getUserId();
         socketClient.joinRoomByUserId(userId)
         socketClient.listenEventForMessage(function (data) {
-            console.log('socket data ===>', data)
-            getMessagesByProfileId(activeProfile)
+            console.log('socket data ===>')
+            // getMessagesByProfileId(activeProfile)
         })
     }
 
