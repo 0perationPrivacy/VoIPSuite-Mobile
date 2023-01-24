@@ -24,6 +24,7 @@ import EmptyList from '../../components/EmptyList';
 import MessageItem from './item';
 import {useIsFocused} from '@react-navigation/native';
 
+let __activeProfile;
 const Messages = ({navigation}) => {
   const [__messages, setMessages] = useState([]);
   const [activeProfile, setActiveProfile] = useState(null);
@@ -39,11 +40,13 @@ const Messages = ({navigation}) => {
   const user = useSelector(state => state.authentication.user);
   const profile = useSelector(state => state.profile);
 
+  __activeProfile = activeProfile;
   useEffect(() => {
-    const navFocusListener = navigation.addListener('focus', () => {
-      getMessagesByProfileId();
+    navigation.addListener('focus', () => {
+      if (__activeProfile) {
+        getMessagesByProfileId(__activeProfile);
+      }
     });
-
   }, []);
 
   useEffect(() => {
@@ -56,7 +59,7 @@ const Messages = ({navigation}) => {
 
   useEffect(() => {
     if (activeProfile) {
-      getMessagesByProfileId();
+      getMessagesByProfileId(activeProfile);
     }
   }, [activeProfile]);
 
@@ -104,24 +107,27 @@ const Messages = ({navigation}) => {
   };
 
   const onDeleteMessage = item => {
-    dispatch(messagesActions.deleteMessageAction(item, getMessagesByProfileId));
+    dispatch(
+      messagesActions.deleteMessageAction(
+        item,
+        getMessagesByProfileId(activeProfile),
+      ),
+    );
   };
 
   const onRefresh = () => {
     setRefreshing(true);
-    getMessagesByProfileId();
+    getMessagesByProfileId(activeProfile);
   };
 
-  const getMessagesByProfileId = () => {
-    console.log('isInit');
-    if (!isInit) return;
+  const getMessagesByProfileId = profileId => {
+    if (!profileId) return;
 
-    setActiveProfile(activeProfile);
-    dispatch(messagesActions.getMessagesByProfileIdAction());
+    dispatch(messagesActions.getMessagesByProfileIdAction(profileId));
 
     if (user && user?.token) {
       const {_id} = user.data;
-      let data = {user: _id, setting: activeProfile};
+      let data = {user: _id, setting: profileId};
       dispatch(settingsActions.getProfileSettings(data, onGetMessageEnd));
     }
   };

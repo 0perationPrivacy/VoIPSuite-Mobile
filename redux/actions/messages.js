@@ -1,7 +1,6 @@
 import {messagesConstants} from '../constants';
 import {alertActions} from './alert';
 import {messagesService} from '../../services';
-import {store} from '../store';
 
 export const messagesActions = {
   getMessagesByProfileIdAction,
@@ -10,13 +9,11 @@ export const messagesActions = {
   sendMessageDetailsAction,
 };
 
-function getMessagesByProfileIdAction(successCb) {
+function getMessagesByProfileIdAction(profileId, successCb) {
   return dispatch => {
     dispatch(request());
 
-    const activeProfile = store.getState().profile?.profileName;
-
-    messagesService.getMessageByProfileId(activeProfile?.id).then(
+    messagesService.getMessageByProfileId(profileId).then(
       data => {
         if (data) {
           dispatch(success(data));

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.facebook.react.HeadlessJsTaskService;
@@ -36,7 +37,7 @@ public class HeartbeartService extends Service {
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "VoIP Messaging", importance);
             channel.setDescription("CHANNEL DESCRIPTION");
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -61,6 +62,7 @@ public class HeartbeartService extends Service {
         this.handler.removeCallbacks(this.runnableCode);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.handler.post(this.runnableCode);
@@ -73,10 +75,13 @@ public class HeartbeartService extends Service {
                 .setContentText("loading...")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(contentIntent)
-                .setOngoing(false)
+                .setOngoing(true)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
                 .build();
+
         startForeground(SERVICE_NOTIFICATION_ID, notification);
-        return START_STICKY;
+
+        return super.onStartCommand(intent, flags, startId);
     }
 
 }

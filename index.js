@@ -40,7 +40,10 @@ const MyHeadlessTask = async () => {
         title = first_name + ' ' + last_name;
       }
 
-      const channelId = await getChannelById(MESSAGE_CHANNEL_ID);
+      const channelId = await createChannel(
+        MESSAGE_CHANNEL_ID,
+        MESSAGE_CHANNEL_NAME,
+      );
       await displayNotification(title, channelId, message, {
         event_type: 'message',
         message: data,

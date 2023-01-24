@@ -20,5 +20,5 @@ export function getServerUrl() {
 }
 
 export const API_PREFIX = PREFIX;
-export const MESSAGE_CHANNEL_ID = 'VoIP Messaging';
-export const MESSAGE_CHANNEL_NAME = 'VoIP Messaging';
+export const MESSAGE_CHANNEL_ID = 'VoIP Suite';
+export const MESSAGE_CHANNEL_NAME = 'VoIP Suite';
