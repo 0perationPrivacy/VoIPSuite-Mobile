@@ -68,7 +68,7 @@ function logout() {
 
 function register(user, errorMessagesCb) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request());
 
         userService.register(user)
             .then(
