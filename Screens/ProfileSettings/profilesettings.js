@@ -186,8 +186,6 @@ const ProfileSettings = () => {
     const onChangeNumber = (value) => {
         if (isEmpty(value)) return;
 
-        // console.log(value);
-        // return;
         onChangePhone(value)
         onCloseBottomSheet()
     }

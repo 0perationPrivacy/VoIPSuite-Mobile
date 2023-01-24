@@ -41,9 +41,6 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
 				data.push({ id, profile, number, messageCount })
 			})
 
-
-			console.log('PROFILE LIST DATA ===> ', data)
-
 			setProfiles(data);
 			onSetProfileNameRedux({ profile: data[0]?.profile, id: data[0]?.id })
 			onPressProfile(data[0]?.id);

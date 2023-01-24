@@ -49,17 +49,10 @@ const Home = (props) => {
 		init();
 	}, [])
 
-	useEffect(() => {
-		console.log(files)
-	}, [files])
-
 	const init = () => {
 		const { data } = route.params;
 		const { number } = data;
 		const { contact, _id } = number
-
-		console.log('number ====>', number);
-		console.log('data ====>', data);
 
 		if (contact) {
 			setContactInfo(contact)
@@ -211,8 +204,6 @@ const Home = (props) => {
 	}
 
 	const onFileUploadSuccess = (data) => {
-		console.log(data)
-
 		const fileArray = [...files]
 		fileArray.push(data);
 		setFiles(fileArray)

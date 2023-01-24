@@ -58,7 +58,6 @@ const onNotificationTap = async ({ type, detail }) => {
       delete Object.assign(message, { ['_id']: message['number'] })['number'];
 
       let params = { number: message, profile: { id: profile?._id } }
-      console.log('params ===>', params)
       setTimeout(() => {
         navigate('Home', { data: params })
       }, 2000);

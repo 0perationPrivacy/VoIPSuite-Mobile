@@ -94,7 +94,6 @@ const Login = (props) => {
 	}
 
 	useEffect(() => {
-		console.log(errors);
 		setValidate(Object.keys(errors).length === 0)
 	}, [errors])
 
@@ -103,7 +102,6 @@ const Login = (props) => {
 	}
 
 	const onChangeServerUrl = (name, value) => {
-		console.log(value, validURL(value));
 	}
 
 	return (

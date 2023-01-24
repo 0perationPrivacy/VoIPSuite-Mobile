@@ -40,7 +40,6 @@ const EmailSettings = (props) => {
 
 	useEffect(() => {
 		if (!_.isEmpty(settings)) {
-			console.log('settings ====>', settings);
 			setParams(settings);
 			setEmailInfo(true);
 		}

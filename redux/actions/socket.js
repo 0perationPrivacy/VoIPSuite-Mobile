@@ -8,12 +8,10 @@ export const setupSocket = () => {
     const socket = io(url);
 
     socket.on('connect', () => {
-      console.log('Connected to Socket.IO server');
       dispatch({ type: 'SOCKET_CONNECTED', socket });
     });
 
     socket.on('eventName', (data) => {
-      console.log(data);
       dispatch({ type: 'SOCKET_EVENT_RECEIVED', data });
     });
 

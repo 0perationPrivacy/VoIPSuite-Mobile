@@ -59,30 +59,6 @@ const App = () => {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-  useEffect(() => {
-    // const io = await getSocketInstance();
-
-    // io.emit("join_profile_channel", 'jjj');
-
-    // io.emit("join_profile_channel", 'channe test id from voip app');
-
-    // io.on('join_profile_channel', (channel) => {
-    //   console.log(`${channel} join_profile_channel`);
-    //   // io.join(channel);
-    // });
-
-    // // io.on('connect', socket => {
-    // //   console.log(`socket on connectionsss ===> ${socket}`);
-
-
-    // // });
-
-    // io.on('connect_error', socket => {
-    //   console.log(`socket connect error ===> ${socket}`);
-    // });
-
-  }, [])
-
   // for app state change
   useEffect(() => {
     const subscription = AppState.addEventListener("change", nextAppState => {

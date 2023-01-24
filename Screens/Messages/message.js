@@ -51,14 +51,12 @@ const Messages = ({ navigation }) => {
 
     useEffect(() => {
         if (_.isArray(messages)) {
-            console.log('messages ===>', messages)
             setMessages(messages);
         }
     }, [messages]);
 
     const initSocket = async () => {
         let isConnected = socketClient.isConnected();
-        console.log('isConnected in home ===>', isConnected);
 
         if (!isConnected) {
             await socketClient.init();
@@ -67,7 +65,6 @@ const Messages = ({ navigation }) => {
         const userId = getUserId();
         socketClient.joinRoomByUserId(userId)
         socketClient.listenEventForMessage(function (data) {
-            console.log('socket data ===>')
             // getMessagesByProfileId(activeProfile)
         })
     }
