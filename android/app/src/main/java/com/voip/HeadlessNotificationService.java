@@ -17,18 +17,18 @@ import androidx.core.app.NotificationCompat;
 import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.bridge.ReactApplicationContext;
 
-public class HeartbeartService extends Service {
+public class HeadlessNotificationService extends Service {
 
     private static final int SERVICE_NOTIFICATION_ID = 12345;
     private static final String CHANNEL_ID = "VoIP Messaging";
 
     private Handler handler = new Handler();
-    private Runnable runnableCode = new Runnable() {
+    private final Runnable runnableCode = new Runnable() {
 
         @Override
         public void run() {
             Context context = getApplicationContext();
-            Intent myIntent = new Intent(context, HeartbeatEventService.class);
+            Intent myIntent = new Intent(context, NotificationEventService.class);
             context.startService(myIntent);
             HeadlessJsTaskService.acquireWakeLockNow(context);
             handler.postDelayed(this, 10000);
@@ -77,11 +77,12 @@ public class HeartbeartService extends Service {
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                 .build();
 
         startForeground(SERVICE_NOTIFICATION_ID, notification);
 
-        return super.onStartCommand(intent, flags, startId);
+        return START_NOT_STICKY;
     }
 
 }

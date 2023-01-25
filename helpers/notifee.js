@@ -31,7 +31,7 @@ export async function createChannel(id, name) {
 }
 
 export async function displayNotification(message, channelId, content = "", data = {}) {
-  await notifee.displayNotification({
+  return await notifee.displayNotification({
     title: message,
     body: content,
     data: data,

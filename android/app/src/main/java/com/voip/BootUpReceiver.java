@@ -10,11 +10,11 @@ public class BootUpReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() == Intent.ACTION_BOOT_COMPLETED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(new Intent(context, HeartbeartService.class));
+                context.startForegroundService(new Intent(context, HeadlessNotificationService.class));
                 return;
             }
 
-            context.startService(new Intent(context, HeartbeartService.class));
+            context.startService(new Intent(context, HeadlessNotificationService.class));
         }
     }
 }

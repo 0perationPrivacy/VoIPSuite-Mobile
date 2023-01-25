@@ -10,8 +10,7 @@ import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 
-
-public class HeartbeatEventService extends HeadlessJsTaskService {
+public class NotificationEventService extends HeadlessJsTaskService {
     @Override
     @Nullable
     protected HeadlessJsTaskConfig getTaskConfig(Intent intent) {

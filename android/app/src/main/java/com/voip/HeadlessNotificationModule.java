@@ -19,14 +19,14 @@ import com.facebook.react.bridge.ReadableMap;
 
 import javax.annotation.Nonnull;
 
-public class HeartbeatModule extends ReactContextBaseJavaModule {
+public class HeadlessNotificationModule extends ReactContextBaseJavaModule {
 
     public static final String REACT_CLASS = "Heartbeat";
     private static ReactApplicationContext reactContext;
 
-    public HeartbeatModule(@Nonnull ReactApplicationContext reactContext) {
+    public HeadlessNotificationModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
+        HeadlessNotificationModule.reactContext = reactContext;
     }
 
     @Nonnull
@@ -37,12 +37,12 @@ public class HeartbeatModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void startService() {
-        this.reactContext.startService(new Intent(this.reactContext, HeartbeartService.class));
+        reactContext.startService(new Intent(reactContext, HeadlessNotificationService.class));
     }
 
     @ReactMethod
     public void stopService() {
-        this.reactContext.stopService(new Intent(this.reactContext, HeartbeartService.class));
+        reactContext.stopService(new Intent(reactContext, HeadlessNotificationService.class));
     }
 
     @ReactMethod
@@ -54,6 +54,7 @@ public class HeartbeatModule extends ReactContextBaseJavaModule {
         String channelId = args.getString("channelId");
         String notificationId = args.getString("notificationId");
 
+        assert channelId != null;
         Notification customNotification = new NotificationCompat.Builder(
                 getReactApplicationContext(), channelId) // channel is created with another module in js
                 .setPriority(NotificationCompat.PRIORITY_MAX) // For N and below
@@ -68,12 +69,12 @@ public class HeartbeatModule extends ReactContextBaseJavaModule {
                 .setContentIntent(getLaunchPendingIntent(getReactApplicationContext()))
                 .build();
 
+        assert notificationId != null;
         NotificationManagerCompat
                 .from(getReactApplicationContext())
                 .notify(
                         notificationId.hashCode(), // making it possible to cancel with "notifee" module
-                        customNotification
-                );
+                        customNotification);
         promise.resolve(null);
     }
 
@@ -82,9 +83,7 @@ public class HeartbeatModule extends ReactContextBaseJavaModule {
         final Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
 
         int flag = PendingIntent.FLAG_UPDATE_CURRENT;
-        if (Build.VERSION.SDK_INT >= 23) {
-            flag = flag | PendingIntent.FLAG_IMMUTABLE;
-        }
+        flag = flag | PendingIntent.FLAG_IMMUTABLE;
 
         return PendingIntent.getActivity(context, 0, intent, flag);
     }

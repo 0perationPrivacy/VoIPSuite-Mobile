@@ -37,12 +37,12 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".HeartbeartService"
+            android:name=".HeadlessNotificationService"
             android:enabled="true"
             android:exported="false" >
         </service>
         <service
-            android:name=".HeartbeatEventService">
+            android:name=".NotificationEventService">
         </service>
         <receiver
             android:name=".BootUpReceiver"
