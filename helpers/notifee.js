@@ -1,8 +1,8 @@
-import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
-import { store } from '../redux/store';
-import { getCurrentActiveProfile } from './auth-header';
-import { navigate } from './RootNavigation';
-import _ from 'lodash'
+import notifee, {AndroidColor, AndroidImportance, EventType} from '@notifee/react-native';
+import {store} from '../redux/store';
+import {getCurrentActiveProfile} from './auth-header';
+import {navigate} from './RootNavigation';
+import _ from 'lodash';
 
 export async function askForPermission() {
   let status = await notifee.requestPermission();
@@ -18,19 +18,23 @@ export async function getChannelById(id) {
   return channel.id;
 }
 
-
 export async function createChannel(id, name) {
   const channelId = await notifee.createChannel({
     id: id,
     name: name,
     sound: 'default',
-    importance: AndroidImportance.HIGH
+    importance: AndroidImportance.HIGH,
   });
 
   return channelId;
 }
 
-export async function displayNotification(message, channelId, content = "", data = {}) {
+export async function displayNotification(
+  message,
+  channelId,
+  content = '',
+  data = {},
+) {
   return await notifee.displayNotification({
     title: message,
     body: content,
@@ -38,7 +42,8 @@ export async function displayNotification(message, channelId, content = "", data
     android: {
       channelId,
       importance: AndroidImportance.HIGH,
-      smallIcon: 'ic_launcher',
+      smallIcon: 'ic_notification',
+      color: '#f9b03c',
       pressAction: {
         id: 'default',
       },
@@ -46,26 +51,26 @@ export async function displayNotification(message, channelId, content = "", data
   });
 }
 
-const onNotificationTap = async ({ type, detail }) => {
-  const { notification, pressAction } = detail;
-  const { data } = notification;
+const onNotificationTap = async ({type, detail}) => {
+  const {notification, pressAction} = detail;
+  const {data} = notification;
 
   if (type === EventType.PRESS) {
     let profile = getCurrentActiveProfile();
-    const { message = {} } = data;
+    const {message = {}} = data;
 
-    if ((profile && profile?._id) && (message && !_.isEmpty(message))) {
-      delete Object.assign(message, { ['_id']: message['number'] })['number'];
+    if (profile && profile?._id && message && !_.isEmpty(message)) {
+      delete Object.assign(message, {['_id']: message['number']})['number'];
 
-      let params = { number: message, profile: { id: profile?._id } }
+      let params = {number: message, profile: {id: profile?._id}};
       setTimeout(() => {
-        navigate('Home', { data: params })
+        navigate('Home', {data: params});
       }, 2000);
     }
 
     await notifee.cancelNotification(notification.id);
   }
-}
+};
 
 export function setupNotifeeHandlers() {
   notifee.onBackgroundEvent(onNotificationTap);

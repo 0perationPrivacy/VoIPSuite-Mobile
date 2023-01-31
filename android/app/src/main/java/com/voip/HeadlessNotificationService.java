@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -73,7 +74,8 @@ public class HeadlessNotificationService extends Service {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("VoIP Suite")
                 .setContentText("View messages.")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_notification)
+                .setColor(Color.rgb(251, 176, 59))
                 .setContentIntent(contentIntent)
                 .setOngoing(false)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
