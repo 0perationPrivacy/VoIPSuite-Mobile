@@ -32,7 +32,6 @@
     "react-native-element-dropdown": "^1.6.3",
     "react-native-elements": "^3.4.2",
     "react-native-flash-message": "^0.2.1",
-    "react-native-flipper": "^0.164.0",
     "react-native-gesture-handler": "^2.2.0",
     "react-native-gifted-chat": "https://github.com/FaridSafi/react-native-gifted-chat",
     "react-native-image-picker": "^4.7.3",
