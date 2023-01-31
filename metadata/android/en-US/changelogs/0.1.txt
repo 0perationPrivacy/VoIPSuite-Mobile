@@ -1,1 +1,1 @@
-Initial beta release, without notifications and calling features.
+Initial beta release, with notifications but without calling features.
