@@ -1,0 +1,39 @@
+<h1>VoIP/SMS Application</h1>
+<p>Free Self-hosted VoIP server with Web Portal and mobile app, used to send and receive sms's from numbers purchased from Telnyx or Twilio using your own API key.</p>
+<p><em>Created by and for the privacy minded person</em></p>
+<h1>Features</h1>
+<ul>
+<li>Use your own phone numbers purchased from Telnyx or Twilio in the portal by inputting your own API keys</li>
+<li>Send/Receive sms &amp; mms messages</li>
+<li>Web Browser notifications (Desktop)</li>
+<li>Native Mobile App notifications</li>
+<li>Dark/Light mode</li>
+<li>Unlimited profiles supported (Each profile is tied to one phone number)</li>
+</ul>
+<h1>Options</h1>
+<p>Follow the instructions from repo wiki to set up the backend:</p>
+<p><a href="https://github.com/0perationPrivacy/VoIP/wiki">https://github.com/0perationPrivacy/VoIP/wiki</a></p>
+<p>Or follow the step-by-step guide on https://inteltechniques.com/voip.suite.html</p>
+<p>There are 3 methods of using this service:</p>
+<ol>
+<li>
+<p>The <a href="https://voip.OperationPrivacy.com" rel="nofollow">online service</a></p>
+<ul>
+<li>Simply create an account and start using it</li>
+</ul>
+</li>
+<li>
+<p>Self Hosted on your own cloud instance (Shared Hosting, Cloud Database)</p>
+<p>a. Free db, hosted on <a href="https://www.mongodb.com/" rel="nofollow">mongodb.com</a></p>
+<p>b. Free shared hosting on Render.com or heroku.com for $5/m</p>
+</li>
+<li>
+<p>Self Hosted on a Linux machine (VPS)</p>
+<ul>
+<li>Clone the GitHub repository</li>
+<li>Create a local MongoDB database</li>
+<li>Run the node.js application</li>
+<li><em>(not supported for troubleshooting)</em></li>
+</ul>
+</li>
+</ol>

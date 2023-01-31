@@ -1,0 +1,2 @@
+Beta version
+Initial beta release, without notifications and calling features.
