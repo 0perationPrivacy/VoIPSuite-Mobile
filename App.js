@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   useColorScheme,
@@ -7,27 +7,27 @@ import {
   Text,
   View,
   Alert,
-  AppState
+  AppState,
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator, } from '@react-navigation/drawer';
-import { navigationRef } from './helpers/RootNavigation';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {navigationRef} from './helpers/RootNavigation';
 
 import styles from './style';
-import { DrawerContent } from './components/DrawerComponent';
+import {DrawerContent} from './components/DrawerComponent';
 import StackComponent from './components/StackComponent';
 
-import { Provider } from 'react-redux';
-import { store, persistor } from './redux/store';
-import { PersistGate } from 'redux-persist/integration/react';
-import FlashMessage from "react-native-flash-message";
+import {Provider} from 'react-redux';
+import {store, persistor} from './redux/store';
+import {PersistGate} from 'redux-persist/integration/react';
+import FlashMessage from 'react-native-flash-message';
 import socketClient from './helpers/socket';
-import { askForPermission } from './helpers/notifee';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Button } from './components';
-const { Heartbeat } = NativeModules;
+import {askForPermission} from './helpers/notifee';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Button} from './components';
+const {Heartbeat} = NativeModules;
 import notifee from '@notifee/react-native';
 
 // import Heartbeat from './helpers/heartbeat';
@@ -45,7 +45,7 @@ import notifee from '@notifee/react-native';
 //   });
 // };`
 
-global.__reanimatedWorkletInit = () => { };
+global.__reanimatedWorkletInit = () => {};
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -61,17 +61,13 @@ const App = () => {
 
   // for app state change
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", nextAppState => {
-      if (
-        nextAppState === "active"
-      ) {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'active') {
         Heartbeat.stopService();
-        console.log("App has come to the foreground!");
       }
 
       if (nextAppState == 'background') {
         Heartbeat.startService();
-        console.log("App has come to the background!");
       }
 
       appState.current = nextAppState;
@@ -86,7 +82,7 @@ const App = () => {
   useEffect(() => {
     (async () => {
       // ask for notification persmission
-      await askForPermission()
+      await askForPermission();
     })();
 
     return () => {
@@ -99,9 +95,15 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaView style={styles.flexOne}>
           {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
-          <NavigationContainer ref={navigationRef} >
-            <Drawer.Navigator screenOptions={{ drawerStyle: styles.drawerStyle }} drawerContent={(props) => <DrawerContent {...props} />} >
-              <Drawer.Screen name="Main" component={StackComponent} options={{ headerShown: false }} />
+          <NavigationContainer ref={navigationRef}>
+            <Drawer.Navigator
+              screenOptions={{drawerStyle: styles.drawerStyle}}
+              drawerContent={props => <DrawerContent {...props} />}>
+              <Drawer.Screen
+                name="Main"
+                component={StackComponent}
+                options={{headerShown: false}}
+              />
             </Drawer.Navigator>
           </NavigationContainer>
           <FlashMessage position="bottom" />
@@ -110,6 +112,5 @@ const App = () => {
     </Provider>
   );
 };
-
 
 export default App;

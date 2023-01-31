@@ -7,7 +7,7 @@ import styles from '../style';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { navigate, navigateAndReset } from '../helpers/RootNavigation';
 import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '../redux/actions/'
+import { userActions } from '../redux/actions'
 import { getColorByTheme, getOSVersion } from '../helpers/utils';
 import Metrics from '../helpers/Metrics';
 

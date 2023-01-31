@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import { Provider, useSelector } from 'react-redux';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { useSelector } from 'react-redux';
+import { showMessage } from "react-native-flash-message";
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import HomeHeader from './HomeHeader';
 
 import Login from '../screens/Login/Login';
 import SignUp from '../screens/SignUp/signUp';
@@ -22,7 +20,6 @@ import ChangeUsername from '../screens/Accounts/username';
 import _ from 'lodash';
 import ContactList from '../screens/Contacts/list';
 import ChangePassword from '../screens/Accounts/password';
-import ContactDetail from '../screens/Contacts/detail';
 
 const StackComponent = () => {
 	const Stack = createNativeStackNavigator();
