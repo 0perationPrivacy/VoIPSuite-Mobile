@@ -1,6 +1,6 @@
 # VoIP Suite - Mobile
 Android &amp; iOS App open source code written in React Native and compiled for both Andoid & iOS
-- Compiled binaries are in the **Release** section
+- Compiled binaries are in the [Releases](https://github.com/0perationPrivacy/VoIPSuite-Mobile/releases) section (apk files)
 - Report any issues under the **Issues** section using the correct tags
 - Report Security Vulnerabilites/Bugs to security@OperationPrivacy.com
 - Donate at [OperationPrivacy.com/donate](https://www.OperationPrivacy.com/donate)
@@ -25,4 +25,25 @@ Android &amp; iOS App open source code written in React Native and compiled for 
   - Link obfuscation by setting a custom directory URI
   - Built in brute force protection in the server
 - Under active development
+
+## Instructions
+- Create an account at voip.OperationPrivacy.com OR self-host the application following the [instructions](https://github.com/0perationPrivacy/voip/wiki/)
+- Set up your accounts at the VoIP provider (Twilio and/or Telnyx)
+- Download the latest mobile app from the [Releases](https://github.com/0perationPrivacy/VoIPSuite-Mobile/releases) section or F-Droid
+- Sign-in to the mobile app using the credentials created on the server. The url will be your custom URL for self-hosted or leave it empty if using the public instance at voip.OperationPrivacy.com
+- You can now access the same messages from the mobile app or web app. The mobile app will send you push notifcations on a de-Googled device like GraphenOS.
+
+## Screenshots
+|                                       |                                       | |
+|:-------------------------------------:|:-------------------------------------:|:-------------------------------------:|
+| ![notifications](https://user-images.githubusercontent.com/89225730/216231210-76d7416f-bcaf-40cc-9bb8-9f3f841cc008.png) | ![DarkLight](https://user-images.githubusercontent.com/89225730/216231245-968de5be-5fee-4c03-9e1b-c91a084cd59a.png) | 
+![Login-menu](https://user-images.githubusercontent.com/89225730/216231230-25c7813c-100f-4fc4-92bb-361151fa2e7d.png) | ![chat](https://user-images.githubusercontent.com/89225730/216231964-04b09d78-c6a1-4570-9f59-b60008f4a80a.png) |
+
+
+
+
+
+
+
+
 
