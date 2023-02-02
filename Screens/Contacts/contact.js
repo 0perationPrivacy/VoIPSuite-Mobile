@@ -10,7 +10,7 @@ const windowWidth = Dimensions.get('window').width;
 import { isEmpty } from '../../helpers/utils';
 import { useDispatch, useSelector } from 'react-redux'
 import { contactActions } from '../../redux/actions';
-import { navigateAndReset } from '../../helpers/RootNavigation';
+import { navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import { useRoute } from '@react-navigation/native';
 import Contacts from 'react-native-contacts';
 import _ from 'lodash';
@@ -65,12 +65,11 @@ const Contact = () => {
         }
 
         dispatch(contactActions.createContactAction(data, onContactSaveSuccess, onSetErrorMessageFromServer, isEdit))
-
-        // alert(JSON.stringify(data))
     }
 
     const onContactSaveSuccess = () => {
-        navigateAndReset('ContactList')
+        // navigateAndReset('ContactList')
+        navigate('ContactList')
     }
 
     const onPressContactImport = async () => {
