@@ -1,6 +1,6 @@
 # VoIP Suite - Mobile
 Android &amp; iOS App open source code written in React Native and compiled for both Andoid & iOS
-- Compiled binaries are in the **Release** section
+- Compiled binaries are in the [Releases](https://github.com/0perationPrivacy/VoIPSuite-Mobile/releases) section (apk files)
 - Report any issues under the **Issues** section using the correct tags
 - Report Security Vulnerabilites/Bugs to security@OperationPrivacy.com
 - Donate at [OperationPrivacy.com/donate](https://www.OperationPrivacy.com/donate)
@@ -26,3 +26,9 @@ Android &amp; iOS App open source code written in React Native and compiled for 
   - Built in brute force protection in the server
 - Under active development
 
+## Instructions
+- Create an account at voip.OperationPrivacy.com OR self-host the application following the [instructions](https://github.com/0perationPrivacy/voip/wiki/)
+- Set up your accounts at the VoIP provider (Twilio and/or Telnyx)
+- Download the latest mobile app from the [Releases](https://github.com/0perationPrivacy/VoIPSuite-Mobile/releases) section or F-Droid
+- Sign-in to the mobile app using the credentials created on the server. The url will be your custom URL for self-hosted or leave it empty if using the public instance at voip.OperationPrivacy.com
+- You can now access the same messages from the mobile app or web app. The mobile app will send you push notifcations on a de-Googled device like GraphenOS.
