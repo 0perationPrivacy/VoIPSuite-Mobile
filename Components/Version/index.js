@@ -1,14 +1,14 @@
-import React from 'react'
-import { Text, View } from 'react-native';
-import { Button } from 'react-native-elements'
+import React from 'react';
+import {Text, View} from 'react-native';
+import {getVersion} from 'react-native-device-info';
 import styles from './style';
 
-const Version = ({ customStyle = {}, text = 'v0.3' }) => {
-	return (
-		<View style={[styles.versionContainer, customStyle]}>
-			<Text style={styles.versionText}>{text}</Text>
-		</View>
-	)
-}
+const Version = ({customStyle = {}}) => {
+  return (
+    <View style={[styles.versionContainer, customStyle]}>
+      <Text style={styles.versionText}>{`v${getVersion()}`}</Text>
+    </View>
+  );
+};
 
 export default Version;
