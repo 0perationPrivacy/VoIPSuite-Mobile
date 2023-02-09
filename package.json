@@ -41,7 +41,6 @@
     "react-native-status-bar-height": "^2.6.0",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-vector-icons": "^9.0.0",
-    "react-native-webrtc": "^1.100.1",
     "react-redux": "^7.2.6",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",

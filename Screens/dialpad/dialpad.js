@@ -13,7 +13,7 @@ import {useForm} from 'react-hook-form';
 import {getColorByTheme} from '../../helpers/utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {callActions} from '../../redux/actions';
-import {RTCView} from 'react-native-webrtc';
+// import {RTCView} from 'react-native-webrtc';
 
 const data = [
   {value: 1},
@@ -161,7 +161,7 @@ const DialPad = () => {
                 {renderCallIcon()}
                 {renderCleanIcon()}
             </View> */}
-      {stream && <RTCView streamURL={stream.toURL()} style={styles.stream} />}
+      {/* {stream && <RTCView streamURL={stream.toURL()} style={styles.stream} />} */}
       <View style={styles.footer}>
         <Button title="Start" onPress={start} />
         <Button title="Stop" onPress={stop} />
