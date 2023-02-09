@@ -3,7 +3,6 @@ import { userService } from '../../services';
 import { closeDrawer, navigate, navigateAndReset } from '../../helpers/RootNavigation';
 import { alertActions } from './alert';
 import { showMessage, hideMessage } from "react-native-flash-message";
-import RNRestart from 'react-native-restart'; // Import package from node modules
 import socketInstance from '../../helpers/socket';
 
 export const userActions = {
