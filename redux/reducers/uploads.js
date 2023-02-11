@@ -1,28 +1,22 @@
-import { uploadConstants } from '../constants';
+import {uploadConstants} from '../constants';
 const initialState = {
   isLoading: false,
 };
 
 export function uploads(state = initialState, action) {
   switch (action.type) {
-
     case uploadConstants.CREATE_UPLOAD_REQUEST:
       return {
         ...initialState,
-        isLoading: true
+        isLoading: true,
       };
     case uploadConstants.CREATE_UPLOAD_SUCCESS:
-      return {
-        ...initialState,
-        isLoading: false
-      };
     case uploadConstants.CREATE_UPLOAD_FAILURE:
       return {
         ...initialState,
-        isLoading: false
+        isLoading: false,
       };
-
     default:
-      return state
+      return state;
   }
 }
