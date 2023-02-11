@@ -47,7 +47,7 @@ const CustomInput = ({
 	}
 
 	return (
-		<View style={styles.mainWrap}>
+		<View style={styles.mainWrap} >
 			{
 				icon && <View style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '', customIconWrap]}>
 					<Icon name={icon} size={20} />
