@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   RefreshControl,
+  NativeModules,
 } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -23,6 +24,8 @@ import socketClient from '../../helpers/socket';
 import EmptyList from '../../components/EmptyList';
 import MessageItem from './item';
 import {useIsFocused} from '@react-navigation/native';
+import {MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME} from '../../helpers/config';
+import {createChannel} from '../../helpers/notifee';
 
 let __activeProfile;
 const Messages = ({navigation}) => {
@@ -141,8 +144,19 @@ const Messages = ({navigation}) => {
     navigate('Home', {data});
   };
 
-  const onPressCompose = () => {
-    navigate('Compose');
+  const onPressCompose = async () => {
+    const {Heartbeat} = NativeModules;
+
+    const channelId = await createChannel(
+      MESSAGE_CHANNEL_ID,
+      MESSAGE_CHANNEL_NAME,
+    );
+
+    Heartbeat.updateNotification({
+      channelId: channelId,
+      notificationId: 'dddd',
+    });
+    // navigate('Compose');
   };
 
   const renderMessagesList = (item, index) => {

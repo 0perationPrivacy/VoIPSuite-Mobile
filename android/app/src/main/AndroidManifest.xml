@@ -6,6 +6,7 @@
     <uses-feature android:name="android.hardware.audio.output" />
     <uses-feature android:name="android.hardware.microphone" />
 
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,7 +23,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="false"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -54,6 +55,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".NotificationActionReceiver"></receiver>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />

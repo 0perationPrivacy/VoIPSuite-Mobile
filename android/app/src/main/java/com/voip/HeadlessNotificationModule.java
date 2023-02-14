@@ -45,6 +45,7 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule {
         reactContext.stopService(new Intent(reactContext, HeadlessNotificationService.class));
     }
 
+
     @ReactMethod
     public void updateNotification(ReadableMap args, Promise promise) {
         if (args == null) {
@@ -53,6 +54,9 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule {
         }
         String channelId = args.getString("channelId");
         String notificationId = args.getString("notificationId");
+
+        Intent intentAction = new Intent(getReactApplicationContext(), NotificationActionReceiver.class);
+        PendingIntent pIntentlogin = PendingIntent.getBroadcast(getReactApplicationContext(), 1, intentAction, PendingIntent.FLAG_IMMUTABLE);
 
         assert channelId != null;
         Notification customNotification = new NotificationCompat.Builder(
@@ -63,10 +67,8 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule {
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setOnlyAlertOnce(true)
-                .setOngoing(true)
-                .setAutoCancel(false)
-                .setShowWhen(false)
                 .setContentIntent(getLaunchPendingIntent(getReactApplicationContext()))
+                .addAction(R.drawable.ic_launcher, "Turn OFF driving mode", pIntentlogin)
                 .build();
 
         assert notificationId != null;
