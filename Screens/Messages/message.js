@@ -6,6 +6,7 @@ import {
   FlatList,
   RefreshControl,
   NativeModules,
+  DeviceEventEmitter,
 } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -146,6 +147,13 @@ const Messages = ({navigation}) => {
 
   const onPressCompose = async () => {
     const {Heartbeat} = NativeModules;
+
+    DeviceEventEmitter.addListener(
+      'remoteNotificationReceived',
+      function (notifData) {
+        console.log('notifData ====>', notifData);
+      },
+    );
 
     const channelId = await createChannel(
       MESSAGE_CHANNEL_ID,

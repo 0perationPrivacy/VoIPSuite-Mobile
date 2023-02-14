@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -14,7 +13,6 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 
 import javax.annotation.Nonnull;
@@ -23,6 +21,7 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule {
 
     public static final String REACT_CLASS = "Heartbeat";
     private static ReactApplicationContext reactContext;
+    public static final String LOG_TAG = "VOIP_SUITE_NOTIFICATION_HANDLER";
 
     public HeadlessNotificationModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
@@ -48,6 +47,9 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void updateNotification(ReadableMap args, Promise promise) {
+        NotificationJsDelivery notificationJsDelivery = new NotificationJsDelivery(getReactApplicationContext());
+        notificationJsDelivery.notifyNotification();
+
         if (args == null) {
             promise.reject("ERROR", "args cannot be null");
             return;

@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import static com.voip.HeadlessNotificationModule.LOG_TAG;
+
 public class NotificationActionReceiver extends BroadcastReceiver {
     final static String NOTIFICATION_ID = "notificationId";
-    private static final String LOG_TAG = "ApplicationBadgeHelper";
 
     @Override
     public void onReceive(Context context, Intent intent) {
