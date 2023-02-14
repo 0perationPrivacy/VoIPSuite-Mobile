@@ -151,7 +151,8 @@ const Messages = ({navigation}) => {
     DeviceEventEmitter.addListener(
       'remoteNotificationReceived',
       function (notifData) {
-        console.log('notifData ====>', notifData);
+        console.log('test data ====>', notifData);
+        navigate('Compose');
       },
     );
 
