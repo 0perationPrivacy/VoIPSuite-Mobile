@@ -26,12 +26,13 @@ public class MainActivity extends ReactActivity {
 
     @Override
     public void onNewIntent(Intent intent) {
-//        Bundle bundle = intent.getBundleExtra("dsda");
-//        bundle.putString("test", "data");
+        Bundle bundle = intent.getExtras();
+        if (bundle.getString("data") != null) {
+            Log.v(LOG_TAG, "new intent for notification tap");
 
-        NotificationJsDelivery notificationJsDelivery = new NotificationJsDelivery(getReactInstanceManager().getCurrentReactContext());
-        notificationJsDelivery.notifyNotification();
-        Log.v(LOG_TAG, "test1");
+            NotificationJsDelivery notificationJsDelivery = new NotificationJsDelivery(getReactInstanceManager().getCurrentReactContext());
+            notificationJsDelivery.notifyNotification(bundle);
+        }
 
         super.onNewIntent(intent);
     }

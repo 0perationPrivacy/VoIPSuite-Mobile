@@ -1,7 +1,4 @@
-import {
-  NativeModules,
-  DeviceEventEmitter,
-} from 'react-native';
+import {NativeModules, DeviceEventEmitter} from 'react-native';
 
 let RNPushNotification = NativeModules.Heartbeat;
 let notifHandlers = new Map();
@@ -20,7 +17,7 @@ class NotificationsHelper {
       listener = DeviceEventEmitter.addListener(
         NOTIF_TAP_EVENT,
         function (notifData) {
-          handler()
+          handler(notifData);
         },
       );
     }

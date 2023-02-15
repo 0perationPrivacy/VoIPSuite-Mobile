@@ -47,8 +47,8 @@ const Messages = ({navigation}) => {
   __activeProfile = activeProfile;
 
   useEffect(() => {
-    new NotificationService(() => {
-      console.log('let see!');
+    new NotificationService(data => {
+      console.log('let see! ====>', data);
     });
   }, []);
 
@@ -155,16 +155,15 @@ const Messages = ({navigation}) => {
   const onPressCompose = async () => {
     const {Heartbeat} = NativeModules;
 
-    const channelId = await createChannel(
+    Heartbeat.createNotificationChannel(
       MESSAGE_CHANNEL_ID,
       MESSAGE_CHANNEL_NAME,
     );
 
     Heartbeat.displayNotification({
-      channelId: channelId,
+      channelId: MESSAGE_CHANNEL_ID,
       notificationId: 'dddd',
     });
-
   };
 
   const renderMessagesList = (item, index) => {

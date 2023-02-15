@@ -1,17 +1,16 @@
 package com.voip;
 
 import android.app.Activity;
-import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.annotation.RequiresApi;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
@@ -23,6 +22,7 @@ import com.facebook.react.bridge.ReadableMap;
 import java.security.SecureRandom;
 
 import javax.annotation.Nonnull;
+
 
 public class HeadlessNotificationModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
@@ -94,4 +94,18 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
 //                intentAction,
 //                PendingIntent.FLAG_IMMUTABLE);
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @ReactMethod
+    public void createNotificationChannel(String channelId, String channelName) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+            NotificationManager notificationManager = reactContext.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 }

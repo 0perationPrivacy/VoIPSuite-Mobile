@@ -44,8 +44,8 @@ Notifications.configure = function (options) {
   }
 };
 
-Notifications._onNotification = function(data, initialNotification = false) {
-  if ( this.onNotification !== false ) {
+Notifications._onNotification = function (data, initialNotification = false) {
+  if (this.onNotification !== false) {
     let notification = data;
 
     this.onNotification(notification);

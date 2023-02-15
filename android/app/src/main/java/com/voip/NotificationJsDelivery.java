@@ -32,9 +32,11 @@ public class NotificationJsDelivery {
                 .emit(eventName, params);
     }
 
-    void notifyNotification() {
+    void notifyNotification(Bundle bundle) {
+//        String bundleString = convertJSON(bundle);
+
         WritableMap params = Arguments.createMap();
-        // params.putString("dataJSON", "ddadadadadadad");
+        params.putString("dataJSON", bundle.getString("data"));
 
         sendEvent("notificationTapEvent", params);
     }
