@@ -7,17 +7,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.facebook.react.bridge.ActivityEventListener;
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+
+import java.security.SecureRandom;
 
 import javax.annotation.Nonnull;
 
@@ -26,6 +29,7 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
     public static final String REACT_CLASS = "Heartbeat";
     private static ReactApplicationContext reactContext;
     public static final String LOG_TAG = "VOIP_SUITE_NOTIFICATION_HANDLER";
+    private final SecureRandom mRandomNumberGenerator = new SecureRandom();
 
     public HeadlessNotificationModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
@@ -61,58 +65,33 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
 
 
     @ReactMethod
-    public void updateNotification(ReadableMap args, Promise promise) {
-//        NotificationJsDelivery notificationJsDelivery = new NotificationJsDelivery(getReactApplicationContext());
-//        notificationJsDelivery.notifyNotification();
+    public void displayNotification(ReadableMap args) {
+        Bundle bundle = Arguments.toBundle(args);
 
-        if (args == null) {
-            promise.reject("ERROR", "args cannot be null");
-            return;
+        assert bundle != null;
+        String notificationId = bundle.getString("notificationId");
+
+        if (notificationId == null) {
+            bundle.putString("notificationId", String.valueOf(mRandomNumberGenerator.nextInt()));
         }
-        String channelId = args.getString("channelId");
-        String notificationId = args.getString("notificationId");
 
-        Intent intentAction = new Intent(getReactApplicationContext(), NotificationActionReceiver.class);
-//        PendingIntent pIntentlogin = PendingIntent.getBroadcast(getReactApplicationContext(), 1, intentAction, PendingIntent.FLAG_IMMUTABLE);
+        Context context = getReactApplicationContext();
 
-        intentAction.putExtra("reactContent", "test");
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(getReactApplicationContext(),
-                1,
-                intentAction,
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE);
 
+        NotificationHelper notificationHelper = new NotificationHelper();
+        notificationHelper.presentLocalNotification(bundle, context);
 
-        assert channelId != null;
-        Notification customNotification = new NotificationCompat.Builder(
-                getReactApplicationContext(), channelId)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setSortKey("-1")
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.mipmap.ic_notification)
-                .setColor(Color.rgb(251, 176, 59))
-                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setOnlyAlertOnce(true)
-                .setContentIntent(getLaunchPendingIntent(getReactApplicationContext()))
-//                .addAction(R.drawable.ic_launcher, "Turn OFF driving mode", pendingIntent)
-                .build();
+//        Intent intentAction = new Intent(getReactApplicationContext(), NotificationActionReceiver.class);
+//        PendingIntent pIntentlogin = PendingIntent.getBroadcast(getReactApplicationContext(), 1, intentAction, PendingIntent.FLAG_IMMUTABLE);
+//
+//        intentAction.putExtra("reactContent", "test");
 
-        assert notificationId != null;
-        NotificationManagerCompat
-                .from(getReactApplicationContext())
-                .notify(
-                        notificationId.hashCode(), // making it possible to cancel with "notifee" module
-                        customNotification);
-        promise.resolve(null);
-    }
-
-    public static PendingIntent getLaunchPendingIntent(Context context) {
-        final PackageManager pm = context.getPackageManager();
-        final Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
-
-        int flag = PendingIntent.FLAG_UPDATE_CURRENT;
-        flag = flag | PendingIntent.FLAG_IMMUTABLE;
-
-        return PendingIntent.getActivity(context, 0, intent, flag);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context,
+//                1,
+//                intentAction,
+//                PendingIntent.FLAG_IMMUTABLE);
     }
 }

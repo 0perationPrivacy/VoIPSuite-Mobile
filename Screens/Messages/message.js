@@ -24,9 +24,9 @@ import {getUserId} from '../../helpers/auth-header';
 import socketClient from '../../helpers/socket';
 import EmptyList from '../../components/EmptyList';
 import MessageItem from './item';
-import {useIsFocused} from '@react-navigation/native';
 import {MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME} from '../../helpers/config';
 import {createChannel} from '../../helpers/notifee';
+import NotificationService from '../../helpers/notification/service';
 
 let __activeProfile;
 const Messages = ({navigation}) => {
@@ -45,6 +45,13 @@ const Messages = ({navigation}) => {
   const profile = useSelector(state => state.profile);
 
   __activeProfile = activeProfile;
+
+  useEffect(() => {
+    new NotificationService(() => {
+      console.log('let see!');
+    });
+  }, []);
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       if (__activeProfile) {
@@ -148,24 +155,16 @@ const Messages = ({navigation}) => {
   const onPressCompose = async () => {
     const {Heartbeat} = NativeModules;
 
-    DeviceEventEmitter.addListener(
-      'remoteNotificationReceived',
-      function (notifData) {
-        console.log('test data ====>', notifData);
-        navigate('Compose');
-      },
-    );
-
     const channelId = await createChannel(
       MESSAGE_CHANNEL_ID,
       MESSAGE_CHANNEL_NAME,
     );
 
-    Heartbeat.updateNotification({
+    Heartbeat.displayNotification({
       channelId: channelId,
       notificationId: 'dddd',
     });
-    // navigate('Compose');
+
   };
 
   const renderMessagesList = (item, index) => {

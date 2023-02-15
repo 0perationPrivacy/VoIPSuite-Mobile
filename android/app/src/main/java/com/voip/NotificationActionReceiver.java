@@ -21,15 +21,5 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         final Bundle bundle = intent.getExtras();
 
         Log.v(LOG_TAG, "onMessageReceived: " + bundle);
-
-//        handleLocalNotification(context, bundle);
-    }
-
-    public void performAction1() {
-
-    }
-
-    public void performAction2() {
-
     }
 }

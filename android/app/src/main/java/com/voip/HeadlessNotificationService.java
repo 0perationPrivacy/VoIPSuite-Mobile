@@ -68,9 +68,11 @@ public class HeadlessNotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.handler.post(this.runnableCode);
         createNotificationChannel();
+
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE);
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("VoIP Suite")
                 .setContentText("View messages.")

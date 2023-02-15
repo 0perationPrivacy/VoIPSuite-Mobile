@@ -34,9 +34,9 @@ public class NotificationJsDelivery {
 
     void notifyNotification() {
         WritableMap params = Arguments.createMap();
-        params.putString("dataJSON", "ddadadadadadad");
+        // params.putString("dataJSON", "ddadadadadadad");
 
-        sendEvent("remoteNotificationReceived", params);
+        sendEvent("notificationTapEvent", params);
     }
 
     String convertJSON(Bundle bundle) {
