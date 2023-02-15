@@ -33,10 +33,10 @@ public class NotificationJsDelivery {
     }
 
     void notifyNotification(Bundle bundle) {
-//        String bundleString = convertJSON(bundle);
+        String bundleString = convertJSON(bundle);
 
         WritableMap params = Arguments.createMap();
-        params.putString("dataJSON", bundle.getString("data"));
+        params.putString("dataJSON", bundleString);
 
         sendEvent("notificationTapEvent", params);
     }

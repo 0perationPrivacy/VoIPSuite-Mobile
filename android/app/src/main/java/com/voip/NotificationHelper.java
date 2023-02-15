@@ -37,7 +37,7 @@ public class NotificationHelper {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true)
-                .setContentIntent(getLaunchPendingIntent(context));
+                .setContentIntent(getLaunchPendingIntent(context,bundle));
 
         if (subText != null) {
             notification.setSubText(subText);
@@ -51,14 +51,15 @@ public class NotificationHelper {
                         notification.build());
     }
 
-    private static PendingIntent getLaunchPendingIntent(Context context) {
+    private static PendingIntent getLaunchPendingIntent(Context context,Bundle bundle) {
         final PackageManager pm = context.getPackageManager();
         final Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
 
         int flag = PendingIntent.FLAG_UPDATE_CURRENT;
         flag = flag | PendingIntent.FLAG_IMMUTABLE;
 
-        intent.putExtra("data", "testing");
+        String data = bundle.getString("data");
+        intent.putExtra("data", data);
 
         return PendingIntent.getActivity(context, 0, intent, flag);
     }
