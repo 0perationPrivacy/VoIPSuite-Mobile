@@ -1,5 +1,7 @@
 package com.voip;
 
+import static com.voip.HeadlessNotificationModule.LOG_TAG;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -37,7 +40,7 @@ public class NotificationHelper {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true)
-                .setContentIntent(getLaunchPendingIntent(context,bundle));
+                .setContentIntent(getLaunchPendingIntent(context, bundle));
 
         if (subText != null) {
             notification.setSubText(subText);
@@ -51,7 +54,7 @@ public class NotificationHelper {
                         notification.build());
     }
 
-    private static PendingIntent getLaunchPendingIntent(Context context,Bundle bundle) {
+    private static PendingIntent getLaunchPendingIntent(Context context, Bundle bundle) {
         final PackageManager pm = context.getPackageManager();
         final Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
 

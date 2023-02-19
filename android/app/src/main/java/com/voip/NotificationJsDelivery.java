@@ -24,9 +24,6 @@ public class NotificationJsDelivery {
     }
 
     void sendEvent(String eventName, Object params) {
-        Log.d(LOG_TAG, "checking");
-        Log.d(LOG_TAG, String.valueOf(mReactContext));
-
         mReactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(eventName, params);

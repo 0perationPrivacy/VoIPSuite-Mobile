@@ -5,9 +5,8 @@ import {
   TouchableOpacity,
   Text,
   Dimensions,
-  Image,
   FlatList,
-	Keyboard,
+  Keyboard,
 } from 'react-native';
 import {GiftedChat, Send} from 'react-native-gifted-chat/src';
 import globalStyles from '../../style';
@@ -23,14 +22,12 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import ContactDetail from '../../components/ContactDetail';
 import {launchImageLibrary} from 'react-native-image-picker';
 import socketClient from '../../helpers/socket';
-import notifee from '@notifee/react-native';
 
 //icons
 import Icon from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {getUserId, isLoggedIn} from '../../helpers/auth-header';
+import {getUserId} from '../../helpers/auth-header';
 import GalleryItem from './GalleryItem';
-import Loader from '../../components/Loader';
 
 const Home = props => {
   const [__messages, setMessages] = useState([]);
@@ -117,6 +114,7 @@ const Home = props => {
     })();
 
     return () => {
+      setMessages([]);
       // this now gets called when the component unmounts
     };
   }, [contactNumber]);
@@ -125,7 +123,7 @@ const Home = props => {
     let isConnected = socketClient.isConnected();
 
     if (!isConnected) {
-      await socketClient.init();
+      socketClient.init();
     }
 
     const userId = getUserId();
@@ -171,8 +169,8 @@ const Home = props => {
   const onSuccessSendMessage = (messages = []) => {
     init();
     setFiles([]);
-		setMessageInputText(null)
-		Keyboard.dismiss();
+    setMessageInputText(null);
+    Keyboard.dismiss();
     // setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   };
 

@@ -4,16 +4,13 @@ import {
   useColorScheme,
   Appearance,
   NativeModules,
-  Text,
-  View,
-  Alert,
   AppState,
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {navigationRef} from './helpers/RootNavigation';
+import {navigate, navigationRef} from './helpers/RootNavigation';
 
 import styles from './style';
 import {DrawerContent} from './components/DrawerComponent';
@@ -23,13 +20,11 @@ import {Provider} from 'react-redux';
 import {store, persistor} from './redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
-import socketClient from './helpers/socket';
-import {askForPermission} from './helpers/notifee';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Button} from './components';
 const {Heartbeat} = NativeModules;
-import notifee from '@notifee/react-native';
-
+import socketInstance from './helpers/socket';
+import Notifications from './helpers/notification/init';
+import _ from 'lodash';
+import {getCurrentActiveProfile} from './helpers/auth-header';
 // import Heartbeat from './helpers/heartbeat';
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
@@ -64,6 +59,7 @@ const App = () => {
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'active') {
         Heartbeat.stopService();
+        console.log(socketInstance.isConnected());
       }
 
       if (nextAppState == 'background') {
@@ -74,6 +70,27 @@ const App = () => {
       setAppStateVisible(appState.current);
     });
 
+    Notifications.configure({
+      onNotification: details => {
+        const {data = {}} = details;
+        if (!_.isEmpty(data)) {
+          let profile = getCurrentActiveProfile();
+          const __data = JSON.parse(data);
+          console.log(typeof data);
+
+          if (profile && profile?._id && __data && !_.isEmpty(__data)) {
+            delete Object.assign(__data, {['_id']: __data['number']})['number'];
+
+            let params = {number: __data, profile: {id: profile?._id}};
+            setTimeout(() => {
+              console.log('huzaifa', params);
+              navigate('Home', {data: params});
+            }, 5000);
+          }
+        }
+      },
+    });
+
     return () => {
       subscription.remove();
     };
@@ -82,7 +99,7 @@ const App = () => {
   useEffect(() => {
     (async () => {
       // ask for notification persmission
-      await askForPermission();
+      // await askForPermission();
     })();
 
     return () => {

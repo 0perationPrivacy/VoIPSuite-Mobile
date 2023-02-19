@@ -1,5 +1,6 @@
 package com.voip;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,13 +12,17 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.modules.core.PermissionAwareActivity;
+import com.facebook.react.modules.core.PermissionListener;
 
 import java.security.SecureRandom;
 
@@ -71,6 +76,8 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
         assert bundle != null;
         String notificationId = bundle.getString("notificationId");
 
+        Log.v(LOG_TAG, String.valueOf(bundle));
+
         if (notificationId == null) {
             bundle.putString("notificationId", String.valueOf(mRandomNumberGenerator.nextInt()));
         }
@@ -83,16 +90,6 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
 
         NotificationHelper notificationHelper = new NotificationHelper();
         notificationHelper.presentLocalNotification(bundle, context);
-
-//        Intent intentAction = new Intent(getReactApplicationContext(), NotificationActionReceiver.class);
-//        PendingIntent pIntentlogin = PendingIntent.getBroadcast(getReactApplicationContext(), 1, intentAction, PendingIntent.FLAG_IMMUTABLE);
-//
-//        intentAction.putExtra("reactContent", "test");
-
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context,
-//                1,
-//                intentAction,
-//                PendingIntent.FLAG_IMMUTABLE);
     }
 
 
@@ -108,4 +105,23 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
         }
     }
 
+    @ReactMethod
+    public void checkPermissions(Promise promise) {
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(reactContext);
+        promise.resolve(managerCompat.areNotificationsEnabled());
+    }
+
+    @RequiresApi(api = 33)
+    @ReactMethod
+    public void requestPermission(Promise promise) {
+        // We have to handle this logic outside of our core module due to a react-native limitation
+        // with obtaining the correct actvity
+        PermissionAwareActivity activity = (PermissionAwareActivity) getCurrentActivity();
+        if (activity == null) {
+            activity.requestPermissions(
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    11111,
+                    (PermissionListener) this);
+        }
+    }
 }

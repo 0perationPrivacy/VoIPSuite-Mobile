@@ -17,7 +17,11 @@ class NotificationsHelper {
       listener = DeviceEventEmitter.addListener(
         NOTIF_TAP_EVENT,
         function (notifData) {
-          handler(notifData);
+          console.log(notifData?.dataJSON);
+          if (notifData?.dataJSON) {
+            const json = JSON.parse(notifData.dataJSON);
+            handler(json);
+          }
         },
       );
     }

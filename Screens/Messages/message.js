@@ -5,8 +5,6 @@ import {
   TouchableOpacity,
   FlatList,
   RefreshControl,
-  NativeModules,
-  DeviceEventEmitter,
 } from 'react-native';
 import globalStyles from '../../style';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -24,9 +22,6 @@ import {getUserId} from '../../helpers/auth-header';
 import socketClient from '../../helpers/socket';
 import EmptyList from '../../components/EmptyList';
 import MessageItem from './item';
-import {MESSAGE_CHANNEL_ID, MESSAGE_CHANNEL_NAME} from '../../helpers/config';
-import {createChannel} from '../../helpers/notifee';
-import NotificationService from '../../helpers/notification/service';
 
 let __activeProfile;
 const Messages = ({navigation}) => {
@@ -46,11 +41,11 @@ const Messages = ({navigation}) => {
 
   __activeProfile = activeProfile;
 
-  useEffect(() => {
-    new NotificationService(data => {
-      console.log('let see! ====>', data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   new NotificationService(data => {
+  //     console.log('let see! ====>', data);
+  //   });
+  // }, []);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -153,17 +148,19 @@ const Messages = ({navigation}) => {
   };
 
   const onPressCompose = async () => {
-    const {Heartbeat} = NativeModules;
+    // const {Heartbeat} = NativeModules;
 
-    Heartbeat.createNotificationChannel(
-      MESSAGE_CHANNEL_ID,
-      MESSAGE_CHANNEL_NAME,
-    );
+    // Heartbeat.createNotificationChannel(
+    //   MESSAGE_CHANNEL_ID,
+    //   MESSAGE_CHANNEL_NAME,
+    // );
 
-    Heartbeat.displayNotification({
-      channelId: MESSAGE_CHANNEL_ID,
-      notificationId: 'dddd',
-    });
+    // Heartbeat.displayNotification({
+    //   channelId: MESSAGE_CHANNEL_ID,
+    //   notificationId: 'dddd',
+    // });
+
+    navigate('Compose');
   };
 
   const renderMessagesList = (item, index) => {
