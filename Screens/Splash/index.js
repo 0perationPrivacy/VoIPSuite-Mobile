@@ -5,9 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import _ from 'lodash';
 import {profileActions, userActions} from '../../redux/actions';
 import {store} from '../../redux/store';
-import {getCurrentActiveProfile} from '../../helpers/auth-header';
+import {getCurrentActiveProfile, getUserId} from '../../helpers/auth-header';
 import Notifications from '../../helpers/notification/init';
 import socketInstance from '../../helpers/socket';
+import {socketMessageListener} from '../../helpers/notification';
 
 const Splash = () => {
   const _user = useSelector(state => state.authentication);
@@ -37,10 +38,8 @@ const Splash = () => {
             delete Object.assign(__data, {['_id']: __data['number']})['number'];
 
             let params = {number: __data, profile: {id: profile?._id}};
-            setTimeout(() => {
-              console.log('huzaifa', params);
-              navigate('Home', {data: params});
-            }, 5000);
+            console.log('huzaifa', params);
+            navigate('Home', {data: params});
           }
         }
       },
@@ -54,6 +53,7 @@ const Splash = () => {
   const navigateToHome = () => {
     let isConnected = socketInstance.isConnected();
     console.log('is socket connected ====>', isConnected);
+
     if (!isConnected) {
       socketInstance.connect();
     }

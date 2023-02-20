@@ -1,5 +1,7 @@
 import SocketIO from 'socket.io-client';
+import {getUserId} from './auth-header';
 import {getBaseUrl} from './config';
+import {socketMessageListener} from './notification';
 class Socket {
   constructor() {
     this.socket = null;
@@ -26,6 +28,10 @@ class Socket {
   }
 
   onConnect = () => {
+    const userId = getUserId();
+    this.joinRoomByUserId(userId);
+    this.listenEventForMessage(socketMessageListener);
+
     console.log('connected to socket =====>');
   };
 
@@ -44,6 +50,10 @@ class Socket {
 
   listenEventForMessage(listener = () => {}) {
     this.socket?.on('user_message', listener);
+  }
+
+  hasListenerRegistered(name) {
+    return this.socket?.hasListeners(name);
   }
 
   disconnect() {
