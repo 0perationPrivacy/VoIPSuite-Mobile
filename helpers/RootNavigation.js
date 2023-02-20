@@ -3,6 +3,7 @@ import { createNavigationContainerRef, DrawerActions } from '@react-navigation/n
 export const navigationRef = createNavigationContainerRef()
 
 export function navigate(name, params) {
+    console.log('name',name)
     if (navigationRef.isReady()) {
         navigationRef.navigate(name, params);
     }
@@ -19,6 +20,7 @@ export function canGoBack() {
 }
 
 export function navigateAndReset(route) {
+    console.log(route)
     return navigationRef.reset({
         index: 0,
         routes: [

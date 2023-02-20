@@ -19,15 +19,31 @@ class Socket {
       reconnectionAttempts: 10000,
     });
 
-    websocket.on('connect', () => {
-      console.log('socket connected from headless');
-    });
-
-    websocket.on('disconnect', () => {
-      console.log('socket disconnected from headless');
-    });
+    websocket.on('connect', this.onConnect);
+    websocket.on('disconnect', this.onDisconnect);
 
     return websocket;
+  }
+
+  onConnect = () => {
+    console.log('connected to socket =====>');
+  };
+
+  onDisconnect = () => {
+    console.log('disconnecting =====>');
+    this.connect();
+  };
+
+  isConnected() {
+    return this.socket?.connected;
+  }
+
+  joinRoomByUserId(userId) {
+    this.socket?.emit('join_profile_channel', userId);
+  }
+
+  listenEventForMessage(listener = () => {}) {
+    this.socket?.on('user_message', listener);
   }
 
   disconnect() {
@@ -38,24 +54,6 @@ class Socket {
 
       this.socket = null;
     }
-  }
-
-  isConnected() {
-    return this.socket?.connected;
-  }
-
-  onConnectEvent() {
-    this.socket?.on('connect', () => {
-      console.log('socket connected from headless');
-    });
-  }
-
-  joinRoomByUserId(userId) {
-    this.socket?.emit('join_profile_channel', userId);
-  }
-
-  listenEventForMessage(listener = () => {}) {
-    this.socket?.on('user_message', listener);
   }
 }
 

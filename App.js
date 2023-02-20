@@ -10,7 +10,7 @@ import {
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {navigate, navigationRef} from './helpers/RootNavigation';
+import {navigationRef} from './helpers/RootNavigation';
 
 import styles from './style';
 import {DrawerContent} from './components/DrawerComponent';
@@ -20,11 +20,12 @@ import {Provider} from 'react-redux';
 import {store, persistor} from './redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
-const {Heartbeat} = NativeModules;
 import socketInstance from './helpers/socket';
-import Notifications from './helpers/notification/init';
 import _ from 'lodash';
-import {getCurrentActiveProfile} from './helpers/auth-header';
+import {isLoggedIn} from './helpers/auth-header';
+
+const {Heartbeat} = NativeModules;
+
 // import Heartbeat from './helpers/heartbeat';
 
 // XMLHttpRequest = global.originalXMLHttpRequest ?
@@ -43,12 +44,6 @@ import {getCurrentActiveProfile} from './helpers/auth-header';
 global.__reanimatedWorkletInit = () => {};
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
-
-  const colorScheme = Appearance.getColorScheme();
   const Drawer = createDrawerNavigator();
 
   const appState = useRef(AppState.currentState);
@@ -63,32 +58,13 @@ const App = () => {
       }
 
       if (nextAppState == 'background') {
-        Heartbeat.startService();
+        if (isLoggedIn()) {
+          Heartbeat.startService();
+        }
       }
 
       appState.current = nextAppState;
       setAppStateVisible(appState.current);
-    });
-
-    Notifications.configure({
-      onNotification: details => {
-        const {data = {}} = details;
-        if (!_.isEmpty(data)) {
-          let profile = getCurrentActiveProfile();
-          const __data = JSON.parse(data);
-          console.log(typeof data);
-
-          if (profile && profile?._id && __data && !_.isEmpty(__data)) {
-            delete Object.assign(__data, {['_id']: __data['number']})['number'];
-
-            let params = {number: __data, profile: {id: profile?._id}};
-            setTimeout(() => {
-              console.log('huzaifa', params);
-              navigate('Home', {data: params});
-            }, 5000);
-          }
-        }
-      },
     });
 
     return () => {
