@@ -37,6 +37,7 @@ class Socket {
 
   onDisconnect = () => {
     console.log('disconnecting =====>');
+    this.disconnect();
     this.connect();
   };
 
