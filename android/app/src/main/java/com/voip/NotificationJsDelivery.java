@@ -35,6 +35,9 @@ public class NotificationJsDelivery {
         WritableMap params = Arguments.createMap();
         params.putString("dataJSON", bundleString);
 
+        Log.v(LOG_TAG, "bundleString");
+        Log.v(LOG_TAG, bundleString);
+
         sendEvent("notificationTapEvent", params);
     }
 

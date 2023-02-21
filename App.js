@@ -5,6 +5,7 @@ import {
   Appearance,
   NativeModules,
   AppState,
+  Alert,
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -23,6 +24,7 @@ import FlashMessage from 'react-native-flash-message';
 import socketInstance from './helpers/socket';
 import _ from 'lodash';
 import {isLoggedIn} from './helpers/auth-header';
+import {MESSAGE_CHANNEL_ID} from './helpers/config';
 
 const {Heartbeat} = NativeModules;
 
@@ -75,7 +77,23 @@ const App = () => {
   useEffect(() => {
     (async () => {
       // ask for notification persmission
-      // await askForPermission();
+      const settings = await Heartbeat.getNotificationSettings();
+      console.log(settings.authorizationStatus);
+      if (settings.authorizationStatus == 1) {
+        // Alert.alert('Notification permissions has been authorized');
+        console.log('Notification permissions has been authorized');
+      } else if (settings.authorizationStatus == 0) {
+        Alert.alert('You dont have permission');
+        await Heartbeat.openNotificationSettings();
+        console.log('done');
+
+        const status = await Heartbeat.requestPermission();
+        console.log(
+          'notification permission status ====>',
+          status?.authorizationStatus,
+        );
+        console.log('Notification permissions has been denied');
+      }
     })();
 
     return () => {

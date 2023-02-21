@@ -7,8 +7,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -25,6 +27,7 @@ import com.facebook.react.modules.core.PermissionAwareActivity;
 import com.facebook.react.modules.core.PermissionListener;
 
 import java.security.SecureRandom;
+import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
 
@@ -106,22 +109,79 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
     }
 
     @ReactMethod
+    public void getNotificationSettings(Promise promise) {
+        NotificationHelper
+                .getNotificationSettings(
+                        (e, aBundle) -> NotificationHelper.promiseResolver(promise, e, aBundle), reactContext);
+    }
+
+    @ReactMethod
     public void checkPermissions(Promise promise) {
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(reactContext);
         promise.resolve(managerCompat.areNotificationsEnabled());
     }
 
-    @RequiresApi(api = 33)
     @ReactMethod
     public void requestPermission(Promise promise) {
-        // We have to handle this logic outside of our core module due to a react-native limitation
-        // with obtaining the correct actvity
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            NotificationHelper
+                    .getNotificationSettings(
+                            (e, aBundle) -> NotificationHelper.promiseResolver(promise, e, aBundle), reactContext);
+            return;
+        }
+
         PermissionAwareActivity activity = (PermissionAwareActivity) getCurrentActivity();
         if (activity == null) {
-            activity.requestPermissions(
-                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                    11111,
-                    (PermissionListener) this);
+            Log.d(
+                    "requestPermission",
+                    "Unable to get permissionAwareActivity for " + Build.VERSION.SDK_INT);
+
+            NotificationHelper
+                    .getNotificationSettings(
+                            (e, aBundle) -> NotificationHelper.promiseResolver(promise, e, aBundle), reactContext);
+            return;
         }
+
+        NotificationHelper
+                .setRequestPermissionCallback(
+                        (e, aBundle) -> NotificationHelper.promiseResolver(promise, e, aBundle));
+
+        activity.requestPermissions(
+                new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                11111,
+                (PermissionListener) this);
+    }
+
+//    @ReactMethod
+//    public void openNotificationSettings(Promise promise) {
+//        NotificationHelper
+//                .openNotificationSettings(
+//                        "VoIP Suite",
+//                        getCurrentActivity(),
+//                        (e, aVoid) -> NotificationHelper.promiseResolver(promise, e), reactContexgetNotificationSettingst);
+//    }
+
+
+    @ReactMethod
+    public void openNotificationSettings(Promise promise) {
+        String packageName = reactContext.getPackageName();
+        Intent intent = new Intent();
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+            intent.putExtra("android.provider.extra.APP_PACKAGE", packageName);
+            intent.putExtra("app_package", packageName);
+            intent.putExtra("app_uid", reactContext.getApplicationInfo().uid);
+        } else {
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.setData(Uri.parse("package:" + packageName));
+        }
+
+        getReactApplicationContext().startActivityForResult(intent, 1, null);
+
+        Bundle notificationSettingsBundle = new Bundle();
+        notificationSettingsBundle.putInt("authorizationStatus", 1);
+        promise.resolve(Arguments.fromBundle(notificationSettingsBundle));
     }
 }

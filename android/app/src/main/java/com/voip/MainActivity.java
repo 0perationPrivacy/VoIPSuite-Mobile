@@ -27,9 +27,10 @@ public class MainActivity extends ReactActivity {
     @Override
     public void onNewIntent(Intent intent) {
         Bundle bundle = intent.getExtras();
-
+        Log.v(LOG_TAG, "ndadsasdadadad");
         if (bundle != null) {
             Log.v(LOG_TAG, "new intent for notification tap");
+            Log.v(LOG_TAG, String.valueOf(getReactInstanceManager().getCurrentReactContext()));
 
             NotificationJsDelivery notificationJsDelivery = new NotificationJsDelivery(getReactInstanceManager().getCurrentReactContext());
             notificationJsDelivery.notifyNotification(bundle);
