@@ -25,6 +25,12 @@ import socketInstance from './helpers/socket';
 import _ from 'lodash';
 import {isLoggedIn} from './helpers/auth-header';
 import {MESSAGE_CHANNEL_ID} from './helpers/config';
+import {
+  requestNotifications,
+  check,
+  PERMISSIONS,
+  checkNotifications,
+} from 'react-native-permissions';
 
 const {Heartbeat} = NativeModules;
 
@@ -77,23 +83,47 @@ const App = () => {
   useEffect(() => {
     (async () => {
       // ask for notification persmission
-      const settings = await Heartbeat.getNotificationSettings();
-      console.log(settings.authorizationStatus);
-      if (settings.authorizationStatus == 1) {
-        // Alert.alert('Notification permissions has been authorized');
-        console.log('Notification permissions has been authorized');
-      } else if (settings.authorizationStatus == 0) {
-        Alert.alert('You dont have permission');
-        await Heartbeat.openNotificationSettings();
-        console.log('done');
+      // const settings = await Heartbeat.getNotificationSettings();
+      // const permission = await requestNotifications([
+      //   'alert',
+      //   'badge',
+      //   'sound',
+      // ]);
+      // console.log('permission', permission);
+      // check(PERMISSIONS.ANDROID.POST_NOTIFICATIONS)
+      //   .then(result => {
+      //     console.log('result', result);
+      //     checkNotifications().then(({status, settings}) => {
+      //       console.log('status, settings', status, settings);
+      //     });
+      //     requestNotifications(['alert', 'sound']).then(
+      //       ({status, settings}) => {
+      //         console.log('status, settings', status, settings);
+      //       },
+      //     );
+      //   })
+      //   .catch(error => {
+      //     // …
+      //   });
 
-        const status = await Heartbeat.requestPermission();
-        console.log(
-          'notification permission status ====>',
-          status?.authorizationStatus,
-        );
-        console.log('Notification permissions has been denied');
-      }
+      // console.log(settings.authorizationStatus);
+      // if (settings.authorizationStatus == 1) {
+      //   // Alert.alert('Notification permissions has been authorized');
+      //   console.log('Notification permissions has been authorized');
+      // } else if (settings.authorizationStatus == 0) {
+      //   // Alert.alert('You dont have permission');
+      //   // await Heartbeat.openNotificationSettings();
+      //   // console.log('done');
+
+      //   const status = await Heartbeat.requestPermission();
+      //   console.log(
+      //     'notification permission status ====>',
+      //     status?.authorizationStatus,
+      //   );
+      //   console.log('Notification permissions has been denied');
+      // }
+
+      const status = await Heartbeat.requestPermission();
     })();
 
     return () => {
