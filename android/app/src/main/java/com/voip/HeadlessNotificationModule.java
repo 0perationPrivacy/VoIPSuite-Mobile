@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 
 
-public class HeadlessNotificationModule extends ReactContextBaseJavaModule implements ActivityEventListener {
+public class HeadlessNotificationModule extends ReactContextBaseJavaModule implements PermissionListener {
 
     public static final String REACT_CLASS = "Heartbeat";
     private static ReactApplicationContext reactContext;
@@ -42,17 +42,6 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
     public HeadlessNotificationModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
         HeadlessNotificationModule.reactContext = reactContext;
-    }
-
-
-    @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        Log.v(LOG_TAG, "alert!!");
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-        Log.v(LOG_TAG, "alert!!");
     }
 
     @Nonnull
@@ -152,16 +141,6 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
                 (PermissionListener) this);
     }
 
-//    @ReactMethod
-//    public void openNotificationSettings(Promise promise) {
-//        NotificationHelper
-//                .openNotificationSettings(
-//                        "VoIP Suite",
-//                        getCurrentActivity(),
-//                        (e, aVoid) -> NotificationHelper.promiseResolver(promise, e), reactContexgetNotificationSettingst);
-//    }
-
-
     @ReactMethod
     public void openNotificationSettings(Promise promise) {
         String packageName = reactContext.getPackageName();
@@ -183,5 +162,10 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
         Bundle notificationSettingsBundle = new Bundle();
         notificationSettingsBundle.putInt("authorizationStatus", 1);
         promise.resolve(Arguments.fromBundle(notificationSettingsBundle));
+    }
+
+    @Override
+    public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        return false;
     }
 }
