@@ -168,4 +168,16 @@ public class HeadlessNotificationModule extends ReactContextBaseJavaModule imple
     public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         return false;
     }
+
+    @ReactMethod
+    public void clearAllNotifications() {
+        Log.i(LOG_TAG, "Clearing alerts from the notification centre");
+
+        NotificationManager notificationManager = notificationManager();
+        notificationManager.cancelAll();
+    }
+
+    private NotificationManager notificationManager() {
+        return (NotificationManager) reactContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
 }
