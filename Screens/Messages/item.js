@@ -1,4 +1,4 @@
-import React, { } from 'react'
+import React, { memo } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../../helpers/Metrics';
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MessageItem;
+export default memo(MessageItem);

@@ -1,4 +1,4 @@
-import React, { } from 'react'
+import React, { memo } from 'react'
 import { View, StyleSheet, Text } from 'react-native';
 import Metrics from '../helpers/Metrics';
 import { getColorByTheme } from '../helpers/utils';
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EmptyList;
+export default memo(EmptyList);

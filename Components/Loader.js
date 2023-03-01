@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 
 const Loader = ({ size = 'large', color = "#3770e4" }) => {
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Loader;
+export default memo(Loader);

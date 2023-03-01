@@ -22,6 +22,7 @@ export function createNotificationChannel(channelId, channelName) {
 }
 
 export async function socketMessageListener(data) {
+  console.log('socket data ====>', data);
   const {message, contact, number} = data;
 
   let title = number;
