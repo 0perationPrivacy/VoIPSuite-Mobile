@@ -68,6 +68,7 @@ public class NotificationHelper {
         String data = bundle.getString("data");
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("data", data);
+        intent.putExtra("fromNotification", true);
 
         return PendingIntent.getActivity(context, 0, intent, flag);
     }

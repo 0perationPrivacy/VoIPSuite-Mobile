@@ -57,6 +57,7 @@ const Home = props => {
   const init = () => {
     const {data} = route.params;
     const {number} = data;
+    console.log('data ===>', data);
     const {contact, _id} = number;
 
     if (contact) {

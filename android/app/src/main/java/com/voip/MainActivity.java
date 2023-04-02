@@ -2,9 +2,11 @@ package com.voip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 
 import com.facebook.react.ReactActivity;
+
 
 import static com.voip.HeadlessNotificationModule.LOG_TAG;
 
@@ -21,16 +23,31 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(null);
+        Log.v(LOG_TAG, String.valueOf(getIntent().hasExtra("fromNotification")));
+        super.onCreate(savedInstanceState);
+
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                () -> {
+                    Log.i("tag", "This'll run 300 milliseconds later");
+                    Log.v("This'll run 300 millise", String.valueOf(getIntent().hasExtra("fromNotification")));
+                    if (getIntent().hasExtra("fromNotification")) {
+                        while (getReactInstanceManager().getCurrentReactContext() == null) ;
+
+                        Log.v(LOG_TAG, "new intent for notification tap from killed state");
+
+                        NotificationJsDelivery notificationJsDelivery = new NotificationJsDelivery(getReactInstanceManager().getCurrentReactContext());
+                        notificationJsDelivery.notifyNotification(getIntent().getExtras());
+                    }
+                },
+                2000);
+
     }
 
     @Override
     public void onNewIntent(Intent intent) {
         Bundle bundle = intent.getExtras();
-        Log.v(LOG_TAG, "ndadsasdadadad");
         if (bundle != null) {
             Log.v(LOG_TAG, "new intent for notification tap");
-            Log.v(LOG_TAG, String.valueOf(getReactInstanceManager().getCurrentReactContext()));
 
             NotificationJsDelivery notificationJsDelivery = new NotificationJsDelivery(getReactInstanceManager().getCurrentReactContext());
             notificationJsDelivery.notifyNotification(bundle);

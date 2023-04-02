@@ -1,4 +1,5 @@
 import {NativeModules, DeviceEventEmitter} from 'react-native';
+import {navigate} from '../RootNavigation';
 
 let RNPushNotification = NativeModules.Heartbeat;
 let notifHandlers = new Map();
@@ -17,7 +18,6 @@ class NotificationsHelper {
       listener = DeviceEventEmitter.addListener(
         NOTIF_TAP_EVENT,
         function (notifData) {
-          console.log(notifData?.dataJSON);
           if (notifData?.dataJSON) {
             const json = JSON.parse(notifData.dataJSON);
             handler(json);

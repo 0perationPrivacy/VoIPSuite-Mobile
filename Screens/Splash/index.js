@@ -38,11 +38,11 @@ const Splash = () => {
           if (profile && profile?._id && __data && !_.isEmpty(__data)) {
             delete Object.assign(__data, {['_id']: __data['number']})['number'];
 
-            // let params = {number: __data, profile: {id: profile?._id}};
-            let params = {
-              number: __data,
-              profile: {id: '63eeb4dd1cb86d00347ecbe4'},
-            };
+            let params = {number: __data, profile: {id: profile?._id}};
+            // let params = {
+            //   number: __data,
+            //   profile: {id: '63eeb4dd1cb86d00347ecbe4'},
+            // };
             console.log('huzaifa', params);
             navigate('Home', {data: params});
           }
