@@ -1,77 +1,114 @@
-import React, { useEffect, useState } from 'react'
-import { TextInput, TouchableOpacity, View } from 'react-native'
+import React, {useEffect, useRef, useState} from 'react';
+import {TextInput, TouchableOpacity, View} from 'react-native';
 import styles from './style';
-import { useForm, useController } from 'react-hook-form'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { getColorByTheme } from '../../helpers/utils';
+import {useController} from 'react-hook-form';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {getColorByTheme} from '../../helpers/utils';
+import {useFocusEffect} from '@react-navigation/native';
 
 const CustomInput = ({
-	customStyle = {},
-	control, name,
-	onChangeInput, onInputLeave,
-	defaultValue,
-	isError, errors,
-	customIconWrap = {},
-	secureTextEntry = false,
-	customSecureIconWrap = {},
-	icon = null, ...rest
+  customStyle = {},
+  control,
+  name,
+  onChangeInput,
+  onInputLeave,
+  defaultValue,
+  isError,
+  errors,
+  customIconWrap = {},
+  secureTextEntry = false,
+  customSecureIconWrap = {},
+  icon = null,
+  ...rest
 }) => {
+  const [isSecure, setIsSecure] = useState(false);
+  const inputRef = useRef(null);
 
-	const [isSecure, setIsSecure] = useState(false);
+  useFocusEffect(
+    React.useCallback(() => {
+      let localRef = null;
+      if (inputRef.current) localRef = inputRef.current;
 
-	useEffect(() => {
-		if (secureTextEntry) {
-			setIsSecure(secureTextEntry);
-		}
-	}, [secureTextEntry])
+      return () => {
+        localRef.blur();
+        console.log(localRef);
+        console.log('removed');
+      };
+    }, []),
+  );
 
-	const { field } = useController({
-		control,
-		defaultValue,
-		name,
-	})
+  useEffect(() => {
+    if (secureTextEntry) {
+      setIsSecure(secureTextEntry);
+    }
+  }, [secureTextEntry]);
 
-	const onChangeInputText = (text) => {
-		const { onChange } = field;
-		onChange(text);
+  const {field} = useController({
+    control,
+    defaultValue,
+    name,
+  });
 
-		if (onChangeInput) {
-			onChangeInput(name, text)
-		}
-	}
+  const onChangeInputText = text => {
+    const {onChange} = field;
+    onChange(text);
 
-	const _onInputLeave = (event) => {
-		if (onInputLeave) {
-			onInputLeave(name, event.nativeEvent.text)
-		}
-	}
+    if (onChangeInput) {
+      onChangeInput(name, text);
+    }
+  };
 
-	return (
-		<View style={styles.mainWrap} >
-			{
-				icon && <View style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '', customIconWrap]}>
-					<Icon name={icon} size={20} />
-				</View>
-			}
-			<TextInput
-				{...rest}
-				style={[styles.inputContainer, customStyle, isError || errors?.[name] ? styles.error : '', icon ? styles.noLeftBorderInput : styles.fullflex, secureTextEntry ? styles.noRightBorderInput : styles.fullflex]}
-				underlineColorAndroid={'transparent'}
-				onChangeText={onChangeInputText}
-				// onBlur={_onInputLeave}
-				onEndEditing={_onInputLeave}
-				placeholderTextColor={getColorByTheme('#000', '#fff')}
-				defaultValue={defaultValue}
-				secureTextEntry={isSecure}
-			/>
-			{
-				secureTextEntry &&
-				<TouchableOpacity style={[styles.iconWrap, isError || errors?.[name] ? styles.error : '', customSecureIconWrap]} onPress={() => { setIsSecure(!isSecure) }}>
-					<Icon name={isSecure ? 'eye' : 'eye-slash'} size={20} />
-				</TouchableOpacity>
-			}
-		</View>
-	)
-}
+  const _onInputLeave = event => {
+    if (onInputLeave) {
+      onInputLeave(name, event.nativeEvent.text);
+    }
+  };
+
+  return (
+    <View style={styles.mainWrap}>
+      {icon && (
+        <View
+          style={[
+            styles.iconWrap,
+            isError || errors?.[name] ? styles.error : '',
+            customIconWrap,
+          ]}>
+          <Icon name={icon} size={20} />
+        </View>
+      )}
+      <TextInput
+        {...rest}
+        ref={inputRef}
+        style={[
+          styles.inputContainer,
+          customStyle,
+          isError || errors?.[name] ? styles.error : '',
+          icon ? styles.noLeftBorderInput : styles.fullflex,
+          secureTextEntry ? styles.noRightBorderInput : styles.fullflex,
+        ]}
+        underlineColorAndroid={'transparent'}
+        onChangeText={onChangeInputText}
+        // onBlur={_onInputLeave}
+        onEndEditing={_onInputLeave}
+        placeholderTextColor={getColorByTheme('#000', '#fff')}
+        defaultValue={defaultValue}
+        secureTextEntry={isSecure}
+      />
+      {secureTextEntry && (
+        <TouchableOpacity
+          style={[
+            styles.iconWrap,
+            isError || errors?.[name] ? styles.error : '',
+            customSecureIconWrap,
+          ]}
+          onPress={() => {
+            setIsSecure(!isSecure);
+          }}>
+          <Icon name={isSecure ? 'eye' : 'eye-slash'} size={20} />
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+};
 
 export default CustomInput;

@@ -4,10 +4,8 @@ import {
   useColorScheme,
   Appearance,
   NativeModules,
-  Text,
-  View,
-  Alert,
   AppState,
+  Alert,
 } from 'react-native';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -23,12 +21,18 @@ import {Provider} from 'react-redux';
 import {store, persistor} from './redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
-import socketClient from './helpers/socket';
-import {askForPermission} from './helpers/notifee';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Button} from './components';
+import socketInstance from './helpers/socket';
+import _ from 'lodash';
+import {isLoggedIn} from './helpers/auth-header';
+import {MESSAGE_CHANNEL_ID} from './helpers/config';
+import {
+  requestNotifications,
+  check,
+  PERMISSIONS,
+  checkNotifications,
+} from 'react-native-permissions';
+
 const {Heartbeat} = NativeModules;
-import notifee from '@notifee/react-native';
 
 // import Heartbeat from './helpers/heartbeat';
 
@@ -48,12 +52,6 @@ import notifee from '@notifee/react-native';
 global.__reanimatedWorkletInit = () => {};
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
-
-  const colorScheme = Appearance.getColorScheme();
   const Drawer = createDrawerNavigator();
 
   const appState = useRef(AppState.currentState);
@@ -64,10 +62,13 @@ const App = () => {
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'active') {
         Heartbeat.stopService();
+        console.log(socketInstance.isConnected());
       }
 
       if (nextAppState == 'background') {
-        Heartbeat.startService();
+        if (isLoggedIn()) {
+          Heartbeat.startService();
+        }
       }
 
       appState.current = nextAppState;
@@ -82,7 +83,47 @@ const App = () => {
   useEffect(() => {
     (async () => {
       // ask for notification persmission
-      await askForPermission();
+      // const settings = await Heartbeat.getNotificationSettings();
+      // const permission = await requestNotifications([
+      //   'alert',
+      //   'badge',
+      //   'sound',
+      // ]);
+      // console.log('permission', permission);
+      // check(PERMISSIONS.ANDROID.POST_NOTIFICATIONS)
+      //   .then(result => {
+      //     console.log('result', result);
+      //     checkNotifications().then(({status, settings}) => {
+      //       console.log('status, settings', status, settings);
+      //     });
+      //     requestNotifications(['alert', 'sound']).then(
+      //       ({status, settings}) => {
+      //         console.log('status, settings', status, settings);
+      //       },
+      //     );
+      //   })
+      //   .catch(error => {
+      //     // …
+      //   });
+
+      // console.log(settings.authorizationStatus);
+      // if (settings.authorizationStatus == 1) {
+      //   // Alert.alert('Notification permissions has been authorized');
+      //   console.log('Notification permissions has been authorized');
+      // } else if (settings.authorizationStatus == 0) {
+      //   // Alert.alert('You dont have permission');
+      //   // await Heartbeat.openNotificationSettings();
+      //   // console.log('done');
+
+      //   const status = await Heartbeat.requestPermission();
+      //   console.log(
+      //     'notification permission status ====>',
+      //     status?.authorizationStatus,
+      //   );
+      //   console.log('Notification permissions has been denied');
+      // }
+
+      const status = await Heartbeat.requestPermission();
     })();
 
     return () => {

@@ -1,4 +1,8 @@
-import notifee, {AndroidColor, AndroidImportance, EventType} from '@notifee/react-native';
+import notifee, {
+  AndroidColor,
+  AndroidImportance,
+  EventType,
+} from '@notifee/react-native';
 import {store} from '../redux/store';
 import {getCurrentActiveProfile} from './auth-header';
 import {navigate} from './RootNavigation';

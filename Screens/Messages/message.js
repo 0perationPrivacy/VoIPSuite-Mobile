@@ -22,7 +22,6 @@ import {getUserId} from '../../helpers/auth-header';
 import socketClient from '../../helpers/socket';
 import EmptyList from '../../components/EmptyList';
 import MessageItem from './item';
-import {useIsFocused} from '@react-navigation/native';
 
 let __activeProfile;
 const Messages = ({navigation}) => {
@@ -41,6 +40,13 @@ const Messages = ({navigation}) => {
   const profile = useSelector(state => state.profile);
 
   __activeProfile = activeProfile;
+
+  // useEffect(() => {
+  //   new NotificationService(data => {
+  //     console.log('let see! ====>', data);
+  //   });
+  // }, []);
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       if (__activeProfile) {
@@ -141,7 +147,19 @@ const Messages = ({navigation}) => {
     navigate('Home', {data});
   };
 
-  const onPressCompose = () => {
+  const onPressCompose = async () => {
+    // const {Heartbeat} = NativeModules;
+
+    // Heartbeat.createNotificationChannel(
+    //   MESSAGE_CHANNEL_ID,
+    //   MESSAGE_CHANNEL_NAME,
+    // );
+
+    // Heartbeat.displayNotification({
+    //   channelId: MESSAGE_CHANNEL_ID,
+    //   notificationId: 'dddd',
+    // });
+
     navigate('Compose');
   };
 
