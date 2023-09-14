@@ -143,7 +143,7 @@ const Messages = ({navigation}) => {
   };
 
   const onPressMessageList = contact => {
-    let data = {number: contact, profile: {id: activeProfile}};
+    let data = {number: contact, profile: activeProfile};
     navigate('Home', {data});
   };
 

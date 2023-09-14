@@ -1,0 +1,1 @@
+- Minor change in profile object in message detail screen
