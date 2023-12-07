@@ -9,7 +9,7 @@ module.exports = StyleSheet.create({
 	},
 	inputContainer: {
 		borderWidth: 1,
-		borderColor: getColorByTheme('#ececec', '#3f3f3f'),
+		borderColor: getColorByTheme('#d3d3d3', '#3f3f3f'),
 		fontSize: 14,
 		padding: 5,
 		marginBottom: 15,

@@ -1,5 +1,5 @@
 import Icon from 'react-native-vector-icons/Feather';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -7,23 +7,28 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TextInput
 } from 'react-native';
 import styles from '../style';
-import {openDrawer} from '../helpers/RootNavigation';
-import {CustomModal} from '.';
-import {useDispatch, useSelector} from 'react-redux';
-import {profileActions} from '../redux/actions/profile';
+import { openDrawer } from '../helpers/RootNavigation';
+import { CustomModal } from '.';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileActions } from '../redux/actions/profile';
 import _ from 'lodash';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Metrics from '../helpers/Metrics';
-import {getColorByTheme} from '../helpers/utils';
+import { getColorByTheme } from '../helpers/utils';
+import { Input } from '../components';
+import { useForm } from 'react-hook-form'
 
-const HomeHeader = ({onPressProfile = () => {}}) => {
+const HomeHeader = ({ onPressProfile = () => { } }) => {
   const [isProfileModalVisible, setProfileModalVisibility] = useState(false);
   const [profiles, setProfiles] = useState([]);
   const [activeProfileNumber, setActiveProfileNumber] = useState(null);
   const [profileName, setProfileName] = useState('Choose Profile Name');
+  const [searchText, setSearchText] = useState('');
+
 
   const dispatch = useDispatch();
 
@@ -31,6 +36,7 @@ const HomeHeader = ({onPressProfile = () => {}}) => {
   const profile = useSelector(state => state.profile.items);
 
   const refRBSheet = useRef();
+  const { control, handleSubmit } = useForm();
 
   useEffect(() => {
     getProfileList();
@@ -38,18 +44,44 @@ const HomeHeader = ({onPressProfile = () => {}}) => {
 
   useEffect(() => {
     if (profile && _.isArray(profile)) {
-      let data = [];
-      profile.forEach((item, index) => {
-        const {id, profile, number, messageCount} = item;
-        data.push({id, profile, number, messageCount});
-      });
+      let data = getFormattedProfiles();
 
       setProfiles(data);
-      onSetProfileNameRedux({profile: data[0]?.profile, id: data[0]?.id});
+      onSetProfileNameRedux({ profile: data[0]?.profile, id: data[0]?.id });
       onPressProfile(data[0]?.id);
       setActiveProfileNumber(data[0]?.number);
     }
   }, [profile]);
+
+  const getFormattedProfiles = () => {
+    let data = [];
+    profile.forEach((item, index) => {
+      const { id, profile, number, messageCount } = item;
+      data.push({ id, profile, number, messageCount });
+    });
+
+    return data;
+  }
+
+  const handleSearch = (name, text) => {
+    setSearchText(text);
+    let data = getFormattedProfiles();
+    // If the search text is empty, display all items
+    if (text === '') {
+
+      setProfiles(data);
+    } else {
+      // Filter the data based on the search text
+      const filteredData = data.filter(
+        (item) =>
+          item.profile.toLowerCase().includes(text.toLowerCase()) ||
+          item.number.toLowerCase().includes(text.toLowerCase())
+      );
+
+      setProfiles(filteredData);
+    }
+  };
+
 
   const showProfileDropDown = () => {
     refRBSheet.current.open();
@@ -61,12 +93,12 @@ const HomeHeader = ({onPressProfile = () => {}}) => {
   };
 
   const onSelectProfile = item => {
-    const {id, number, profile} = item;
+    const { id, number, profile } = item;
 
     onPressProfile(id);
     setProfileName(profile);
     setActiveProfileNumber(number);
-    onSetProfileNameRedux({profile, id});
+    onSetProfileNameRedux({ profile, id });
 
     refRBSheet.current.close();
   };
@@ -109,11 +141,11 @@ const HomeHeader = ({onPressProfile = () => {}}) => {
       return height;
     }
 
-    return length * Metrics.doubleBaseMargin + 200;
+    return length * Metrics.doubleBaseMargin + 300;
   };
 
-  const renderProfileItem = ({item}) => {
-    const {profile, number, messageCount} = item;
+  const renderProfileItem = ({ item }) => {
+    const { profile, number, messageCount } = item;
 
     return (
       <View style={innerStyle.profileItemContainer}>
@@ -122,7 +154,7 @@ const HomeHeader = ({onPressProfile = () => {}}) => {
           onPress={() => onSelectProfile(item)}>
           <Text style={innerStyle.profileItemText}>{profile}</Text>
           {number && (
-            <Text style={[innerStyle.profileItemText, {color: '#ff5821'}]}>
+            <Text style={[innerStyle.profileItemText, { color: '#ff5821' }]}>
               {number}
             </Text>
           )}
@@ -161,12 +193,23 @@ const HomeHeader = ({onPressProfile = () => {}}) => {
 
   const renderProfileList = () => {
     return (
-      <FlatList
-        data={profiles}
-        renderItem={renderProfileItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={true}
-      />
+      <>
+        
+        <Input
+          placeholder="Search..."
+          onChangeInput={handleSearch}
+          control={control}
+          name={'search-text'}
+        // customStyle={globalStyle.authInputContainer}
+        // customIconWrap={globalStyle.authInputIconContainer}
+        />
+        <FlatList
+          data={profiles}
+          renderItem={renderProfileItem}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={true}
+        />
+      </>
     );
   };
 
@@ -179,7 +222,7 @@ const HomeHeader = ({onPressProfile = () => {}}) => {
         {activeProfileNumber && renderTitleNumber()}
       </View>
       <View style={styles.fullFlex}>
-        <View style={{marginLeft: 10}}>
+        <View style={{ marginLeft: 10 }}>
           <TouchableOpacity
             onPress={showProfileDropDown}
             style={styles.fullFlex}>
