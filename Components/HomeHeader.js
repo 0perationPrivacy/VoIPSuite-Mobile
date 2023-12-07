@@ -29,7 +29,6 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
   const [profileName, setProfileName] = useState('Choose Profile Name');
   const [searchText, setSearchText] = useState('');
 
-
   const dispatch = useDispatch();
 
   const isLoading = useSelector(state => state.profile.isLoading);
@@ -81,7 +80,6 @@ const HomeHeader = ({ onPressProfile = () => { } }) => {
       setProfiles(filteredData);
     }
   };
-
 
   const showProfileDropDown = () => {
     refRBSheet.current.open();

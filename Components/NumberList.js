@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, FlatList} from 'react-native';
-import {Divider} from 'react-native-elements';
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
+import { Divider } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import Metrics from '../helpers/Metrics';
 import styles from '../style';
+import { Input } from '../components';
+import { useForm } from 'react-hook-form'
 
 const NumberList = ({
-  onPressBack = () => {},
-  onSubmit = () => {},
+  onPressBack = () => { },
+  onSubmit = () => { },
   data = [],
 }) => {
   const [__value, setValue] = useState(null);
+  const [numbers, setNumbers] = useState(data);
+  const [searchText, setSearchText] = useState('');
+
+  const { control, handleSubmit } = useForm();
+
   const onPressSelectNumber = value => {
     if (value == __value) {
       value = null;
@@ -21,6 +28,22 @@ const NumberList = ({
 
   const onPressSelect = () => {
     onSubmit(__value);
+  };
+
+  const handleSearch = (name, text) => {
+    setSearchText(text);
+
+    // If the search text is empty, display all items
+    if (text === '') {
+      setNumbers(data);
+    } else {
+      // Filter the data based on the search text
+      const filteredData = data.filter(
+        (item) =>
+          item.label.toLowerCase().includes(text.toLowerCase()));
+
+      setNumbers(filteredData);
+    }
   };
 
   const renderHeader = () => {
@@ -43,19 +66,28 @@ const NumberList = ({
   const renderMainContent = () => {
     return (
       <View style={innerStyle.mainContentContainer}>
+        <Input
+          placeholder="Search..."
+          onChangeInput={handleSearch}
+          control={control}
+          name={'search-text'}
+          customStyle={{marginBottom : '10%'}}
+        // customStyle={globalStyle.authInputContainer}
+        // customIconWrap={globalStyle.authInputIconContainer}
+        />
         <FlatList
-          contentContainerStyle={{flexGrow: 1}}
-          data={data}
+          contentContainerStyle={{ flexGrow: 1 }}
+          data={numbers}
           renderItem={renderItem}
-          keyExtractor={item => item.value}></FlatList>
+          keyExtractor={item => item.label}></FlatList>
       </View>
     );
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     let isLast = index === data.length - 1;
 
-    const {label, value} = item;
+    const { label, value } = item;
 
     return (
       <View style={innerStyle.listItemContainer}>
