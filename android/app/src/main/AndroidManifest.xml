@@ -20,7 +20,15 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" android:minSdkVersion="23" />
-    
+
+    <!-- Calling (Phase 3): a self-managed Telecom ConnectionService, not the
+         regular telephony permissions — no READ_PHONE_STATE/CALL_PHONE needed,
+         since this app never touches the carrier SIM call stack. -->
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="false"
@@ -47,6 +55,35 @@
             android:enabled="true"
             android:exported="false"></service>
         <service android:name=".NotificationEventService"></service>
+
+        <service
+            android:name=".voip.VoipConnectionService"
+            android:exported="true"
+            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE">
+            <intent-filter>
+                <action android:name="android.telecom.ConnectionService" />
+            </intent-filter>
+        </service>
+
+        <!-- liblinphone starts this itself (by this exact component name) to
+             keep the Core alive as a foreground service during calls — it
+             ships the class but, unlike permissions, doesn't auto-register
+             the service via manifest merging, so it must be declared here or
+             Android fails to find it ("Unable to start service ... not
+             found"), which was silently breaking every outgoing call. -->
+        <service
+            android:name="org.linphone.core.tools.service.CoreService"
+            android:exported="false"
+            android:foregroundServiceType="phoneCall|microphone" />
+
+        <activity
+            android:name=".voip.IncomingCallActivity"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:theme="@style/AppTheme" />
 
         <receiver
             android:name=".BootUpReceiver"

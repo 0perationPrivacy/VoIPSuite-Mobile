@@ -1,21 +1,16 @@
-
-import { getServerUrl } from '../helpers/config';
-import { authHeader } from '../helpers/auth-header';
-import { handleResponse } from './handle';
+import {ApiService} from './Api';
 
 export const callService = {
-  getProviderToken
+  getSipCredentials,
+  getCallHistory,
 };
 
 var prefix = 'call';
 
-function getProviderToken(data) {
-  let API_URL = getServerUrl();
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader() },
-    body: JSON.stringify(data)
-  };
+function getSipCredentials(setting_id) {
+  return ApiService.initApi(`${prefix}/sip-credentials`, 'POST', {setting_id});
+}
 
-  return fetch(`${API_URL}/${prefix}/token`, requestOptions).then(handleResponse);
+function getCallHistory(setting_id) {
+  return ApiService.initApi(`${prefix}/history`, 'POST', {setting_id});
 }

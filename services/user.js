@@ -11,14 +11,13 @@ export const userService = {
     logout,
     register,
     changeUsername,
-    changePassword
+    changePassword,
+    deleteAccount
 };
-
-var API_URL = getServerUrl();
 
 async function login(data) {
     let { server_url, ...rest } = data;
-    server_url = server_url ? server_url + API_PREFIX : API_URL;
+    server_url = server_url ? server_url + API_PREFIX : getServerUrl();
 
     const requestOptions = {
         method: 'POST',
@@ -41,7 +40,7 @@ function logout() {
 
 async function register(user) {
     let { server_url, ...rest } = user;
-    server_url = server_url ? server_url + API_PREFIX : API_URL;
+    server_url = server_url ? server_url + API_PREFIX : getServerUrl();
 
     const requestOptions = {
         method: 'POST',
@@ -56,26 +55,30 @@ async function register(user) {
     }
 }
 
-async function changeUsername(user) {
+// Resolved per request rather than once at module load, so a self-hosted
+// server_url picked at login is actually honoured by these calls.
+function authedPost(path, body) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...authHeader() },
-        body: JSON.stringify(user)
+        body: JSON.stringify(body)
     };
 
-    const response = await fetch(`${API_URL}/auth/username/update`, requestOptions);
-    return handleResponse(response);
+    return fetch(`${getServerUrl()}${path}`, requestOptions).then(handleResponse);
+}
+
+async function changeUsername(user) {
+    return authedPost('/auth/username/update', user);
 }
 
 async function changePassword(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeader() },
-        body: JSON.stringify(user)
-    };
+    return authedPost('/auth/password/update', user);
+}
 
-    const response = await fetch(`${API_URL}/auth/password/update`, requestOptions);
-    return handleResponse(response);
+// Confirms the password, then erases every contact, message, email setting and
+// profile for this account, releasing provisioned numbers at the provider.
+async function deleteAccount(data) {
+    return authedPost('/auth/password/check', data);
 }
 
 

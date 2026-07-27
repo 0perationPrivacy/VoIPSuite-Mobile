@@ -23,6 +23,8 @@ function deleteContact(params) {
   return ApiService.initApi(`${prefix}/delete`, 'POST', params);
 }
 
-function createImportedContact(data) {
-  return ApiService.initApi(`${prefix}/multiple-add`, 'POST', data);
+function createImportedContact(contacts) {
+  // The API reads the array off a `contacts` key; sending a bare array made
+  // every import fail server-side.
+  return ApiService.initApi(`${prefix}/multiple-add`, 'POST', {contacts});
 }

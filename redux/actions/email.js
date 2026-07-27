@@ -42,8 +42,9 @@ function getEmailSettingsAction(cb) {
     emailService.getUserEmailData()
       .then(
         response => {
+          // No success toast here — this is a plain read that runs on every
+          // screen mount, and toasting it just spams the user.
           dispatch(success(response?.data));
-          dispatch(alertActions.success(response?.message));
 
           if (cb) {
             cb()

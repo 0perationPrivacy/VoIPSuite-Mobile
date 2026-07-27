@@ -7,6 +7,11 @@ buildscript {
         compileSdkVersion = 33
         targetSdkVersion = 33
         ndkVersion = "21.4.7075529"
+        // Kotlin 1.6.21 — last 1.6.x release, well-tested against AGP 7.0.3 /
+        // Gradle 7.2. Needed starting Phase 3: the calling engine (Telecom
+        // ConnectionService integration + the Linphone-backed native module)
+        // is written in Kotlin; everything before this was plain Java.
+        kotlinVersion = "1.6.21"
     }
     repositories {
         google()
@@ -14,6 +19,7 @@ buildscript {
     }
     dependencies {
         classpath('com.android.tools.build:gradle:7.0.3')
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -38,5 +44,15 @@ allprojects {
         }
         google()
         maven { url 'https://www.jitpack.io' }
+        // Linphone SDK (AGPLv3, already ships on F-Droid as org.linphone) — the
+        // calling engine's SIP/media stack. `maven.linphone.org` (an earlier
+        // guess at this URL) never existed — confirmed via web search and a
+        // clean NXDOMAIN from public DNS, not a local network restriction.
+        // The real host, confirmed reachable with a live directory listing:
+        maven { url 'https://download.linphone.org/maven_repository/' }
+        // A patched local copy of linphone-sdk-android is used instead of
+        // this Maven coordinate directly — see android/app/libs/linphone-sdk-patch/README.md
+        // for why (16KB-page-size native libs vs. this project's D8 toolchain).
+        flatDir { dirs "${rootDir}/app/libs" }
     }
 }
