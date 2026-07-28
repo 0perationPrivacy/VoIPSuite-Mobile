@@ -10,7 +10,8 @@ export const userActions = {
     logout,
     register,
     changeUsernameAction,
-    changePasswordAction
+    changePasswordAction,
+    deleteAccountAction
 };
 
 function login(data, errorMessagesCb) {
@@ -125,6 +126,37 @@ function changeUsernameAction(user, cb, errorMessagesCb) {
 
     function request() { return { type: userConstants.LOGIN_REQUEST, } }
     function success(user) { return { type: userConstants.NAME_CHANGE_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+
+function deleteAccountAction(data, errorCb) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.deleteAccount(data)
+            .then(
+                response => {
+                    dispatch(success());
+                    showMessage({
+                        message: 'Account deleted',
+                        type: "success",
+                    });
+
+                    // Everything server-side is gone; drop the local session too.
+                    dispatch(logout());
+                },
+                ([error]) => {
+                    if (errorCb) {
+                        errorCb(error.toString())
+                    }
+
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request() { return { type: userConstants.LOGIN_REQUEST, } }
+    function success() { return { type: userConstants.DELETE_ACCOUNT_SUCCESS } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 

@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
 
 import com.android.build.OutputFile
 
@@ -130,6 +131,17 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    // react-native's own prebuilt .so files and linphone-sdk-android's each
+    // bundle their own copy of libc++_shared.so. pickFirst's tie-breaking
+    // turned out to matter here (see src/main/jniLibs/*/libc++_shared.so and
+    // libs/linphone-sdk-patch/README.md) — it's kept as a safety net for the
+    // remaining AAR-vs-AAR merge conflict, but the actual copy that ships is
+    // forced deterministically via the app module's own jniLibs, which take
+    // priority over any AAR-provided one at the same path.
+    packagingOptions {
+        pickFirst "**/libc++_shared.so"
+    }
+
     defaultConfig {
         applicationId "com.voip"
         minSdkVersion 24
@@ -198,6 +210,24 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.kotlinVersion"
+
+    // Calling engine. 5.5.12 (the actual latest release) compiles fine against
+    // the API but fails at D8 dexing — its .jar is Java 17-bytecode (class file
+    // major version 61), too new for this project's AGP 7.0.3/D8 toolchain.
+    // 5.2.112 (Dec 2023, the newest release from before that toolchain shift)
+    // dexes cleanly and has the same API surface CallEngine.kt was checked
+    // against — the calling-relevant API has been stable across this range.
+    // Calling engine. Real current Pixel hardware (confirmed on a Pixel 9a)
+    // can run with 16KB memory pages; 5.2.112's native libraries are 4KB-only
+    // aligned and crash with UnsatisfiedLinkError on such devices. 5.4.30 has
+    // the alignment fix, but — like every version that does — ships a
+    // classes.jar this project's AGP 7.0.3/D8 can't dex (Java 17 bytecode).
+    // See android/app/libs/linphone-sdk-patch/README.md for the full story;
+    // this is a locally bytecode-patched copy of the real 5.4.30 artifact,
+    // not a different SDK.
+    implementation(name: 'linphone-sdk-android-5.4.30-16kb-patched', ext: 'aar')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'

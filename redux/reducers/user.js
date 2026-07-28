@@ -30,10 +30,16 @@ export function authentication(state = initialState, action) {
         ...state,
         isLoading: false,
       };
+    case userConstants.DELETE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
     case userConstants.LOGOUT:
       return {
         user: null,
         loggedIn: false,
+        isLoading: false,
       };
     default:
       return state;

@@ -25,6 +25,7 @@ import socketInstance from './helpers/socket';
 import _ from 'lodash';
 import {isLoggedIn} from './helpers/auth-header';
 import {MESSAGE_CHANNEL_ID} from './helpers/config';
+import {ThemeProvider} from './theme';
 import {
   requestNotifications,
   check,
@@ -132,25 +133,27 @@ const App = () => {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaView style={styles.flexOne}>
-          {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
-          <NavigationContainer ref={navigationRef}>
-            <Drawer.Navigator
-              screenOptions={{drawerStyle: styles.drawerStyle}}
-              drawerContent={props => <DrawerContent {...props} />}>
-              <Drawer.Screen
-                name="Main"
-                component={StackComponent}
-                options={{headerShown: false}}
-              />
-            </Drawer.Navigator>
-          </NavigationContainer>
-          <FlashMessage position="bottom" />
-        </SafeAreaView>
-      </PersistGate>
-    </Provider>
+    <ThemeProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <SafeAreaView style={styles.flexOne}>
+            {/* <StatusBar barStyle={isDarkMode ? 'dark-content' : 'dark-content'} /> */}
+            <NavigationContainer ref={navigationRef}>
+              <Drawer.Navigator
+                screenOptions={{drawerStyle: styles.drawerStyle}}
+                drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen
+                  name="Main"
+                  component={StackComponent}
+                  options={{headerShown: false}}
+                />
+              </Drawer.Navigator>
+            </NavigationContainer>
+            <FlashMessage position="bottom" />
+          </SafeAreaView>
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
   );
 };
 
